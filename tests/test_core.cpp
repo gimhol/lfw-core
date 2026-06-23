@@ -3,6 +3,8 @@
 
 #include "lfw-core/core.hpp"
 
+void run_enum_string_tests();
+
 static void test_version()
 {
   const auto ver = lfw::version();
@@ -23,6 +25,7 @@ auto main() -> int
 
   test_version();
   test_description();
+  run_enum_string_tests();
 
   std::cout << "All tests passed!\n";
   return 0;

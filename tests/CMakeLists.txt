@@ -3,6 +3,7 @@
 # ============================================================
 add_executable(lfw-core-tests
     test_core.cpp
+    test_enum_strings.cpp
 )
 
 target_link_libraries(lfw-core-tests
