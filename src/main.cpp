@@ -12,12 +12,14 @@ void run_graves_demo();
 void run_instfactory_demo();
 void run_fields_demo();
 void run_json_reflection_demo();
+void run_math_demo();
 
 auto main() -> int
 {
   std::cout << lfw::description() << "\n";
   std::cout << "Version: " << lfw::version() << "\n\n";
 
+  run_math_demo();
   run_json_reflection_demo();
   run_fields_demo();
   run_instfactory_demo();
