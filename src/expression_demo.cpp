@@ -53,6 +53,13 @@ namespace demo_numeric
     Expression<Stats> expr3("distance == 100", getter);
     std::cout << "  \"distance == 100\" → " << (expr3.run(ctx) ? "true" : "false") << "\n";
 
+    // 验证 || 和 && 与 | 和 & 含义一致
+    Expression<Stats> expr4("hp < 50 || mp > 100", getter);
+    std::cout << "  \"hp < 50 || mp > 100\" → " << (expr4.run(ctx) ? "true" : "false") << "\n";
+
+    Expression<Stats> expr5("hp < 50 && mp > 100", getter);
+    std::cout << "  \"hp < 50 && mp > 100\" → " << (expr5.run(ctx) ? "true" : "false") << "\n";
+
     std::cout << "\n";
   }
 
@@ -308,6 +315,12 @@ namespace demo_precedence
     std::cout << "  \"1==1 & 0==1 | 1==1 & 1==1\""
               << " → " << (expr3.run(0) ? "true" : "false")
               << "  (期望: (T&F)|(T&T) = F|T = T)\n";
+
+    // 验证 || 和 && 与 | 和 & 含义一致
+    Expression<int> expr4("1==1 && 0==1 || 1==1 && 1==1", literal_getter);
+    std::cout << "  \"1==1 && 0==1 || 1==1 && 1==1\""
+              << " → " << (expr4.run(0) ? "true" : "false")
+              << "  (双字符，应与 &/| 结果一致)\n";
 
     std::cout << "\n";
   }
