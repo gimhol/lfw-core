@@ -79,10 +79,23 @@ option(LFW_CORE_BUILD_TESTS "Build unit tests" ON)
 option(LFW_CORE_BUILD_EXAMPLES "Build examples" OFF)
 
 # ============================================================
+# Source Files (auto-discovered recursively in src/)
+# ============================================================
+file(GLOB_RECURSE LFW_CORE_SOURCES CONFIGURE_DEPENDS
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp"
+)
+
+# Exclude main.cpp from library sources (it goes to the executable)
+set(LFW_CORE_LIB_SOURCES ${LFW_CORE_SOURCES})
+list(REMOVE_ITEM LFW_CORE_LIB_SOURCES
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp"
+)
+
+# ============================================================
 # Main Library
 # ============================================================
 add_library(lfw-core
-    src/core.cpp
+    ${LFW_CORE_LIB_SOURCES}
 )
 
 target_include_directories(lfw-core
@@ -100,7 +113,7 @@ target_compile_features(lfw-core
 # Executable
 # ============================================================
 add_executable(lfw-core-app
-    src/main.cpp
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp"
 )
 
 target_link_libraries(lfw-core-app
