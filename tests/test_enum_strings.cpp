@@ -7,17 +7,18 @@
 
 // 辅助宏：测试 to_string + from_string 往返
 // 用法: T(EnumType, Value, expected_string, func_prefix)
-#define T_ROUND(ET, V, S, PFX) do { \
-    auto _str = PFX##_to_string(ET::V); \
-    assert(_str == S); \
-    auto _opt = PFX##_from_string(_str); \
+#define T_ROUND(ET, V, S, PFX)                         \
+  do                                                   \
+  {                                                    \
+    auto _str = PFX##_to_string(ET::V);                \
+    assert(_str == S);                                 \
+    auto _opt = PFX##_from_string(_str);               \
     assert(_opt.has_value() && _opt.value() == ET::V); \
-  } while(0)
+  } while (0)
 
 // 辅助宏：测试 from_string 对非法输入返回 nullopt
 #define T_INVALID(PFX) \
   assert(!PFX##_from_string("__invalid__").has_value())
-
 
 // ========================================================================
 // ActionType
