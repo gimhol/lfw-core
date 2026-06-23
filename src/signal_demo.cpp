@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 
-#include "lfw-core/Signal.hpp"
+#include "lfw-core/base/Signal.hpp"
 
 // ============================================================
 // 示例 1: 基本用法 — 成员函数作为监听器
