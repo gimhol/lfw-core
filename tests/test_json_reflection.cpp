@@ -27,8 +27,14 @@ json to_json(const T &obj, const Fields<T> &fs)
     case FieldKind::Float:
     {
       double d = 0;
-      try { d = std::any_cast<double>(val); }
-      catch (...) { d = static_cast<double>(std::any_cast<float>(val)); }
+      try
+      {
+        d = std::any_cast<double>(val);
+      }
+      catch (...)
+      {
+        d = static_cast<double>(std::any_cast<float>(val));
+      }
       j[e.info.key] = d;
       break;
     }
@@ -55,17 +61,22 @@ void from_json(T &obj, const json &j, const Fields<T> &fs)
     switch (e.info.kind)
     {
     case FieldKind::Int:
-      if (v.is_number_integer()) e.set(obj, v.get<int>());
+      if (v.is_number_integer())
+        e.set(obj, v.get<int>());
       break;
     case FieldKind::Float:
-      if (v.is_number_float())       e.set(obj, v.get<double>());
-      else if (v.is_number_integer()) e.set(obj, static_cast<double>(v.get<int>()));
+      if (v.is_number_float())
+        e.set(obj, v.get<double>());
+      else if (v.is_number_integer())
+        e.set(obj, static_cast<double>(v.get<int>()));
       break;
     case FieldKind::String:
-      if (v.is_string()) e.set(obj, v.get<std::string>());
+      if (v.is_string())
+        e.set(obj, v.get<std::string>());
       break;
     case FieldKind::Bool:
-      if (v.is_boolean()) e.set(obj, v.get<bool>());
+      if (v.is_boolean())
+        e.set(obj, v.get<bool>());
       break;
     }
   }
@@ -179,10 +190,18 @@ static void test_json_schema_generation()
     json prop;
     switch (e.info.kind)
     {
-    case FieldKind::Int:    prop["type"] = "integer"; break;
-    case FieldKind::Float:  prop["type"] = "number";  break;
-    case FieldKind::String: prop["type"] = "string";  break;
-    case FieldKind::Bool:   prop["type"] = "boolean"; break;
+    case FieldKind::Int:
+      prop["type"] = "integer";
+      break;
+    case FieldKind::Float:
+      prop["type"] = "number";
+      break;
+    case FieldKind::String:
+      prop["type"] = "string";
+      break;
+    case FieldKind::Bool:
+      prop["type"] = "boolean";
+      break;
     }
     schema["properties"][e.info.key] = std::move(prop);
   }
