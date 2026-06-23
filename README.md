@@ -21,19 +21,12 @@ lfw-core/
 │   │   ├── InstFactory.hpp         # 实例工厂
 │   │   └── Signal.hpp              # 信号系统
 │   └── utils/math/
-│       └── Math.hpp                # ✅ 数学工具
-├── src/                            # 示例代码
+│       ├── Math.hpp                # ✅ 数学工具
+│       ├── MT.hpp                  # ✅ 梅森旋转
+│       └── Times.hpp               # ✅ 带上下限计数器
+├── src/                            # 源代码
 │   ├── main.cpp
-│   ├── condition_chain_demo.cpp
-│   ├── expression_demo.cpp
-│   ├── fields_demo.cpp
-│   ├── fps_demo.cpp
-│   ├── fsm_demo.cpp
-│   ├── graves_demo.cpp
-│   ├── instfactory_demo.cpp
-│   ├── json_reflection_demo.cpp
-│   ├── math_demo.cpp
-│   └── signal_demo.cpp
+│   └── core.cpp
 ├── tests/
 └── .vscode/                        # VS Code 配置
 ```

@@ -9,8 +9,8 @@
 | 模块 | TS 文件数 | 已转换 | 状态 |
 | --- | --- | --- | --- |
 | **base/** — 基础组件 | 13 | 8 | 🟡 62% |
-| **utils/math/** — 数学工具 | 12 | 1 (合并) | ✅ 100% |
-| **defines/** — 类型定义/接口 | ~100 | 0 | 🔴 0% |
+| **utils/math/** — 数学工具 | 12 | 12 (合并+拆分) | ✅ 100% |
+| **defines/** — 类型定义/接口 | ~100 | 枚举全部 | 🟡 枚举完成 |
 | **ditto/** — 引擎核心(缓存/渲染/输入等) | ~30 | 0 | 🔴 0% |
 | **state/** — 状态机(角色/武器/子弹) | ~30 | 0 | 🔴 0% |
 | **entity/** — 实体系统 | — | 0 | 🔴 0% |
@@ -61,7 +61,17 @@
 
 | 源文件 (TS) | C++ 产物 | 说明 |
 | --- | --- | --- |
-| `utils/math/*.ts` (12 files) | `utils/math/Math.hpp` + `MT.hpp` | 数学工具 + 梅森旋转 ✅ |
+| `utils/math/base.ts` 等 10 文件 | `utils/math/Math.hpp` | 基础数学函数 ✅ |
+| `utils/math/MersenneTwister.ts` | `utils/math/MT.hpp` | 梅森旋转，已从 Math.hpp 拆分 ✅ |
+| `utils/math/Times.ts` | `utils/math/Times.hpp` | 带上下限计数器 ✅ |
+
+## 已完成（defines/）
+
+| 源文件 (TS) | C++ 产物 | 说明 |
+| --- | --- | --- |
+| `defines/EnumTypes.ts` | `defines/*.hpp` (38 个文件) | 拆分各枚举到独立文件，含 `to_string`/`from_string` ✅ |
+
+> 枚举测试覆盖：18 个枚举、263 个值，全部通过。
 
 ## 额外功能
 
@@ -82,10 +92,11 @@
 - `LFW.ts` / `World.ts` — 引擎入口和世界管理
 - `Factory.ts` — 全局工厂
 
-### 🔴 P1 — 基础定义（defines/，~100 个接口）
+### � P1 — 基础定义（defines/，~100 个接口）
 
+- ✅ 枚举类型 — 全部转换并拆分到独立文件（38 个 `.hpp`）
 - `IExpression.ts` ✅→ `IExpression` 已合并到 `ConditionChain` 中
-- 其余 ~100 个接口类型（数据结构定义）
+- 其余 ~70 个接口类型（数据结构定义）
 
 ### 🔴 P2 — 状态机
 
