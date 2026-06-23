@@ -4,6 +4,32 @@
 
 > 📋 开发进度请见 **[PROGRESS.md](./PROGRESS.md)**
 
+## 常用命令
+
+```powershell
+# === 配置（CMakeLists 变更后需重新执行）===
+cmake -B build -DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE="C:/Tools/vcpkg/scripts/buildsystems/vcpkg.cmake"
+
+# === 编译 ===
+cmake --build build --config Debug          # Debug
+cmake --build build --config Release        # Release
+
+# === 运行测试 ===
+.\build\tests\Debug\lfw-core-tests.exe
+.\build\tests\Release\lfw-core-tests.exe
+
+# === 编译 + 运行测试（一步）===
+cmake --build build --config Debug 2>&1; if ($LASTEXITCODE -eq 0) { .\build\tests\Debug\lfw-core-tests.exe }
+
+# === 仅编译特定目标 ===
+cmake --build build --config Debug --target lfw-core-tests
+
+# === 清理重编 ===
+Remove-Item -Recurse -Force build
+cmake -B build -DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE="C:/Tools/vcpkg/scripts/buildsystems/vcpkg.cmake"
+cmake --build build --config Debug
+```
+
 ## 项目结构
 
 ```text
