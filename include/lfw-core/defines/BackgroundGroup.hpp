@@ -3,35 +3,28 @@
 
 #include <cstdint>
 #include <optional>
+#include <string>
 #include <string_view>
 #include <unordered_map>
 
+#include "EnumHelper.hpp"
+
+/* 格式: X(枚举类型, 枚举名, "字符串值", "描述", 值) */
+#define ENUM_ITEMS(X)                          \
+  X(BackgroundGroup, Regular, "regular", "", ) \
+  X(BackgroundGroup, Hidden, "hidden", "", )
+
+#define ENUM_ITEM(ENUM, NAME, STR, DESC, VAL) NAME VAL,
 enum class BackgroundGroup : uint8_t
 {
-  Regular,
-  Hidden
+  ENUM_ITEMS(ENUM_ITEM)
 };
-
-inline std::string_view background_group_to_string(BackgroundGroup v)
-{
-  switch (v)
-  {
-  case BackgroundGroup::Regular:
-    return "regular";
-  case BackgroundGroup::Hidden:
-    return "hidden";
-  }
-  return "";
-}
-
-inline std::optional<BackgroundGroup> background_group_from_string(std::string_view s)
-{
-  static const auto m = std::unordered_map<std::string_view, BackgroundGroup>{
-      {"regular", BackgroundGroup::Regular},
-      {"hidden", BackgroundGroup::Hidden},
-  };
-  auto it = m.find(s);
-  return it != m.end() ? std::optional{it->second} : std::nullopt;
-}
-
+GEN_ENUM_STR_MAP(BackgroundGroupStringMap, ENUM_ITEMS, BackgroundGroup)
+GEN_ENUM_NAME_MAP(BackgroundGroupNameMap, ENUM_ITEMS, BackgroundGroup)
+GEN_ENUM_DESC_MAP(BackgroundGroupDescMap, ENUM_ITEMS, BackgroundGroup)
+#undef ENUM_ITEM
+#undef ENUM_ITEMS
+DEFINE_ENUM_STR_CONVERTERS(background_group_to_string, background_group_from_string, BackgroundGroup, BackgroundGroupStringMap)
+DEFINE_ENUM_STR_CONVERTERS(background_group_to_name, background_group_from_name, BackgroundGroup, BackgroundGroupNameMap)
+DEFINE_ENUM_TO_STR(background_group_to_desc, BackgroundGroup, BackgroundGroupDescMap)
 #endif // LFW_CORE_DEFINES_BACKGROUNDGROUP_HPP

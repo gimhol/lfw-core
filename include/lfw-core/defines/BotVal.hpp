@@ -3,62 +3,32 @@
 
 #include <cstdint>
 #include <optional>
+#include <string>
 #include <string_view>
 #include <unordered_map>
+#include "EnumHelper.hpp"
+#define ENUM_ITEMS(X)                         \
+  X(BotVal, Desire, "desire", "", = 0)        \
+  X(BotVal, BotStatus, "bot_status", "", )    \
+  X(BotVal, EnemyY, "enemy_y", "", )          \
+  X(BotVal, EnemyDiffY, "enemy_diff_y", "", ) \
+  X(BotVal, EnemyX, "enemy_x", "", )          \
+  X(BotVal, EnemyDiffX, "enemy_diff_x", "", ) \
+  X(BotVal, EnemyState, "enemy_state", "", )  \
+  X(BotVal, Safe, "safe", "", )               \
+  X(BotVal, EnemyOutOfRange, "en_oor", "", )
 
+#define ENUM_ITEM(ENUM, NAME, STR, DESC, VAL) NAME VAL,
 enum class BotVal : uint8_t
 {
-  Desire,
-  BotStatus,
-  EnemyY,
-  EnemyDiffY,
-  EnemyX,
-  EnemyDiffX,
-  EnemyState,
-  Safe,
-  EnemyOutOfRange
+  ENUM_ITEMS(ENUM_ITEM)
 };
-
-inline std::string_view bot_val_to_string(BotVal v)
-{
-  switch (v)
-  {
-  case BotVal::Desire:
-    return "desire";
-  case BotVal::BotStatus:
-    return "bot_status";
-  case BotVal::EnemyY:
-    return "enemy_y";
-  case BotVal::EnemyDiffY:
-    return "enemy_diff_y";
-  case BotVal::EnemyX:
-    return "enemy_x";
-  case BotVal::EnemyDiffX:
-    return "enemy_diff_x";
-  case BotVal::EnemyState:
-    return "enemy_state";
-  case BotVal::Safe:
-    return "safe";
-  case BotVal::EnemyOutOfRange:
-    return "en_oor";
-  }
-  return "";
-}
-
-inline std::optional<BotVal> bot_val_from_string(std::string_view s)
-{
-  static const auto m = []
-  {
-    std::unordered_map<std::string_view, BotVal> r;
-    for (uint8_t i = 0; i <= static_cast<uint8_t>(BotVal::EnemyOutOfRange); ++i)
-    {
-      auto v = static_cast<BotVal>(i);
-      r[bot_val_to_string(v)] = v;
-    }
-    return r;
-  }();
-  auto it = m.find(s);
-  return it != m.end() ? std::optional{it->second} : std::nullopt;
-}
-
+GEN_ENUM_STR_MAP(BotValStringMap, ENUM_ITEMS, BotVal)
+GEN_ENUM_NAME_MAP(BotValNameMap, ENUM_ITEMS, BotVal)
+GEN_ENUM_DESC_MAP(BotValDescMap, ENUM_ITEMS, BotVal)
+#undef ENUM_ITEM
+#undef ENUM_ITEMS
+DEFINE_ENUM_STR_CONVERTERS(bot_val_to_string, bot_val_from_string, BotVal, BotValStringMap)
+DEFINE_ENUM_STR_CONVERTERS(bot_val_to_name, bot_val_from_name, BotVal, BotValNameMap)
+DEFINE_ENUM_TO_STR(bot_val_to_desc, BotVal, BotValDescMap)
 #endif // LFW_CORE_DEFINES_BOTVAL_HPP

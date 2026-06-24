@@ -3,53 +3,31 @@
 
 #include <cstdint>
 #include <optional>
+#include <string>
 #include <string_view>
 #include <unordered_map>
 
+#include "EnumHelper.hpp"
+
+#define ENUM_ITEMS(X)                       \
+  X(BotState, Idle, "Idle", "", )           \
+  X(BotState, Avoiding, "Avoiding", "", )   \
+  X(BotState, Chasing, "Chasing", "", )     \
+  X(BotState, Following, "Following", "", ) \
+  X(BotState, StageEnd, "StageEnd", "", )   \
+  X(BotState, Dead, "Dead", "", )
+
+#define ENUM_ITEM(ENUM, NAME, STR, DESC, VAL) NAME VAL,
 enum class BotState : uint8_t
 {
-  Idle,
-  Avoiding,
-  Chasing,
-  Following,
-  StageEnd,
-  Dead
+  ENUM_ITEMS(ENUM_ITEM)
 };
-
-inline std::string_view bot_state_to_string(BotState v)
-{
-  switch (v)
-  {
-  case BotState::Idle:
-    return "Idle";
-  case BotState::Avoiding:
-    return "Avoiding";
-  case BotState::Chasing:
-    return "Chasing";
-  case BotState::Following:
-    return "Following";
-  case BotState::StageEnd:
-    return "StageEnd";
-  case BotState::Dead:
-    return "Dead";
-  }
-  return "";
-}
-
-inline std::optional<BotState> bot_state_from_string(std::string_view s)
-{
-  static const auto m = []
-  {
-    std::unordered_map<std::string_view, BotState> r;
-    for (uint8_t i = 0; i <= static_cast<uint8_t>(BotState::Dead); ++i)
-    {
-      auto v = static_cast<BotState>(i);
-      r[bot_state_to_string(v)] = v;
-    }
-    return r;
-  }();
-  auto it = m.find(s);
-  return it != m.end() ? std::optional{it->second} : std::nullopt;
-}
-
+GEN_ENUM_STR_MAP(BotStateStringMap, ENUM_ITEMS, BotState)
+GEN_ENUM_NAME_MAP(BotStateNameMap, ENUM_ITEMS, BotState)
+GEN_ENUM_DESC_MAP(BotStateDescMap, ENUM_ITEMS, BotState)
+#undef ENUM_ITEM
+#undef ENUM_ITEMS
+DEFINE_ENUM_STR_CONVERTERS(bot_state_to_string, bot_state_from_string, BotState, BotStateStringMap)
+DEFINE_ENUM_STR_CONVERTERS(bot_state_to_name, bot_state_from_name, BotState, BotStateNameMap)
+DEFINE_ENUM_TO_STR(bot_state_to_desc, BotState, BotStateDescMap)
 #endif // LFW_CORE_DEFINES_BOTSTATE_HPP

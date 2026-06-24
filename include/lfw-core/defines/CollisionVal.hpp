@@ -3,141 +3,61 @@
 
 #include <cstdint>
 #include <optional>
+#include <string>
 #include <string_view>
 #include <unordered_map>
 
+#include "EnumHelper.hpp"
+
 /// 碰撞判定值 — CollisionVal.ts
+#define ENUM_ITEMS(X)                                                       \
+  X(CollisionVal, AttackerType, "attacker_type", "", )                      \
+  X(CollisionVal, VictimType, "victim_type", "", )                          \
+  X(CollisionVal, VictimIsChasing, "victim_is_chasing", "", )               \
+  X(CollisionVal, ItrEffect, "itr_effect", "", )                            \
+  X(CollisionVal, ItrKind, "itr_kind", "", )                                \
+  X(CollisionVal, SameFacing, "same_facing", "", )                          \
+  X(CollisionVal, AttackerState, "attacker_state", "", )                    \
+  X(CollisionVal, VictimState, "victim_state", "", )                        \
+  X(CollisionVal, AttackerHasHolder, "attacker_has_holder", "", )           \
+  X(CollisionVal, VictimHasHolder, "victim_has_holder", "", )               \
+  X(CollisionVal, AttackerHasHolding, "attacker_has_holding", "", )         \
+  X(CollisionVal, VictimHasHolding, "victim_has_holding", "", )             \
+  X(CollisionVal, SameTeam, "same_team", "", )                              \
+  X(CollisionVal, AttackerOID, "attacker_oid", "", )                        \
+  X(CollisionVal, VictimOID, "victim_oid", "", )                            \
+  X(CollisionVal, BdyKind, "bdy_kind", "", )                                \
+  X(CollisionVal, VictimFrameId, "victim_frame_id", "", )                   \
+  X(CollisionVal, VictimFrameIndexIce, "victim_frame_index_ice", "", )      \
+  X(CollisionVal, ItrFall, "itr_fall", "", )                                \
+  X(CollisionVal, AttackerThrew, "attacker_threw", "", )                    \
+  X(CollisionVal, VictimThrew, "victim_threw", "", )                        \
+  X(CollisionVal, VictimIsFreezableBall, "victim_freezable_ball", "", )     \
+  X(CollisionVal, AttackerIsFreezableBall, "attacker_freezable_ball", "", ) \
+  X(CollisionVal, ArmorWork, "armor_work", "", )                            \
+  X(CollisionVal, VFrameBehavior, "v_frame_behavior", "", )                 \
+  X(CollisionVal, NoItrEffect, "no_itr_effect", "", )                       \
+  X(CollisionVal, A_HP_P, "a_hp_p", "", )                                   \
+  X(CollisionVal, V_HP_P, "v_hp_p", "", )                                   \
+  X(CollisionVal, LF2_NET_ON, "lf2_net_on", "", )                           \
+  X(CollisionVal, BdyHitFlag, "bdy_hit_flag", "", )                         \
+  X(CollisionVal, ItrHitFlag, "itr_hit_flag", "", )                         \
+  X(CollisionVal, BdyCode, "bdy_code", "", )                                \
+  X(CollisionVal, ItrCode, "itr_code", "", )                                \
+  X(CollisionVal, VToughness, "v_toughness", "", )                          \
+  X(CollisionVal, AToughness, "a_toughness", "", )
+
+#define ENUM_ITEM(ENUM, NAME, STR, DESC, VAL) NAME VAL,
 enum class CollisionVal : uint8_t
 {
-  AttackerType,
-  VictimType,
-  VictimIsChasing,
-  ItrEffect,
-  ItrKind,
-  SameFacing,
-  AttackerState,
-  VictimState,
-  AttackerHasHolder,
-  VictimHasHolder,
-  AttackerHasHolding,
-  VictimHasHolding,
-  SameTeam,
-  AttackerOID,
-  VictimOID,
-  BdyKind,
-  VictimFrameId,
-  VictimFrameIndexIce,
-  ItrFall,
-  AttackerThrew,
-  VictimThrew,
-  VictimIsFreezableBall,
-  AttackerIsFreezableBall,
-  ArmorWork,
-  VFrameBehavior,
-  NoItrEffect,
-  A_HP_P,
-  V_HP_P,
-  LF2_NET_ON,
-  BdyHitFlag,
-  ItrHitFlag,
-  BdyCode,
-  ItrCode,
-  VToughness,
-  AToughness,
+  ENUM_ITEMS(ENUM_ITEM)
 };
-
-inline std::string_view collision_val_to_string(CollisionVal v)
-{
-  switch (v)
-  {
-  case CollisionVal::AttackerType:
-    return "attacker_type";
-  case CollisionVal::VictimType:
-    return "victim_type";
-  case CollisionVal::VictimIsChasing:
-    return "victim_is_chasing";
-  case CollisionVal::ItrEffect:
-    return "itr_effect";
-  case CollisionVal::ItrKind:
-    return "itr_kind";
-  case CollisionVal::SameFacing:
-    return "same_facing";
-  case CollisionVal::AttackerState:
-    return "attacker_state";
-  case CollisionVal::VictimState:
-    return "victim_state";
-  case CollisionVal::AttackerHasHolder:
-    return "attacker_has_holder";
-  case CollisionVal::VictimHasHolder:
-    return "victim_has_holder";
-  case CollisionVal::AttackerHasHolding:
-    return "attacker_has_holding";
-  case CollisionVal::VictimHasHolding:
-    return "victim_has_holding";
-  case CollisionVal::SameTeam:
-    return "same_team";
-  case CollisionVal::AttackerOID:
-    return "attacker_oid";
-  case CollisionVal::VictimOID:
-    return "victim_oid";
-  case CollisionVal::BdyKind:
-    return "bdy_kind";
-  case CollisionVal::VictimFrameId:
-    return "victim_frame_id";
-  case CollisionVal::VictimFrameIndexIce:
-    return "victim_frame_index_ice";
-  case CollisionVal::ItrFall:
-    return "itr_fall";
-  case CollisionVal::AttackerThrew:
-    return "attacker_threw";
-  case CollisionVal::VictimThrew:
-    return "victim_threw";
-  case CollisionVal::VictimIsFreezableBall:
-    return "victim_freezable_ball";
-  case CollisionVal::AttackerIsFreezableBall:
-    return "attacker_freezable_ball";
-  case CollisionVal::ArmorWork:
-    return "armor_work";
-  case CollisionVal::VFrameBehavior:
-    return "v_frame_behavior";
-  case CollisionVal::NoItrEffect:
-    return "no_itr_effect";
-  case CollisionVal::A_HP_P:
-    return "a_hp_p";
-  case CollisionVal::V_HP_P:
-    return "v_hp_p";
-  case CollisionVal::LF2_NET_ON:
-    return "lf2_net_on";
-  case CollisionVal::BdyHitFlag:
-    return "bdy_hit_flag";
-  case CollisionVal::ItrHitFlag:
-    return "itr_hit_flag";
-  case CollisionVal::BdyCode:
-    return "bdy_code";
-  case CollisionVal::ItrCode:
-    return "itr_code";
-  case CollisionVal::VToughness:
-    return "v_toughness";
-  case CollisionVal::AToughness:
-    return "a_toughness";
-  }
-  return "";
-}
-
-inline std::optional<CollisionVal> collision_val_from_string(std::string_view s)
-{
-  static const auto m = []
-  {
-    std::unordered_map<std::string_view, CollisionVal> r;
-    for (uint8_t i = 0; i <= static_cast<uint8_t>(CollisionVal::AToughness); ++i)
-    {
-      auto v = static_cast<CollisionVal>(i);
-      r[collision_val_to_string(v)] = v;
-    }
-    return r;
-  }();
-  auto it = m.find(s);
-  return it != m.end() ? std::optional{it->second} : std::nullopt;
-}
-
+GEN_ENUM_STR_MAP(CollisionValStringMap, ENUM_ITEMS, CollisionVal)
+GEN_ENUM_NAME_MAP(CollisionValNameMap, ENUM_ITEMS, CollisionVal)
+GEN_ENUM_DESC_MAP(CollisionValDescMap, ENUM_ITEMS, CollisionVal)
+#undef ENUM_ITEM
+#undef ENUM_ITEMS
+DEFINE_ENUM_STR_CONVERTERS(collision_val_to_string, collision_val_from_string, CollisionVal, CollisionValStringMap)
+DEFINE_ENUM_STR_CONVERTERS(collision_val_to_name, collision_val_from_name, CollisionVal, CollisionValNameMap)
+DEFINE_ENUM_TO_STR(collision_val_to_desc, CollisionVal, CollisionValDescMap)
 #endif // LFW_CORE_DEFINES_COLLISIONVAL_HPP

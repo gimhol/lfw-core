@@ -33,6 +33,7 @@ if(MSVC)
         /W4
         /permissive-
         /utf-8
+        /Zc:preprocessor
     )
 
     # Debug flags

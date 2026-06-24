@@ -3,6 +3,9 @@
   "cmake.configureOnOpen": true,
   "C_Cpp.default.cppStandard": "c++23",
   "C_Cpp.default.intelliSenseMode": "msvc-x64",
+  "C_Cpp.default.compilerArgs": [
+    "/Zc:preprocessor"
+  ],
   "C_Cpp.default.compilerPath": "cl.exe",
   "C_Cpp.default.browse.path": [
     "${workspaceFolder}/include",

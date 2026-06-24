@@ -3,65 +3,35 @@
 
 #include <cstdint>
 #include <optional>
+#include <string>
 #include <string_view>
 #include <unordered_map>
 
+#include "EnumHelper.hpp"
+
+#define ENUM_ITEMS(X)                    \
+  X(BinOp, LESS, "<", "", )              \
+  X(BinOp, LESS_OR_EQUAL, "<=", "", )    \
+  X(BinOp, EQUAL, "==", "", )            \
+  X(BinOp, GREATER_OR_EQUAL, ">=", "", ) \
+  X(BinOp, GREATER, ">", "", )           \
+  X(BinOp, NOT_EQUAL, "!=", "", )        \
+  X(BinOp, IncludedBy, "}}", "", )       \
+  X(BinOp, Include, "{{", "", )          \
+  X(BinOp, NotIncludedBy, "!}", "", )    \
+  X(BinOp, NotInclude, "!{", "", )
+
+#define ENUM_ITEM(ENUM, NAME, STR, DESC, VAL) NAME VAL,
 enum class BinOp : uint8_t
 {
-  LESS,
-  LESS_OR_EQUAL,
-  EQUAL,
-  GREATER_OR_EQUAL,
-  GREATER,
-  NOT_EQUAL,
-  IncludedBy,
-  Include,
-  NotIncludedBy,
-  NotInclude,
+  ENUM_ITEMS(ENUM_ITEM)
 };
-
-inline std::string_view bin_op_to_string(BinOp v)
-{
-  switch (v)
-  {
-  case BinOp::LESS:
-    return "<";
-  case BinOp::LESS_OR_EQUAL:
-    return "<=";
-  case BinOp::EQUAL:
-    return "==";
-  case BinOp::GREATER_OR_EQUAL:
-    return ">=";
-  case BinOp::GREATER:
-    return ">";
-  case BinOp::NOT_EQUAL:
-    return "!=";
-  case BinOp::IncludedBy:
-    return "}}";
-  case BinOp::Include:
-    return "{{";
-  case BinOp::NotIncludedBy:
-    return "!}";
-  case BinOp::NotInclude:
-    return "!{";
-  }
-  return "";
-}
-
-inline std::optional<BinOp> bin_op_from_string(std::string_view s)
-{
-  static const auto m = []
-  {
-    std::unordered_map<std::string_view, BinOp> r;
-    for (uint8_t i = 0; i <= static_cast<uint8_t>(BinOp::NotInclude); ++i)
-    {
-      auto v = static_cast<BinOp>(i);
-      r[bin_op_to_string(v)] = v;
-    }
-    return r;
-  }();
-  auto it = m.find(s);
-  return it != m.end() ? std::optional{it->second} : std::nullopt;
-}
-
+GEN_ENUM_STR_MAP(BinOpStringMap, ENUM_ITEMS, BinOp)
+GEN_ENUM_NAME_MAP(BinOpNameMap, ENUM_ITEMS, BinOp)
+GEN_ENUM_DESC_MAP(BinOpDescMap, ENUM_ITEMS, BinOp)
+#undef ENUM_ITEM
+#undef ENUM_ITEMS
+DEFINE_ENUM_STR_CONVERTERS(bin_op_to_string, bin_op_from_string, BinOp, BinOpStringMap)
+DEFINE_ENUM_STR_CONVERTERS(bin_op_to_name, bin_op_from_name, BinOp, BinOpNameMap)
+DEFINE_ENUM_TO_STR(bin_op_to_desc, BinOp, BinOpDescMap)
 #endif // LFW_CORE_DEFINES_BINOP_HPP

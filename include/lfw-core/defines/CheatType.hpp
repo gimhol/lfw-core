@@ -3,39 +3,28 @@
 
 #include <cstdint>
 #include <optional>
+#include <string>
 #include <string_view>
 #include <unordered_map>
 
+#include "EnumHelper.hpp"
+
+#define ENUM_ITEMS(X)                    \
+  X(CheatType, LF2_NET, "LF2_NET", "", ) \
+  X(CheatType, HERO_FT, "HERO_FT", "", ) \
+  X(CheatType, GIM_INK, "GIM_INK", "", )
+
+#define ENUM_ITEM(ENUM, NAME, STR, DESC, VAL) NAME VAL,
 enum class CheatType : uint8_t
 {
-  LF2_NET,
-  HERO_FT,
-  GIM_INK
+  ENUM_ITEMS(ENUM_ITEM)
 };
-
-inline std::string_view cheat_type_to_string(CheatType v)
-{
-  switch (v)
-  {
-  case CheatType::LF2_NET:
-    return "LF2_NET";
-  case CheatType::HERO_FT:
-    return "HERO_FT";
-  case CheatType::GIM_INK:
-    return "GIM_INK";
-  }
-  return "";
-}
-
-inline std::optional<CheatType> cheat_type_from_string(std::string_view s)
-{
-  static const auto m = std::unordered_map<std::string_view, CheatType>{
-      {"LF2_NET", CheatType::LF2_NET},
-      {"HERO_FT", CheatType::HERO_FT},
-      {"GIM_INK", CheatType::GIM_INK},
-  };
-  auto it = m.find(s);
-  return it != m.end() ? std::optional{it->second} : std::nullopt;
-}
-
+GEN_ENUM_STR_MAP(CheatTypeStringMap, ENUM_ITEMS, CheatType)
+GEN_ENUM_NAME_MAP(CheatTypeNameMap, ENUM_ITEMS, CheatType)
+GEN_ENUM_DESC_MAP(CheatTypeDescMap, ENUM_ITEMS, CheatType)
+#undef ENUM_ITEM
+#undef ENUM_ITEMS
+DEFINE_ENUM_STR_CONVERTERS(cheat_type_to_string, cheat_type_from_string, CheatType, CheatTypeStringMap)
+DEFINE_ENUM_STR_CONVERTERS(cheat_type_to_name, cheat_type_from_name, CheatType, CheatTypeNameMap)
+DEFINE_ENUM_TO_STR(cheat_type_to_desc, CheatType, CheatTypeDescMap)
 #endif // LFW_CORE_DEFINES_CHEATTYPE_HPP

@@ -3,66 +3,36 @@
 
 #include <cstdint>
 #include <optional>
+#include <string>
 #include <string_view>
 #include <unordered_map>
 
+#include "EnumHelper.hpp"
+
 /// EntityGroup.ts
+#define ENUM_ITEMS(X)                                  \
+  X(EntityGroup, Hidden, "hidden", "", )               \
+  X(EntityGroup, Boss, "Boss", "", )                   \
+  X(EntityGroup, Giant, "Giant", "", )                 \
+  X(EntityGroup, Regular, "1000", "", )                \
+  X(EntityGroup, _3000, "3000", "", )                  \
+  X(EntityGroup, VsWeapon, "VsWeapon", "", )           \
+  X(EntityGroup, StageWeapon, "StageWeapon", "", )     \
+  X(EntityGroup, FreezableBall, "FreezableBall", "", ) \
+  X(EntityGroup, Freezer, "Freezer", "", )             \
+  X(EntityGroup, Dev, "Dev", "", )
+
+#define ENUM_ITEM(ENUM, NAME, STR, DESC, VAL) NAME VAL,
 enum class EntityGroup : uint8_t
 {
-  Hidden,
-  Boss,
-  Giant,
-  Regular,
-  _3000,
-  VsWeapon,
-  StageWeapon,
-  FreezableBall,
-  Freezer,
-  Dev
+  ENUM_ITEMS(ENUM_ITEM)
 };
-
-inline std::string_view entity_group_to_string(EntityGroup v)
-{
-  switch (v)
-  {
-  case EntityGroup::Hidden:
-    return "hidden";
-  case EntityGroup::Boss:
-    return "Boss";
-  case EntityGroup::Giant:
-    return "Giant";
-  case EntityGroup::Regular:
-    return "1000";
-  case EntityGroup::_3000:
-    return "3000";
-  case EntityGroup::VsWeapon:
-    return "VsWeapon";
-  case EntityGroup::StageWeapon:
-    return "StageWeapon";
-  case EntityGroup::FreezableBall:
-    return "FreezableBall";
-  case EntityGroup::Freezer:
-    return "Freezer";
-  case EntityGroup::Dev:
-    return "Dev";
-  }
-  return "";
-}
-
-inline std::optional<EntityGroup> entity_group_from_string(std::string_view s)
-{
-  static const auto m = []
-  {
-    std::unordered_map<std::string_view, EntityGroup> r;
-    for (uint8_t i = 0; i <= static_cast<uint8_t>(EntityGroup::Dev); ++i)
-    {
-      auto v = static_cast<EntityGroup>(i);
-      r[entity_group_to_string(v)] = v;
-    }
-    return r;
-  }();
-  auto it = m.find(s);
-  return it != m.end() ? std::optional{it->second} : std::nullopt;
-}
-
+GEN_ENUM_STR_MAP(EntityGroupStringMap, ENUM_ITEMS, EntityGroup)
+GEN_ENUM_NAME_MAP(EntityGroupNameMap, ENUM_ITEMS, EntityGroup)
+GEN_ENUM_DESC_MAP(EntityGroupDescMap, ENUM_ITEMS, EntityGroup)
+#undef ENUM_ITEM
+#undef ENUM_ITEMS
+DEFINE_ENUM_STR_CONVERTERS(entity_group_to_string, entity_group_from_string, EntityGroup, EntityGroupStringMap)
+DEFINE_ENUM_STR_CONVERTERS(entity_group_to_name, entity_group_from_name, EntityGroup, EntityGroupNameMap)
+DEFINE_ENUM_TO_STR(entity_group_to_desc, EntityGroup, EntityGroupDescMap)
 #endif // LFW_CORE_DEFINES_ENTITYGROUP_HPP

@@ -3,60 +3,35 @@
 
 #include <cstdint>
 #include <optional>
+#include <string>
 #include <string_view>
+#include <unordered_map>
+
+#include "EnumHelper.hpp"
 
 /// Builtin_FrameId — 内置帧 ID（字符串枚举）
+#define ENUM_ITEMS(X)                             \
+  X(Builtin_FrameId, None, "", "", = 0)           \
+  X(Builtin_FrameId, Auto, "auto", "", )          \
+  X(Builtin_FrameId, Self, "self", "", )          \
+  X(Builtin_FrameId, Gone, "gone", "", )          \
+  X(Builtin_FrameId, Invisible_Min, "1100", "", ) \
+  X(Builtin_FrameId, Invisible_Max, "1299", "", ) \
+  X(Builtin_FrameId, Respawn, "respawn", "", )
+
+#define ENUM_ITEM(ENUM, NAME, STR, DESC, VAL) NAME VAL,
 enum class Builtin_FrameId : uint8_t
 {
-  None,
-  Auto,
-  Self,
-  Gone,
-  Invisible_Min, // 1100 ~ 1299 隐身
-  Invisible_Max,
-  Respawn
+  ENUM_ITEMS(ENUM_ITEM)
 };
-
-inline std::string_view builtin_frame_id_to_string(Builtin_FrameId v)
-{
-  switch (v)
-  {
-  case Builtin_FrameId::None:
-    return "";
-  case Builtin_FrameId::Auto:
-    return "auto";
-  case Builtin_FrameId::Self:
-    return "self";
-  case Builtin_FrameId::Gone:
-    return "gone";
-  case Builtin_FrameId::Invisible_Min:
-    return "1100";
-  case Builtin_FrameId::Invisible_Max:
-    return "1299";
-  case Builtin_FrameId::Respawn:
-    return "respawn";
-  }
-  return "";
-}
-
-inline std::optional<Builtin_FrameId> builtin_frame_id_from_string(std::string_view s)
-{
-  if (s == "")
-    return Builtin_FrameId::None;
-  if (s == "auto")
-    return Builtin_FrameId::Auto;
-  if (s == "self")
-    return Builtin_FrameId::Self;
-  if (s == "gone")
-    return Builtin_FrameId::Gone;
-  if (s == "1100")
-    return Builtin_FrameId::Invisible_Min;
-  if (s == "1299")
-    return Builtin_FrameId::Invisible_Max;
-  if (s == "respawn")
-    return Builtin_FrameId::Respawn;
-  return std::nullopt;
-}
+GEN_ENUM_STR_MAP(Builtin_FrameIdStringMap, ENUM_ITEMS, Builtin_FrameId)
+GEN_ENUM_NAME_MAP(Builtin_FrameIdNameMap, ENUM_ITEMS, Builtin_FrameId)
+GEN_ENUM_DESC_MAP(Builtin_FrameIdDescMap, ENUM_ITEMS, Builtin_FrameId)
+#undef ENUM_ITEM
+#undef ENUM_ITEMS
+DEFINE_ENUM_STR_CONVERTERS(builtin_frame_id_to_string, builtin_frame_id_from_string, Builtin_FrameId, Builtin_FrameIdStringMap)
+DEFINE_ENUM_STR_CONVERTERS(builtin_frame_id_to_name, builtin_frame_id_from_name, Builtin_FrameId, Builtin_FrameIdNameMap)
+DEFINE_ENUM_TO_STR(builtin_frame_id_to_desc, Builtin_FrameId, Builtin_FrameIdDescMap)
 
 /// 别名
 using BFID = Builtin_FrameId;
