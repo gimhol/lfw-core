@@ -1,0 +1,23 @@
+{
+  "cmake.buildDirectory": "${workspaceFolder}/build",
+  "cmake.configureOnOpen": true,
+  "C_Cpp.default.cppStandard": "c++23",
+  "C_Cpp.default.intelliSenseMode": "msvc-x64",
+  "C_Cpp.default.compilerPath": "cl.exe",
+  "C_Cpp.default.browse.path": [
+    "${workspaceFolder}/include",
+    "${workspaceFolder}/src"
+  ],
+  "C_Cpp.default.includePath": [
+    "${workspaceFolder}/include",
+    "${workspaceFolder}/src",
+    "C:/Tools/vcpkg/installed/x64-windows/include"
+  ],
+  "C_Cpp.default.compileCommands": "${workspaceFolder}/build/compile_commands.json",
+  "C_Cpp.intelliSenseEngine": "Default",
+  "C_Cpp.autocompleteAddParentheses": true,
+  "editor.formatOnSave": true,
+  "files.associations": {
+    "*.hpp": "cpp"
+  }
+}

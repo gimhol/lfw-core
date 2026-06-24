@@ -1,0 +1,85 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "CMake Configure (Debug)",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "-B",
+        "build",
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DCMAKE_TOOLCHAIN_FILE=C:/Tools/vcpkg/scripts/buildsystems/vcpkg.cmake"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "build",
+      "problemMatcher": [],
+      "detail": "Run CMake configure for Debug build"
+    },
+    {
+      "label": "CMake Build (Debug)",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "--build",
+        "build",
+        "--config",
+        "Debug"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "build",
+      "problemMatcher": [
+        "$msCompile"
+      ],
+      "detail": "Compile and link the project in Debug mode",
+      "dependsOn": [
+        "CMake Configure (Debug)"
+      ],
+      "dependsOrder": "sequence"
+    },
+    {
+      "label": "CMake Build (Release)",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "--build",
+        "build",
+        "--config",
+        "Release"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "build",
+      "problemMatcher": [
+        "$msCompile"
+      ],
+      "detail": "Compile and link the project in Release mode",
+      "dependsOn": [
+        "CMake Configure (Release)"
+      ],
+      "dependsOrder": "sequence"
+    },
+    {
+      "label": "CMake Configure (Release)",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "-B",
+        "build",
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DCMAKE_TOOLCHAIN_FILE=C:/Tools/vcpkg/scripts/buildsystems/vcpkg.cmake"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "build",
+      "problemMatcher": [],
+      "detail": "Run CMake configure for Release build"
+    }
+  ]
+}
