@@ -15,6 +15,7 @@ void run_fsm_tests();
 void run_expression_tests();
 void run_condition_chain_tests();
 void run_json_reflection_tests();
+void run_string_parser_tests();
 
 static void test_version()
 {
@@ -48,7 +49,10 @@ auto main() -> int
   run_expression_tests();
   run_condition_chain_tests();
   run_json_reflection_tests();
+  run_string_parser_tests();
 
   std::cout << "All tests passed!\n";
+  std::cout << "\nPress Enter to exit..." << std::flush;
+  std::cin.get();
   return 0;
 }

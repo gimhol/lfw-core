@@ -454,6 +454,23 @@ static void test_world_val()
 }
 
 // ========================================================================
+// Builtin_FrameId (None 映射为空字符串)
+// ========================================================================
+static void test_builtin_frame_id()
+{
+  assert(builtin_frame_id_to_string(Builtin_FrameId::None) == "");
+
+  T_ROUND(Builtin_FrameId, Auto, "auto", builtin_frame_id);
+  T_ROUND(Builtin_FrameId, Self, "self", builtin_frame_id);
+  T_ROUND(Builtin_FrameId, Gone, "gone", builtin_frame_id);
+  T_ROUND(Builtin_FrameId, Invisible_Min, "1100", builtin_frame_id);
+  T_ROUND(Builtin_FrameId, Invisible_Max, "1299", builtin_frame_id);
+  T_ROUND(Builtin_FrameId, Respawn, "respawn", builtin_frame_id);
+  T_INVALID(builtin_frame_id);
+  std::cout << "  PASS: Builtin_FrameId (7 values, None uses empty string)\n";
+}
+
+// ========================================================================
 void run_enum_string_tests()
 {
   std::cout << "  --- enum to_string/from_string ---\n";
@@ -476,4 +493,5 @@ void run_enum_string_tests()
   test_stage_val();
   test_team_enum();
   test_world_val();
+  test_builtin_frame_id();
 }

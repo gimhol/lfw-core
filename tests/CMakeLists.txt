@@ -15,6 +15,7 @@ add_executable(lfw-core-tests
     test_expression.cpp
     test_condition_chain.cpp
     test_json_reflection.cpp
+    test_string_parser.cpp
 )
 
 target_link_libraries(lfw-core-tests

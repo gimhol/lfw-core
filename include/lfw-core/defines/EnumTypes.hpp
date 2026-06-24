@@ -56,6 +56,7 @@
 
 // OID
 #include "OID.hpp"
+#include "Builtin_FrameId.hpp"
 
 // AI
 #include "BotState.hpp"
