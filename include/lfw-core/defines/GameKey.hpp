@@ -39,43 +39,30 @@ DEFINE_ENUM_STR_CONVERTERS_EXACT(game_key_to_string, game_key_from_string, GameK
 DEFINE_ENUM_STR_CONVERTERS(game_key_to_name, game_key_from_name, GameKey, GameKeyNameMap)
 DEFINE_ENUM_TO_STR(game_key_to_desc, GameKey, GameKeyDescMap)
 
+inline auto GameKeyConflictMap = std::unordered_map<GameKey, GameKey>{
+    {GameKey::L, GameKey::R},
+    {GameKey::R, GameKey::L},
+    {GameKey::U, GameKey::D},
+    {GameKey::D, GameKey::U},
+};
+inline auto GameKeyLabelMap = std::unordered_map<GameKey, std::string>{
+    {GameKey::L, "<"},
+    {GameKey::R, ">"},
+    {GameKey::U, "^"},
+    {GameKey::D, "v"},
+    {GameKey::A, "A"},
+    {GameKey::J, "J"},
+    {GameKey::Z, "D"},
+};
+
+DEFINE_ENUM_TO_STR(game_key_to_label, GameKey, GameKeyLabelMap)
+
 inline std::optional<GameKey> conflict_key(GameKey k)
 {
-  switch (k)
-  {
-  case GameKey::L:
-    return GameKey::R;
-  case GameKey::R:
-    return GameKey::L;
-  case GameKey::U:
-    return GameKey::D;
-  case GameKey::D:
-    return GameKey::U;
-  default:
+  auto iter = GameKeyConflictMap.find(k);
+  if (iter == GameKeyConflictMap.end())
     return std::nullopt;
-  }
-}
-
-inline std::string_view game_key_symbol(GameKey k)
-{
-  switch (k)
-  {
-  case GameKey::L:
-    return "<";
-  case GameKey::R:
-    return ">";
-  case GameKey::U:
-    return "^";
-  case GameKey::D:
-    return "v";
-  case GameKey::A:
-    return "A";
-  case GameKey::J:
-    return "J";
-  case GameKey::Z:
-    return "D";
-  }
-  return "?";
+  return iter->second;
 }
 
 #endif // LFW_CORE_DEFINES_GAMEKEY_HPP
