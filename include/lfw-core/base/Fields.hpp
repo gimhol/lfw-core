@@ -21,7 +21,10 @@ enum class FieldKind
   Int,
   Float,
   String,
-  Bool
+  Bool,
+  StringArray,
+  DoublePair,
+  DoubleTriple
 };
 
 inline const char *field_kind_name(FieldKind k)
@@ -36,6 +39,12 @@ inline const char *field_kind_name(FieldKind k)
     return "string";
   case FieldKind::Bool:
     return "bool";
+  case FieldKind::StringArray:
+    return "string[]";
+  case FieldKind::DoublePair:
+    return "double[2]";
+  case FieldKind::DoubleTriple:
+    return "double[3]";
   }
   return "?";
 }

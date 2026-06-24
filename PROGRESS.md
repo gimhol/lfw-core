@@ -10,7 +10,7 @@
 | --- | --- | --- | --- |
 | **base/** — 基础组件 | 13 | 8 | 🟡 62% |
 | **utils/math/** — 数学工具 | 12 | 12 (合并+拆分) | ✅ 100% |
-| **defines/** — 类型定义/接口 | ~100 | 枚举 + actions | 🟡 枚举+动作完成 |
+| **defines/** — 类型定义/接口 | ~100 | 枚举+actions+Info | 🟡 ~45 文件 |
 | **ditto/** — 引擎核心(缓存/渲染/输入等) | ~30 | 0 | 🔴 0% |
 | **state/** — 状态机(角色/武器/子弹) | ~30 | 0 | 🔴 0% |
 | **entity/** — 实体系统 | — | 0 | 🔴 0% |
@@ -71,6 +71,8 @@
 | --- | --- | --- |
 | `defines/EnumTypes.ts` | `defines/*.hpp` (38 个文件) | 拆分各枚举到独立文件，含 `to_string`/`from_string` ✅ |
 | `defines/actions/*.ts` (16 文件) | `defines/actions/*.hpp` (17 个文件) | 动作接口 + TAction variant + IPos ✅ |
+| `defines/Builtin_FrameId.ts` | `defines/Builtin_FrameId.hpp` | 内置帧 ID 枚举 ✅ |
+| `defines/I*Info.ts` (19 文件) | `defines/I*Info.hpp` (21 个文件) | 数据结构定义，含 `Fields` 元数据 ✅ |
 
 > 枚举测试覆盖：18 个枚举、263 个值，全部通过。
 
@@ -97,8 +99,9 @@
 
 - ✅ 枚举类型 — 38 个独立 `.hpp`
 - ✅ 动作系统 — 17 个文件（`IAction_*` + `TAction` + `IPos`）
+- ✅ Info 结构 — 21 个文件（`IArmorInfo`、`IBdyInfo`、`IItrInfo` 等，含 `Fields` 元数据）
 - `IExpression.ts` ✅→ `IExpression` 已合并到 `ConditionChain` 中
-- 其余 ~55 个接口类型（数据结构定义）
+- 其余 ~35 个接口类型
 
 ### 🔴 P2 — 状态机
 
