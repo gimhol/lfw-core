@@ -7,8 +7,8 @@
 | 子模块 | TS 文件 | C++ 状态 |
 |---|---|---|
 | `string_parser/` | 7 | ✅ 已转换 |
-| `math/` | 13 | 🟡 部分转换 |
-| `ease_method/` | 5 | [🔴 未转换](ease_method/PROGRESS.md) |
+| `math/` | 13 | ✅ 已转换 |
+| `easing/` | 5 | [✅ 已转换](easing/PROGRESS.md) |
 | `schema/` | 3 | [🔴 未转换](schema/PROGRESS.md) |
 | 顶层 (`cross_bounding` 等) | 1 | 🔴 未转换 |
 | `type_check/` | 7 | 🚫 跳过（C++ 静态类型） |
@@ -33,33 +33,17 @@
 | `take_blocks.hpp` | `take_blocks.ts` | 块抽取 |
 | `take_sections.hpp` | `take_sections.ts` | 段抽取 |
 
-### math/（已转换）
+### math/（已转换 — 13/13 ✅）
 
 | C++ | TS 源 | 说明 |
 | --- | --- | --- |
-| `Math.hpp` | `base.ts` 等多个 | 基础数学函数（部分合并） |
+| `Math.hpp` | `base.ts` / `clamp.ts` / `clamp_add.ts` / `float_equal.ts` / `floor_float.ts` / `normalize.ts` / `probability.ts` / `project_to_line.ts` / `range.ts` / `round_float.ts` | 基础数学函数（10 文件合并） |
 | `MT.hpp` | `MersenneTwister.ts` | 梅森旋转 |
 | `Times.hpp` | `Times.ts` | 带上下限计数器 |
 
 ---
 
 ## 🟡 未完成
-
-### math/ 待评估
->
-> 以下函数可能已合并到 `Math.hpp`，需逐一确认。
-
-| TS | 说明 |
-| --- | --- |
-| `clamp.ts` | 值钳制 |
-| `clamp_add.ts` | 带钳位的加法 |
-| `float_equal.ts` | 浮点近似相等 |
-| `floor_float.ts` | 浮点取整 |
-| `normalize.ts` | 向量归一化 |
-| `probability.ts` | 概率计算 |
-| `project_to_line.ts` | 点到线投影 |
-| `range.ts` | 范围工具 |
-| `round_float.ts` | 浮点四舍五入 |
 
 ### ease_method/（5 文件）
 
