@@ -1,24 +1,44 @@
 #include <cassert>
+#include <cstdlib>
 #include <iostream>
 #include <optional>
 #include <string_view>
 
 #include "lfw-core/defines/EnumTypes.hpp"
 
+/// 设置环境变量 LFW_TEST_VERBOSE=1 则输出 PASS，否则默认只输出 FAIL
+inline bool g_verbose = []
+{
+  const char *v = std::getenv("LFW_TEST_VERBOSE");
+  return v && (v[0] == '1' || v[0] == 'y' || v[0] == 'Y');
+}();
+
+#define CHECK(cond, msg)                           \
+  do                                               \
+  {                                                \
+    if (!(cond))                                   \
+    {                                              \
+      std::cerr << "  FAIL: " << msg << std::endl; \
+      std::abort();                                \
+    }                                              \
+    else if (g_verbose)                            \
+      std::cout << "  PASS: " << msg << std::endl; \
+  } while (0)
+
 // 辅助宏：测试 to_string + from_string 往返
-// 用法: T(EnumType, Value, expected_string, func_prefix)
-#define T_ROUND(ET, V, S, PFX)                         \
-  do                                                   \
-  {                                                    \
-    auto _str = PFX##_to_string(ET::V);                \
-    assert(_str == S);                                 \
-    auto _opt = PFX##_from_string(_str);               \
-    assert(_opt.has_value() && _opt.value() == ET::V); \
+#define T_ROUND(ET, V, S, PFX)                       \
+  do                                                 \
+  {                                                  \
+    auto _str = PFX##_to_string(ET::V);              \
+    CHECK(_str == S, #PFX "_to_string(" #V ")");     \
+    auto _opt = PFX##_from_string(_str);             \
+    CHECK(_opt.has_value() && _opt.value() == ET::V, \
+          #PFX "_from_string(" #V ") roundtrip");    \
   } while (0)
 
 // 辅助宏：测试 from_string 对非法输入返回 nullopt
 #define T_INVALID(PFX) \
-  assert(!PFX##_from_string("__invalid__").has_value())
+  CHECK(!PFX##_from_string("__invalid__").has_value(), #PFX "_from_string(invalid)")
 
 // ========================================================================
 // ActionType
@@ -47,9 +67,12 @@ static void test_action_type()
   T_INVALID(action_type);
 
   // 不区分大小写
-  assert(action_type_from_string("a_sound").value() == ActionType::A_SOUND);
-  assert(action_type_from_string("fusion").value() == ActionType::FUSION);
-  assert(action_type_from_string("A_REBOUND_VX").value() == ActionType::A_REBOUND_VX);
+  CHECK(action_type_from_string("a_sound").value() == ActionType::A_SOUND,
+        "action_type_from_string(\"a_sound\") case-insensitive");
+  CHECK(action_type_from_string("fusion").value() == ActionType::FUSION,
+        "action_type_from_string(\"fusion\") case-insensitive");
+  CHECK(action_type_from_string("A_REBOUND_VX").value() == ActionType::A_REBOUND_VX,
+        "action_type_from_string(\"A_REBOUND_VX\") case-insensitive");
 
   std::cout << "  PASS: ActionType (19 values, case-insensitive)\n";
 }
@@ -429,7 +452,8 @@ static void test_stage_val()
 static void test_team_enum()
 {
   // Independent → ""
-  assert(team_enum_to_string(TeamEnum::Independent) == "");
+  CHECK(team_enum_to_string(TeamEnum::Independent) == "",
+        "team_enum_to_string(Independent) == \"\"");
 
   T_ROUND(TeamEnum, Team_1, "1", team_enum);
   T_ROUND(TeamEnum, Team_2, "2", team_enum);
@@ -458,7 +482,8 @@ static void test_world_val()
 // ========================================================================
 static void test_builtin_frame_id()
 {
-  assert(builtin_frame_id_to_string(Builtin_FrameId::None) == "");
+  CHECK(builtin_frame_id_to_string(Builtin_FrameId::None) == "",
+        "builtin_frame_id_to_string(None) == \"\"");
 
   T_ROUND(Builtin_FrameId, Auto, "auto", builtin_frame_id);
   T_ROUND(Builtin_FrameId, Self, "self", builtin_frame_id);

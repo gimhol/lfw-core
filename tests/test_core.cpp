@@ -1,5 +1,14 @@
 #include <cassert>
+#include <cstdio>
 #include <iostream>
+
+#ifdef _WIN32
+#include <io.h>
+#define isatty _isatty
+#define fileno _fileno
+#else
+#include <unistd.h>
+#endif
 
 #include "lfw-core/core.hpp"
 
@@ -52,7 +61,10 @@ auto main() -> int
   run_string_parser_tests();
 
   std::cout << "All tests passed!\n";
-  std::cout << "\nPress Enter to exit..." << std::flush;
-  std::cin.get();
+  if (isatty(fileno(stdin)))
+  {
+    std::cout << "\nPress Enter to exit..." << std::flush;
+    std::cin.get();
+  }
   return 0;
 }
