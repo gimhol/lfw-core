@@ -51,7 +51,7 @@
 #include "WeaponType.hpp"
 
 // 动作/回调
-#include "ActionType.hpp"
+#include "actions/ActionType.hpp"
 #include "BinOp.hpp"
 
 // OID

@@ -2,22 +2,24 @@
 #define LFW_CORE_DEFINES_ACTIONTYPE_HPP
 
 #include <cstdint>
+#include <cctype>
 #include <optional>
+#include <string>
 #include <string_view>
 #include <unordered_map>
 
 enum class ActionType : uint8_t
 {
-  A_Sound,
-  A_NextFrame,
-  A_SetProp,
-  A_Defend,
-  A_BrokenDefend,
-  V_Sound,
-  V_NextFrame,
-  V_SetProp,
-  V_Defend,
-  V_BrokenDefend,
+  A_SOUND,
+  A_NEXT_FRAME,
+  A_SET_PROP,
+  A_DEFEND,
+  A_BROKEN_DEFEND,
+  V_SOUND,
+  V_NEXT_FRAME,
+  V_SET_PROP,
+  V_DEFEND,
+  V_BROKEN_DEFEND,
   A_REBOUND_VX,
   V_REBOUND_VX,
   V_TURN_FACE,
@@ -33,44 +35,44 @@ inline std::string_view action_type_to_string(ActionType v)
 {
   switch (v)
   {
-  case ActionType::A_Sound:
-    return "a_sound";
-  case ActionType::A_NextFrame:
-    return "a_next_frame";
-  case ActionType::A_SetProp:
-    return "a_set_prop";
-  case ActionType::A_Defend:
-    return "a_defend";
-  case ActionType::A_BrokenDefend:
-    return "a_broken_defend";
-  case ActionType::V_Sound:
-    return "v_sound";
-  case ActionType::V_NextFrame:
-    return "v_next_frame";
-  case ActionType::V_SetProp:
-    return "v_set_prop";
-  case ActionType::V_Defend:
-    return "v_defend";
-  case ActionType::V_BrokenDefend:
-    return "v_broken_defend";
+  case ActionType::A_SOUND:
+    return "A_SOUND";
+  case ActionType::A_NEXT_FRAME:
+    return "A_NEXT_FRAME";
+  case ActionType::A_SET_PROP:
+    return "A_SET_PROP";
+  case ActionType::A_DEFEND:
+    return "A_DEFEND";
+  case ActionType::A_BROKEN_DEFEND:
+    return "A_BROKEN_DEFEND";
+  case ActionType::V_SOUND:
+    return "V_SOUND";
+  case ActionType::V_NEXT_FRAME:
+    return "V_NEXT_FRAME";
+  case ActionType::V_SET_PROP:
+    return "V_SET_PROP";
+  case ActionType::V_DEFEND:
+    return "V_DEFEND";
+  case ActionType::V_BROKEN_DEFEND:
+    return "V_BROKEN_DEFEND";
   case ActionType::A_REBOUND_VX:
-    return "a_rebound_vx";
+    return "A_REBOUND_VX";
   case ActionType::V_REBOUND_VX:
-    return "v_rebound_vx";
+    return "V_REBOUND_VX";
   case ActionType::V_TURN_FACE:
-    return "v_turn_face";
+    return "V_TURN_FACE";
   case ActionType::V_TURN_TEAM:
-    return "v_turn_team";
+    return "V_TURN_TEAM";
   case ActionType::FUSION:
-    return "fusion";
+    return "FUSION";
   case ActionType::BROADCAST:
-    return "broadcast";
+    return "BROADCAST";
   case ActionType::VALUE_STEAL:
     return "VALUE_STEAL";
   case ActionType::A_BUFF:
-    return "abuff";
+    return "A_BUFF";
   case ActionType::V_BUFF:
-    return "vbuff";
+    return "V_BUFF";
   }
   return "";
 }
@@ -87,7 +89,14 @@ inline std::optional<ActionType> action_type_from_string(std::string_view s)
     }
     return r;
   }();
-  auto it = m.find(s);
+
+  // 转为大写后查找（不区分大小写）
+  std::string upper;
+  upper.reserve(s.size());
+  for (char c : s)
+    upper += static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
+
+  auto it = m.find(upper);
   return it != m.end() ? std::optional{it->second} : std::nullopt;
 }
 

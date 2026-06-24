@@ -6,28 +6,56 @@
 
 ## 常用命令
 
-```powershell
-# === 配置（CMakeLists 变更后需重新执行）===
-cmake -B build -DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE="C:/Tools/vcpkg/scripts/buildsystems/vcpkg.cmake"
+### 跨平台
+
+```bash
+# === 配置 ===
+cmake -B build -DCMAKE_BUILD_TYPE=Debug
 
 # === 编译 ===
-cmake --build build --config Debug          # Debug
-cmake --build build --config Release        # Release
+cmake --build build --config Debug
+cmake --build build --config Release
 
 # === 运行测试 ===
-.\build\tests\Debug\lfw-core-tests.exe
-.\build\tests\Release\lfw-core-tests.exe
-
-# === 编译 + 运行测试（一步）===
-cmake --build build --config Debug 2>&1; if ($LASTEXITCODE -eq 0) { .\build\tests\Debug\lfw-core-tests.exe }
+./build/tests/Debug/lfw-core-tests       # Linux/macOS
+./build/tests/Release/lfw-core-tests
 
 # === 仅编译特定目标 ===
 cmake --build build --config Debug --target lfw-core-tests
 
 # === 清理重编 ===
+rm -rf build
+cmake -B build -DCMAKE_BUILD_TYPE=Debug
+cmake --build build --config Debug
+```
+
+### Windows（PowerShell）
+
+```powershell
+# === 配置（vcpkg toolchain）===
+cmake -B build -DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE="C:/Tools/vcpkg/scripts/buildsystems/vcpkg.cmake"
+
+# === 运行测试 ===
+.\build\tests\Debug\lfw-core-tests.exe
+.\build\tests\Release\lfw-core-tests.exe
+
+# === 编译 + 运行（一步）===
+cmake --build build --config Debug 2>&1; if ($LASTEXITCODE -eq 0) { .\build\tests\Debug\lfw-core-tests.exe }
+
+# === 清理重编 ===
 Remove-Item -Recurse -Force build
 cmake -B build -DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE="C:/Tools/vcpkg/scripts/buildsystems/vcpkg.cmake"
 cmake --build build --config Debug
+```
+
+### macOS / Linux
+
+```bash
+# === 配置 ===
+cmake -B build -DCMAKE_BUILD_TYPE=Debug
+
+# === 编译 + 运行测试 ===
+cmake --build build --config Debug && ./build/tests/Debug/lfw-core-tests
 ```
 
 ## 项目结构

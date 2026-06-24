@@ -220,18 +220,30 @@ private:
 };
 
 // ============================================================
-// SignalOwner — 管理多个 Signal 的容器
-// 对应 TypeScript 中的 NoEmitCallbacks
+// SignalGroup — 组合式信号容器（无需继承）
+//
+// 用法:
+//   struct PlayerEvents {
+//       Signal<int, int> on_attack;
+//       Signal<>         on_death;
+//   };
+//   SignalGroup<PlayerEvents> group;
+//   group.signals.on_attack.emit(1, 30);
+//
+// SignalOwner — 继承式（旧用法兼容）
+//   struct Player : SignalOwner<PlayerEvents> { ... };
 // ============================================================
-template <typename T>
-class SignalOwner;
+template <typename Signals>
+struct SignalGroup
+{
+  Signals signals;
+};
 
-// 特化：T 是一个包含了 Signal<...> 成员的结构体
-template <typename... Signals>
-class SignalOwner<void(Signals...)>
+template <typename Signals>
+struct SignalOwner : SignalGroup<Signals>
 {
 protected:
-  std::tuple<Signals...> _signals;
+  using SignalGroup<Signals>::signals; // 保持 protected 访问
 };
 
 #endif // LFW_CORE_SIGNAL_HPP

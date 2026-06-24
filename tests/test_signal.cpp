@@ -143,6 +143,77 @@ static void test_signal_disconnect_in_emit()
 }
 
 // ========================================================================
+// SignalGroup / SignalOwner 测试
+// ========================================================================
+
+struct PlayerEvents
+{
+  Signal<int> on_hit;
+  Signal<> on_death;
+};
+
+// 普通函数（lambda 有捕获时无法转函数指针）
+static int g_hit_val = 0;
+static void on_hit_fn(int dmg) { g_hit_val = dmg; }
+
+static int g_death_count = 0;
+static void on_death_fn() { ++g_death_count; }
+
+static void test_signal_group_composition()
+{
+  SignalGroup<PlayerEvents> group;
+
+  g_hit_val = 0;
+  group.signals.on_hit.on_fn(on_hit_fn);
+
+  g_death_count = 0;
+  group.signals.on_death.on_fn(on_death_fn);
+
+  group.signals.on_hit.emit(25);
+  assert(g_hit_val == 25);
+
+  group.signals.on_death.emit();
+  assert(g_death_count == 1);
+}
+
+static void test_signal_owner_inheritance()
+{
+  struct Player : SignalOwner<PlayerEvents>
+  {
+    int hp = 100;
+
+    Player()
+    {
+      // 子类内可访问 protected signals
+      signals.on_hit.on_fn(on_hit_fn);
+      signals.on_death.on_fn(on_death_fn);
+    }
+
+    void take_damage(int dmg)
+    {
+      hp -= dmg;
+      signals.on_hit.emit(dmg);
+      if (hp <= 0)
+        signals.on_death.emit();
+    }
+  };
+
+  g_hit_val = 0;
+  g_death_count = 0;
+
+  Player p;
+  p.take_damage(30);
+  assert(g_hit_val == 30);
+  assert(g_death_count == 0);
+  assert(p.hp == 70);
+
+  p.take_damage(80);
+  assert(g_hit_val == 80);
+  assert(g_death_count == 1);
+  assert(p.hp == -10);
+}
+
+// ========================================================================
 void run_signal_tests()
 {
   std::cout << "  --- Signal ---\n";
@@ -155,4 +226,11 @@ void run_signal_tests()
   test_signal_disconnect_in_emit();
 
   std::cout << "  PASS: Signal (6 subtests)\n";
+
+  std::cout << "  --- SignalGroup / SignalOwner ---\n";
+
+  test_signal_group_composition();
+  test_signal_owner_inheritance();
+
+  std::cout << "  PASS: SignalGroup & SignalOwner (2 subtests)\n";
 }

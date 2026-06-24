@@ -25,27 +25,33 @@
 // ========================================================================
 static void test_action_type()
 {
-  T_ROUND(ActionType, A_Sound, "a_sound", action_type);
-  T_ROUND(ActionType, A_NextFrame, "a_next_frame", action_type);
-  T_ROUND(ActionType, A_SetProp, "a_set_prop", action_type);
-  T_ROUND(ActionType, A_Defend, "a_defend", action_type);
-  T_ROUND(ActionType, A_BrokenDefend, "a_broken_defend", action_type);
-  T_ROUND(ActionType, V_Sound, "v_sound", action_type);
-  T_ROUND(ActionType, V_NextFrame, "v_next_frame", action_type);
-  T_ROUND(ActionType, V_SetProp, "v_set_prop", action_type);
-  T_ROUND(ActionType, V_Defend, "v_defend", action_type);
-  T_ROUND(ActionType, V_BrokenDefend, "v_broken_defend", action_type);
-  T_ROUND(ActionType, A_REBOUND_VX, "a_rebound_vx", action_type);
-  T_ROUND(ActionType, V_REBOUND_VX, "v_rebound_vx", action_type);
-  T_ROUND(ActionType, V_TURN_FACE, "v_turn_face", action_type);
-  T_ROUND(ActionType, V_TURN_TEAM, "v_turn_team", action_type);
-  T_ROUND(ActionType, FUSION, "fusion", action_type);
-  T_ROUND(ActionType, BROADCAST, "broadcast", action_type);
+  T_ROUND(ActionType, A_SOUND, "A_SOUND", action_type);
+  T_ROUND(ActionType, A_NEXT_FRAME, "A_NEXT_FRAME", action_type);
+  T_ROUND(ActionType, A_SET_PROP, "A_SET_PROP", action_type);
+  T_ROUND(ActionType, A_DEFEND, "A_DEFEND", action_type);
+  T_ROUND(ActionType, A_BROKEN_DEFEND, "A_BROKEN_DEFEND", action_type);
+  T_ROUND(ActionType, V_SOUND, "V_SOUND", action_type);
+  T_ROUND(ActionType, V_NEXT_FRAME, "V_NEXT_FRAME", action_type);
+  T_ROUND(ActionType, V_SET_PROP, "V_SET_PROP", action_type);
+  T_ROUND(ActionType, V_DEFEND, "V_DEFEND", action_type);
+  T_ROUND(ActionType, V_BROKEN_DEFEND, "V_BROKEN_DEFEND", action_type);
+  T_ROUND(ActionType, A_REBOUND_VX, "A_REBOUND_VX", action_type);
+  T_ROUND(ActionType, V_REBOUND_VX, "V_REBOUND_VX", action_type);
+  T_ROUND(ActionType, V_TURN_FACE, "V_TURN_FACE", action_type);
+  T_ROUND(ActionType, V_TURN_TEAM, "V_TURN_TEAM", action_type);
+  T_ROUND(ActionType, FUSION, "FUSION", action_type);
+  T_ROUND(ActionType, BROADCAST, "BROADCAST", action_type);
   T_ROUND(ActionType, VALUE_STEAL, "VALUE_STEAL", action_type);
-  T_ROUND(ActionType, A_BUFF, "abuff", action_type);
-  T_ROUND(ActionType, V_BUFF, "vbuff", action_type);
+  T_ROUND(ActionType, A_BUFF, "A_BUFF", action_type);
+  T_ROUND(ActionType, V_BUFF, "V_BUFF", action_type);
   T_INVALID(action_type);
-  std::cout << "  PASS: ActionType (19 values)\n";
+
+  // 不区分大小写
+  assert(action_type_from_string("a_sound").value() == ActionType::A_SOUND);
+  assert(action_type_from_string("fusion").value() == ActionType::FUSION);
+  assert(action_type_from_string("A_REBOUND_VX").value() == ActionType::A_REBOUND_VX);
+
+  std::cout << "  PASS: ActionType (19 values, case-insensitive)\n";
 }
 
 // ========================================================================
