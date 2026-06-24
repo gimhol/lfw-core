@@ -7,7 +7,7 @@
 | 枚举（X-macro + StringMap/NameMap/DescMap） | ✅ 20 文件，19 枚举 |
 | Action 动作接口 | [✅ 17 文件](actions/PROGRESS.md) |
 | Info 数据结构（含 Fields 元数据） | ✅ 21 文件 |
-| 其余接口类型 | 🔴 ~35 文件未转换 |
+| 其余接口类型 | � ~35 文件（含 `ISchema.hpp` ✅） |
 
 ## 已完成枚举
 

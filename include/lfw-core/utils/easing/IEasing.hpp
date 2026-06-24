@@ -3,7 +3,10 @@
 
 #include <concepts>
 
-namespace lfw::easing
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+namespace easing
 {
 
   /// 缓动函数概念 — 对应 TS IEasing<Factor, Value>
@@ -14,6 +17,7 @@ namespace lfw::easing
     { e.backward(value, from, to) } -> std::convertible_to<T>;
   };
 
-} // namespace lfw::easing
+} // namespace easing
+LFW_NS_END
 
 #endif

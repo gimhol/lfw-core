@@ -4,7 +4,10 @@
 #include <cmath>
 #include <algorithm>
 
-namespace lfw::easing
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+namespace easing
 {
 
   /// 正弦缓动 — 对应 TS ease_in_out_sine
@@ -30,6 +33,7 @@ namespace lfw::easing
     }
   };
 
-} // namespace lfw::easing
+} // namespace easing
+LFW_NS_END
 
 #endif

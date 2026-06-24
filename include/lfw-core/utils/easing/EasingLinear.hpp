@@ -3,7 +3,10 @@
 
 #include <type_traits>
 
-namespace lfw::easing
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+namespace easing
 {
 
   /// 线性缓动 — 对应 TS ease_linearity
@@ -24,6 +27,7 @@ namespace lfw::easing
     }
   };
 
-} // namespace lfw::easing
+} // namespace easing
+LFW_NS_END
 
 #endif
