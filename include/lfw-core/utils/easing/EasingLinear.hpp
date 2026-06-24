@@ -6,28 +6,25 @@
 #include "lfw-core/core.hpp"
 
 LFW_NS_BEGIN
-namespace easing
+
+/// 线性缓动 — 对应 TS ease_linearity
+struct EasingLinear
 {
-
-  /// 线性缓动 — 对应 TS ease_linearity
-  struct EasingLinear
+  template <typename T = double>
+    requires std::is_arithmetic_v<T>
+  constexpr T operator()(T factor, T from = T(0), T to = T(1)) const
   {
-    template <typename T = double>
-      requires std::is_arithmetic_v<T>
-    constexpr T operator()(T factor, T from = T(0), T to = T(1)) const
-    {
-      return from + (to - from) * factor;
-    }
+    return from + (to - from) * factor;
+  }
 
-    template <typename T = double>
-      requires std::is_arithmetic_v<T>
-    constexpr T backward(T value, T from = T(0), T to = T(1)) const
-    {
-      return (value - from) / (to - from);
-    }
-  };
+  template <typename T = double>
+    requires std::is_arithmetic_v<T>
+  constexpr T backward(T value, T from = T(0), T to = T(1)) const
+  {
+    return (value - from) / (to - from);
+  }
+};
 
-} // namespace easing
 LFW_NS_END
 
 #endif

@@ -6,18 +6,15 @@
 #include "lfw-core/core.hpp"
 
 LFW_NS_BEGIN
-namespace easing
-{
 
-  /// 缓动函数概念 — 对应 TS IEasing<Factor, Value>
-  /// 要求: operator()(factor, from, to) 和 backward(value, from, to)
-  template <typename E, typename T = double>
-  concept EasingFunction = requires(E e, T factor, T from, T to, T value) {
-    { e(factor, from, to) } -> std::convertible_to<T>;
-    { e.backward(value, from, to) } -> std::convertible_to<T>;
-  };
+/// 缓动函数概念 — 对应 TS IEasing<Factor, Value>
+/// 要求: operator()(factor, from, to) 和 backward(value, from, to)
+template <typename E, typename T = double>
+concept EasingFunction = requires(E e, T factor, T from, T to, T value) {
+  { e(factor, from, to) } -> std::convertible_to<T>;
+  { e.backward(value, from, to) } -> std::convertible_to<T>;
+};
 
-} // namespace easing
 LFW_NS_END
 
 #endif
