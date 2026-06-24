@@ -23,7 +23,6 @@
   X(FacingFlag, AntiVX, "anti_vx", "", = 8)                   \
   X(FacingFlag, Trend, "trend", "", = 9)
 
-#define ENUM_ITEM(ENUM, NAME, STR, DESC, VAL) NAME VAL,
 enum class FacingFlag : int8_t
 {
   ENUM_ITEMS(ENUM_ITEM)
@@ -36,7 +35,6 @@ constexpr auto FacingFlag_OpposingBearer = FacingFlag::OpposingCatcher;
 GEN_ENUM_STR_MAP(FacingFlagStringMap, ENUM_ITEMS, FacingFlag)
 GEN_ENUM_NAME_MAP(FacingFlagNameMap, ENUM_ITEMS, FacingFlag)
 GEN_ENUM_DESC_MAP(FacingFlagDescMap, ENUM_ITEMS, FacingFlag)
-#undef ENUM_ITEM
 #undef ENUM_ITEMS
 DEFINE_ENUM_STR_CONVERTERS(facing_flag_to_string, facing_flag_from_string, FacingFlag, FacingFlagStringMap)
 DEFINE_ENUM_STR_CONVERTERS(facing_flag_to_name, facing_flag_from_name, FacingFlag, FacingFlagNameMap)

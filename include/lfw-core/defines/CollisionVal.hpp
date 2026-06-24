@@ -47,7 +47,6 @@
   X(CollisionVal, VToughness, "v_toughness", "", )                          \
   X(CollisionVal, AToughness, "a_toughness", "", )
 
-#define ENUM_ITEM(ENUM, NAME, STR, DESC, VAL) NAME VAL,
 enum class CollisionVal : uint8_t
 {
   ENUM_ITEMS(ENUM_ITEM)
@@ -55,7 +54,6 @@ enum class CollisionVal : uint8_t
 GEN_ENUM_STR_MAP(CollisionValStringMap, ENUM_ITEMS, CollisionVal)
 GEN_ENUM_NAME_MAP(CollisionValNameMap, ENUM_ITEMS, CollisionVal)
 GEN_ENUM_DESC_MAP(CollisionValDescMap, ENUM_ITEMS, CollisionVal)
-#undef ENUM_ITEM
 #undef ENUM_ITEMS
 DEFINE_ENUM_STR_CONVERTERS(collision_val_to_string, collision_val_from_string, CollisionVal, CollisionValStringMap)
 DEFINE_ENUM_STR_CONVERTERS(collision_val_to_name, collision_val_from_name, CollisionVal, CollisionValNameMap)

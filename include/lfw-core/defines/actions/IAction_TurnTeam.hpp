@@ -6,6 +6,7 @@
 
 #include "IAction_Base.hpp"
 #include "ActionType.hpp"
+#include "lfw-core/base/Fields.hpp"
 
 /// 动作: 转换队伍
 struct IAction_TurnTeam : IAction_Base
@@ -20,5 +21,12 @@ struct IAction_TurnTeam : IAction_Base
   };
   std::optional<Data> data;
 };
+
+inline const auto &turn_team_data_fields()
+{
+  static const auto fs = fields<IAction_TurnTeam::Data>(
+      field("team", FieldKind::String, &IAction_TurnTeam::Data::team, "队伍"));
+  return fs;
+}
 
 #endif

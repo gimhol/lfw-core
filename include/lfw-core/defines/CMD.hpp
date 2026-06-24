@@ -35,7 +35,6 @@
   X(CMD, CHANGE_STAGE, "CHANGE_STAGE", "", )     \
   X(CMD, PAUSE, "PAUSE", "", )
 
-#define ENUM_ITEM(ENUM, NAME, STR, DESC, VAL) NAME VAL,
 enum class CMD : uint8_t
 {
   ENUM_ITEMS(ENUM_ITEM)
@@ -43,7 +42,6 @@ enum class CMD : uint8_t
 GEN_ENUM_STR_MAP(CMDStringMap, ENUM_ITEMS, CMD)
 GEN_ENUM_NAME_MAP(CMDNameMap, ENUM_ITEMS, CMD)
 GEN_ENUM_DESC_MAP(CMDDescMap, ENUM_ITEMS, CMD)
-#undef ENUM_ITEM
 #undef ENUM_ITEMS
 DEFINE_ENUM_STR_CONVERTERS(cmd_to_string, cmd_from_string, CMD, CMDStringMap)
 DEFINE_ENUM_STR_CONVERTERS(cmd_to_name, cmd_from_name, CMD, CMDNameMap)

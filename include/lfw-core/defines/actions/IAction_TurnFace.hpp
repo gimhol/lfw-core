@@ -3,6 +3,7 @@
 
 #include "IAction_Base.hpp"
 #include "ActionType.hpp"
+#include "lfw-core/base/Fields.hpp"
 
 /// 动作: 转向
 struct IAction_TurnFace : IAction_Base

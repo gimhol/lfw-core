@@ -25,6 +25,9 @@
 #define GEN_ENUM_MAP(ENTRIES, MAP_NAME, ENUM_TYPE, MAPPER) \
   inline auto MAP_NAME = std::unordered_map<ENUM_TYPE, std::string>{ENTRIES(MAPPER)};
 
+/** 条目 → 枚举值的展开器（通用，所有文件复用） */
+#define ENUM_ITEM(ENUM, NAME, STR, DESC, VAL) NAME VAL,
+
 /* ---- 内部映射器（GEN_ENUM_*_MAP 专用，第5参数 val 忽略）---- */
 #define _MAP_STR(ENUM, e, str, desc, val) {ENUM::e, str},
 #define _MAP_NAME(ENUM, e, str, desc, val) {ENUM::e, #e},

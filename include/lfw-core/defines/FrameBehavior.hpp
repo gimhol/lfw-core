@@ -20,7 +20,6 @@
   X(FrameBehavior, BatStart, "bat_start", "", = 8)                        \
   X(FrameBehavior, FirzenDisasterStart, "firzen_disaster_start", "", = 9)
 
-#define ENUM_ITEM(ENUM, NAME, STR, DESC, VAL) NAME VAL,
 enum class FrameBehavior : int32_t
 {
   ENUM_ITEMS(ENUM_ITEM)
@@ -28,7 +27,6 @@ enum class FrameBehavior : int32_t
 GEN_ENUM_STR_MAP(FrameBehaviorStringMap, ENUM_ITEMS, FrameBehavior)
 GEN_ENUM_NAME_MAP(FrameBehaviorNameMap, ENUM_ITEMS, FrameBehavior)
 GEN_ENUM_DESC_MAP(FrameBehaviorDescMap, ENUM_ITEMS, FrameBehavior)
-#undef ENUM_ITEM
 #undef ENUM_ITEMS
 DEFINE_ENUM_STR_CONVERTERS(frame_behavior_to_string, frame_behavior_from_string, FrameBehavior, FrameBehaviorStringMap)
 DEFINE_ENUM_STR_CONVERTERS(frame_behavior_to_name, frame_behavior_from_name, FrameBehavior, FrameBehaviorNameMap)

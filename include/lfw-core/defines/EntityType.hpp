@@ -16,7 +16,6 @@
   X(EntityType, Weapon, "weapon", "", = 16)  \
   X(EntityType, Ball, "ball", "", = 32)
 
-#define ENUM_ITEM(ENUM, NAME, STR, DESC, VAL) NAME VAL,
 enum class EntityType : uint8_t
 {
   ENUM_ITEMS(ENUM_ITEM)
@@ -24,7 +23,6 @@ enum class EntityType : uint8_t
 GEN_ENUM_STR_MAP(EntityTypeStringMap, ENUM_ITEMS, EntityType)
 GEN_ENUM_NAME_MAP(EntityTypeNameMap, ENUM_ITEMS, EntityType)
 GEN_ENUM_DESC_MAP(EntityTypeDescMap, ENUM_ITEMS, EntityType)
-#undef ENUM_ITEM
 #undef ENUM_ITEMS
 DEFINE_ENUM_STR_CONVERTERS(entity_type_to_string, entity_type_from_string, EntityType, EntityTypeStringMap)
 DEFINE_ENUM_STR_CONVERTERS(entity_type_to_name, entity_type_from_name, EntityType, EntityTypeNameMap)

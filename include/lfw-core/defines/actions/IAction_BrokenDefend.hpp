@@ -8,6 +8,8 @@ struct IAction_BrokenDefend : IAction_NextFrame
 {
   static constexpr ActionType TYPE_A = ActionType::A_BROKEN_DEFEND;
   static constexpr ActionType TYPE_V = ActionType::V_BROKEN_DEFEND;
+
+  IAction_BrokenDefend() { type = TYPE_A; }
 };
 
 #endif

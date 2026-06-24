@@ -8,6 +8,7 @@
 #include "IAction_Base.hpp"
 #include "IPos.hpp"
 #include "ActionType.hpp"
+#include "lfw-core/base/Fields.hpp"
 
 /// 动作: 播放声音
 struct IAction_Sound : IAction_Base
@@ -24,5 +25,12 @@ struct IAction_Sound : IAction_Base
   };
   Data data;
 };
+
+inline const auto &sound_data_fields()
+{
+  static const auto fs = fields<IAction_Sound::Data>(
+      field("path", FieldKind::StringArray, &IAction_Sound::Data::path, "声音文件路径"));
+  return fs;
+}
 
 #endif

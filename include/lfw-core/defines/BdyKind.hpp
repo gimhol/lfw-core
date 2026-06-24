@@ -15,7 +15,6 @@
   X(BdyKind, Defend, "defend", "", = 2000)  \
   X(BdyKind, Ignore, "ignore", "", = 10000)
 
-#define ENUM_ITEM(ENUM, NAME, STR, DESC, VAL) NAME VAL,
 enum class BdyKind : int32_t
 {
   ENUM_ITEMS(ENUM_ITEM)
@@ -23,7 +22,6 @@ enum class BdyKind : int32_t
 GEN_ENUM_STR_MAP(BdyKindStringMap, ENUM_ITEMS, BdyKind)
 GEN_ENUM_NAME_MAP(BdyKindNameMap, ENUM_ITEMS, BdyKind)
 GEN_ENUM_DESC_MAP(BdyKindDescMap, ENUM_ITEMS, BdyKind)
-#undef ENUM_ITEM
 #undef ENUM_ITEMS
 DEFINE_ENUM_STR_CONVERTERS(bdy_kind_to_string, bdy_kind_from_string, BdyKind, BdyKindStringMap)
 DEFINE_ENUM_STR_CONVERTERS(bdy_kind_to_name, bdy_kind_from_name, BdyKind, BdyKindNameMap)

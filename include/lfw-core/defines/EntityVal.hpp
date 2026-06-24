@@ -48,7 +48,6 @@
   X(EntityVal, HpRecoverable, "hp_recoverable", "", )        \
   X(EntityVal, HitByMagicFlute, "hit_by_magic_flute", "", )
 
-#define ENUM_ITEM(ENUM, NAME, STR, DESC, VAL) NAME VAL,
 enum class EntityVal : uint8_t
 {
   ENUM_ITEMS(ENUM_ITEM)
@@ -56,7 +55,6 @@ enum class EntityVal : uint8_t
 GEN_ENUM_STR_MAP(EntityValStringMap, ENUM_ITEMS, EntityVal)
 GEN_ENUM_NAME_MAP(EntityValNameMap, ENUM_ITEMS, EntityVal)
 GEN_ENUM_DESC_MAP(EntityValDescMap, ENUM_ITEMS, EntityVal)
-#undef ENUM_ITEM
 #undef ENUM_ITEMS
 DEFINE_ENUM_STR_CONVERTERS(entity_val_to_string, entity_val_from_string, EntityVal, EntityValStringMap)
 DEFINE_ENUM_STR_CONVERTERS(entity_val_to_name, entity_val_from_name, EntityVal, EntityValNameMap)

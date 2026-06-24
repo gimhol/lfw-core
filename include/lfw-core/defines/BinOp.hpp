@@ -21,7 +21,6 @@
   X(BinOp, NotIncludedBy, "!}", "", )    \
   X(BinOp, NotInclude, "!{", "", )
 
-#define ENUM_ITEM(ENUM, NAME, STR, DESC, VAL) NAME VAL,
 enum class BinOp : uint8_t
 {
   ENUM_ITEMS(ENUM_ITEM)
@@ -29,7 +28,6 @@ enum class BinOp : uint8_t
 GEN_ENUM_STR_MAP(BinOpStringMap, ENUM_ITEMS, BinOp)
 GEN_ENUM_NAME_MAP(BinOpNameMap, ENUM_ITEMS, BinOp)
 GEN_ENUM_DESC_MAP(BinOpDescMap, ENUM_ITEMS, BinOp)
-#undef ENUM_ITEM
 #undef ENUM_ITEMS
 DEFINE_ENUM_STR_CONVERTERS(bin_op_to_string, bin_op_from_string, BinOp, BinOpStringMap)
 DEFINE_ENUM_STR_CONVERTERS(bin_op_to_name, bin_op_from_name, BinOp, BinOpNameMap)

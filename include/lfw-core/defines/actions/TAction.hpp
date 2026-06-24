@@ -15,6 +15,7 @@
 #include "IAction_Broadcast.hpp"
 #include "IAction_StealValue.hpp"
 #include "IAction_ABuff.hpp"
+#include "IAction_Error.hpp"
 #include "IAction_VBuff.hpp"
 
 /// TAction — 动作联合类型（对应 TS 的 TAction union）
@@ -31,6 +32,7 @@ using TAction = std::variant<
     IAction_Broadcast,
     IAction_StealValue,
     IAction_ABuff,
-    IAction_VBuff>;
+    IAction_VBuff,
+    IAction_Error>;
 
 #endif

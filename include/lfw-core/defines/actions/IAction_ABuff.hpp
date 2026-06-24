@@ -7,6 +7,7 @@
 #include "IAction_Base.hpp"
 #include "ActionType.hpp"
 #include "../HitFlag.hpp"
+#include "lfw-core/base/Fields.hpp"
 
 /// 动作: 攻击者 Buff
 struct IAction_ABuff : IAction_Base
@@ -23,5 +24,13 @@ struct IAction_ABuff : IAction_Base
   };
   std::optional<Data> data;
 };
+
+inline const auto &abuff_data_fields()
+{
+  static const auto fs = fields<IAction_ABuff::Data>(
+      field("duration", FieldKind::Float, &IAction_ABuff::Data::duration, "持续时间"),
+      field("buff", FieldKind::String, &IAction_ABuff::Data::buff, "Buff 类型"));
+  return fs;
+}
 
 #endif

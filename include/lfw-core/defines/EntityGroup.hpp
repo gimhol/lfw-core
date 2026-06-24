@@ -22,7 +22,6 @@
   X(EntityGroup, Freezer, "Freezer", "", )             \
   X(EntityGroup, Dev, "Dev", "", )
 
-#define ENUM_ITEM(ENUM, NAME, STR, DESC, VAL) NAME VAL,
 enum class EntityGroup : uint8_t
 {
   ENUM_ITEMS(ENUM_ITEM)
@@ -30,7 +29,6 @@ enum class EntityGroup : uint8_t
 GEN_ENUM_STR_MAP(EntityGroupStringMap, ENUM_ITEMS, EntityGroup)
 GEN_ENUM_NAME_MAP(EntityGroupNameMap, ENUM_ITEMS, EntityGroup)
 GEN_ENUM_DESC_MAP(EntityGroupDescMap, ENUM_ITEMS, EntityGroup)
-#undef ENUM_ITEM
 #undef ENUM_ITEMS
 DEFINE_ENUM_STR_CONVERTERS(entity_group_to_string, entity_group_from_string, EntityGroup, EntityGroupStringMap)
 DEFINE_ENUM_STR_CONVERTERS(entity_group_to_name, entity_group_from_name, EntityGroup, EntityGroupNameMap)

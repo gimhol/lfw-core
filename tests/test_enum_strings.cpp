@@ -7,11 +7,18 @@
 #include "lfw-core/defines/EnumTypes.hpp"
 
 /// 设置环境变量 LFW_TEST_VERBOSE=1 则输出 PASS，否则默认只输出 FAIL
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#endif
 inline bool g_verbose = []
 {
   const char *v = std::getenv("LFW_TEST_VERBOSE");
   return v && (v[0] == '1' || v[0] == 'y' || v[0] == 'Y');
 }();
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
 
 #define CHECK(cond, msg)                           \
   do                                               \

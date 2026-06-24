@@ -7,6 +7,7 @@
 #include "IAction_Base.hpp"
 #include "ActionType.hpp"
 #include "../HitFlag.hpp"
+#include "lfw-core/base/Fields.hpp"
 
 /// 动作: 受击者 Buff
 struct IAction_VBuff : IAction_Base
@@ -23,5 +24,13 @@ struct IAction_VBuff : IAction_Base
   };
   std::optional<Data> data;
 };
+
+inline const auto &vbuff_data_fields()
+{
+  static const auto fs = fields<IAction_VBuff::Data>(
+      field("duration", FieldKind::Float, &IAction_VBuff::Data::duration, "持续时间"),
+      field("buff", FieldKind::String, &IAction_VBuff::Data::buff, "Buff 类型"));
+  return fs;
+}
 
 #endif

@@ -5,6 +5,7 @@
 
 #include "IAction_Base.hpp"
 #include "ActionType.hpp"
+#include "lfw-core/base/Fields.hpp"
 
 /// 动作: 广播消息
 struct IAction_Broadcast : IAction_Base
@@ -19,5 +20,12 @@ struct IAction_Broadcast : IAction_Base
   };
   Data data;
 };
+
+inline const auto &broadcast_data_fields()
+{
+  static const auto fs = fields<IAction_Broadcast::Data>(
+      field("msg", FieldKind::String, &IAction_Broadcast::Data::msg, "消息"));
+  return fs;
+}
 
 #endif

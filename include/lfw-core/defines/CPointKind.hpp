@@ -13,7 +13,6 @@
   X(CPointKind, Attacker, "attacker", "", = 1) \
   X(CPointKind, Victim, "victim", "", = 2)
 
-#define ENUM_ITEM(ENUM, NAME, STR, DESC, VAL) NAME VAL,
 enum class CPointKind : uint8_t
 {
   ENUM_ITEMS(ENUM_ITEM)
@@ -21,7 +20,6 @@ enum class CPointKind : uint8_t
 GEN_ENUM_STR_MAP(CPointKindStringMap, ENUM_ITEMS, CPointKind)
 GEN_ENUM_NAME_MAP(CPointKindNameMap, ENUM_ITEMS, CPointKind)
 GEN_ENUM_DESC_MAP(CPointKindDescMap, ENUM_ITEMS, CPointKind)
-#undef ENUM_ITEM
 #undef ENUM_ITEMS
 DEFINE_ENUM_STR_CONVERTERS(cpoint_kind_to_string, cpoint_kind_from_string, CPointKind, CPointKindStringMap)
 DEFINE_ENUM_STR_CONVERTERS(cpoint_kind_to_name, cpoint_kind_from_name, CPointKind, CPointKindNameMap)

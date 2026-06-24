@@ -2,102 +2,44 @@
 #define LFW_CORE_DEFINES_ACTIONTYPE_HPP
 
 #include <cstdint>
-#include <cctype>
 #include <optional>
 #include <string>
 #include <string_view>
 #include <unordered_map>
 
+#include "lfw-core/defines/EnumHelper.hpp"
+
+#define ENUM_ITEMS(X)                                     \
+  X(ActionType, A_SOUND, "A_SOUND", "", )                 \
+  X(ActionType, A_NEXT_FRAME, "A_NEXT_FRAME", "", )       \
+  X(ActionType, A_SET_PROP, "A_SET_PROP", "", )           \
+  X(ActionType, A_DEFEND, "A_DEFEND", "", )               \
+  X(ActionType, A_BROKEN_DEFEND, "A_BROKEN_DEFEND", "", ) \
+  X(ActionType, V_SOUND, "V_SOUND", "", )                 \
+  X(ActionType, V_NEXT_FRAME, "V_NEXT_FRAME", "", )       \
+  X(ActionType, V_SET_PROP, "V_SET_PROP", "", )           \
+  X(ActionType, V_DEFEND, "V_DEFEND", "", )               \
+  X(ActionType, V_BROKEN_DEFEND, "V_BROKEN_DEFEND", "", ) \
+  X(ActionType, A_REBOUND_VX, "A_REBOUND_VX", "", )       \
+  X(ActionType, V_REBOUND_VX, "V_REBOUND_VX", "", )       \
+  X(ActionType, V_TURN_FACE, "V_TURN_FACE", "", )         \
+  X(ActionType, V_TURN_TEAM, "V_TURN_TEAM", "", )         \
+  X(ActionType, FUSION, "FUSION", "", )                   \
+  X(ActionType, BROADCAST, "BROADCAST", "", )             \
+  X(ActionType, VALUE_STEAL, "VALUE_STEAL", "", )         \
+  X(ActionType, A_BUFF, "A_BUFF", "", )                   \
+  X(ActionType, V_BUFF, "V_BUFF", "", )                   \
+  X(ActionType, ERROR, "ERROR", "", )
+
 enum class ActionType : uint8_t
 {
-  A_SOUND,
-  A_NEXT_FRAME,
-  A_SET_PROP,
-  A_DEFEND,
-  A_BROKEN_DEFEND,
-  V_SOUND,
-  V_NEXT_FRAME,
-  V_SET_PROP,
-  V_DEFEND,
-  V_BROKEN_DEFEND,
-  A_REBOUND_VX,
-  V_REBOUND_VX,
-  V_TURN_FACE,
-  V_TURN_TEAM,
-  FUSION,
-  BROADCAST,
-  VALUE_STEAL,
-  A_BUFF,
-  V_BUFF,
+  ENUM_ITEMS(ENUM_ITEM)
 };
-
-inline std::string_view action_type_to_string(ActionType v)
-{
-  switch (v)
-  {
-  case ActionType::A_SOUND:
-    return "A_SOUND";
-  case ActionType::A_NEXT_FRAME:
-    return "A_NEXT_FRAME";
-  case ActionType::A_SET_PROP:
-    return "A_SET_PROP";
-  case ActionType::A_DEFEND:
-    return "A_DEFEND";
-  case ActionType::A_BROKEN_DEFEND:
-    return "A_BROKEN_DEFEND";
-  case ActionType::V_SOUND:
-    return "V_SOUND";
-  case ActionType::V_NEXT_FRAME:
-    return "V_NEXT_FRAME";
-  case ActionType::V_SET_PROP:
-    return "V_SET_PROP";
-  case ActionType::V_DEFEND:
-    return "V_DEFEND";
-  case ActionType::V_BROKEN_DEFEND:
-    return "V_BROKEN_DEFEND";
-  case ActionType::A_REBOUND_VX:
-    return "A_REBOUND_VX";
-  case ActionType::V_REBOUND_VX:
-    return "V_REBOUND_VX";
-  case ActionType::V_TURN_FACE:
-    return "V_TURN_FACE";
-  case ActionType::V_TURN_TEAM:
-    return "V_TURN_TEAM";
-  case ActionType::FUSION:
-    return "FUSION";
-  case ActionType::BROADCAST:
-    return "BROADCAST";
-  case ActionType::VALUE_STEAL:
-    return "VALUE_STEAL";
-  case ActionType::A_BUFF:
-    return "A_BUFF";
-  case ActionType::V_BUFF:
-    return "V_BUFF";
-  }
-  return "";
-}
-
-inline std::optional<ActionType> action_type_from_string(std::string_view s)
-{
-  static const auto m = []
-  {
-    std::unordered_map<std::string_view, ActionType> r;
-    for (uint8_t i = 0; i <= static_cast<uint8_t>(ActionType::V_BUFF); ++i)
-    {
-      auto v = static_cast<ActionType>(i);
-      r[action_type_to_string(v)] = v;
-    }
-    return r;
-  }();
-
-  // 转为大写后查找（不区分大小写）
-  std::string upper;
-  upper.reserve(s.size());
-  for (char c : s)
-    upper += static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
-
-  auto it = m.find(upper);
-  return it != m.end() ? std::optional{it->second} : std::nullopt;
-}
-
+GEN_ENUM_STR_MAP(ActionTypeStringMap, ENUM_ITEMS, ActionType)
+GEN_ENUM_NAME_MAP(ActionTypeNameMap, ENUM_ITEMS, ActionType)
+GEN_ENUM_DESC_MAP(ActionTypeDescMap, ENUM_ITEMS, ActionType)
+#undef ENUM_ITEMS
+DEFINE_ENUM_STR_CONVERTERS(action_type_to_string, action_type_from_string, ActionType, ActionTypeStringMap)
+DEFINE_ENUM_STR_CONVERTERS(action_type_to_name, action_type_from_name, ActionType, ActionTypeNameMap)
+DEFINE_ENUM_TO_STR(action_type_to_desc, ActionType, ActionTypeDescMap)
 #endif // LFW_CORE_DEFINES_ACTIONTYPE_HPP

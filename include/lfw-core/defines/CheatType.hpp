@@ -14,7 +14,6 @@
   X(CheatType, HERO_FT, "HERO_FT", "", ) \
   X(CheatType, GIM_INK, "GIM_INK", "", )
 
-#define ENUM_ITEM(ENUM, NAME, STR, DESC, VAL) NAME VAL,
 enum class CheatType : uint8_t
 {
   ENUM_ITEMS(ENUM_ITEM)
@@ -22,7 +21,6 @@ enum class CheatType : uint8_t
 GEN_ENUM_STR_MAP(CheatTypeStringMap, ENUM_ITEMS, CheatType)
 GEN_ENUM_NAME_MAP(CheatTypeNameMap, ENUM_ITEMS, CheatType)
 GEN_ENUM_DESC_MAP(CheatTypeDescMap, ENUM_ITEMS, CheatType)
-#undef ENUM_ITEM
 #undef ENUM_ITEMS
 DEFINE_ENUM_STR_CONVERTERS(cheat_type_to_string, cheat_type_from_string, CheatType, CheatTypeStringMap)
 DEFINE_ENUM_STR_CONVERTERS(cheat_type_to_name, cheat_type_from_name, CheatType, CheatTypeNameMap)

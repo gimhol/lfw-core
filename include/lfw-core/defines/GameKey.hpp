@@ -18,7 +18,6 @@
   X(GameKey, J, "j", "", ) \
   X(GameKey, Z, "d", "", )
 
-#define ENUM_ITEM(ENUM, NAME, STR, DESC, VAL) NAME VAL,
 enum class GameKey : uint8_t
 {
   ENUM_ITEMS(ENUM_ITEM)
@@ -33,7 +32,6 @@ constexpr auto GameKey_Defend = GameKey::Z;
 GEN_ENUM_STR_MAP(GameKeyStringMap, ENUM_ITEMS, GameKey)
 GEN_ENUM_NAME_MAP(GameKeyNameMap, ENUM_ITEMS, GameKey)
 GEN_ENUM_DESC_MAP(GameKeyDescMap, ENUM_ITEMS, GameKey)
-#undef ENUM_ITEM
 #undef ENUM_ITEMS
 DEFINE_ENUM_STR_CONVERTERS_EXACT(game_key_to_string, game_key_from_string, GameKey, GameKeyStringMap)
 DEFINE_ENUM_STR_CONVERTERS(game_key_to_name, game_key_from_name, GameKey, GameKeyNameMap)

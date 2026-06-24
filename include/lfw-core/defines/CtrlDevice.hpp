@@ -17,7 +17,6 @@
   X(CtrlDevice, Gamepad4, "gamepad4", "", = 4) \
   X(CtrlDevice, TouchScreen, "touchscreen", "", = 5)
 
-#define ENUM_ITEM(ENUM, NAME, STR, DESC, VAL) NAME VAL,
 enum class CtrlDevice : uint8_t
 {
   ENUM_ITEMS(ENUM_ITEM)
@@ -25,7 +24,6 @@ enum class CtrlDevice : uint8_t
 GEN_ENUM_STR_MAP(CtrlDeviceStringMap, ENUM_ITEMS, CtrlDevice)
 GEN_ENUM_NAME_MAP(CtrlDeviceNameMap, ENUM_ITEMS, CtrlDevice)
 GEN_ENUM_DESC_MAP(CtrlDeviceDescMap, ENUM_ITEMS, CtrlDevice)
-#undef ENUM_ITEM
 #undef ENUM_ITEMS
 DEFINE_ENUM_STR_CONVERTERS(ctrl_device_to_string, ctrl_device_from_string, CtrlDevice, CtrlDeviceStringMap)
 DEFINE_ENUM_STR_CONVERTERS(ctrl_device_to_name, ctrl_device_from_name, CtrlDevice, CtrlDeviceNameMap)

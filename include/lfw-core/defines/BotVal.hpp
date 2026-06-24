@@ -18,7 +18,6 @@
   X(BotVal, Safe, "safe", "", )               \
   X(BotVal, EnemyOutOfRange, "en_oor", "", )
 
-#define ENUM_ITEM(ENUM, NAME, STR, DESC, VAL) NAME VAL,
 enum class BotVal : uint8_t
 {
   ENUM_ITEMS(ENUM_ITEM)
@@ -26,7 +25,6 @@ enum class BotVal : uint8_t
 GEN_ENUM_STR_MAP(BotValStringMap, ENUM_ITEMS, BotVal)
 GEN_ENUM_NAME_MAP(BotValNameMap, ENUM_ITEMS, BotVal)
 GEN_ENUM_DESC_MAP(BotValDescMap, ENUM_ITEMS, BotVal)
-#undef ENUM_ITEM
 #undef ENUM_ITEMS
 DEFINE_ENUM_STR_CONVERTERS(bot_val_to_string, bot_val_from_string, BotVal, BotValStringMap)
 DEFINE_ENUM_STR_CONVERTERS(bot_val_to_name, bot_val_from_name, BotVal, BotValNameMap)
