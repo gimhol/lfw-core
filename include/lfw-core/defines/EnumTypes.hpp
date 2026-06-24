@@ -29,7 +29,7 @@
 
 // 行为/动作
 #include "FrameBehavior.hpp"
-#include "ArmorType.hpp"
+#include "ArmorEnum.hpp"
 
 // 速度/控制
 #include "SpeedMode.hpp"
