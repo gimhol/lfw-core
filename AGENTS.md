@@ -221,6 +221,57 @@ struct Foo { /* ... */ };
 LFW_NS_END
 ```
 
+### 8. `void*` vs 模板取舍
+
+TS 泛型 `class Foo<T>` / `interface IBar<T>` 转 C++ 时，优先考虑 **`void*` 消除模板**，仅在以下情况保留模板：
+
+#### 优先使用 `void*`（消除模板）
+
+| 条件 | 示例 |
+|------|------|
+| TS 存储的是**引用/指针**语义（非值拷贝） | `Graves<T>` 存 `T \| undefined` → `void*` |
+| 需要在**非模板容器**中异构存储 | `IAction_Base.tester` → `IExpression*` |
+| 类型 `T` 仅作为上下文传递，内部 `static_cast` 还原 | `IJudger::run(void* ctx)` |
+| 调用方始终知道具体类型 | `auto* p = static_cast<Bullet*>(pool.take())` |
+
+```cpp
+// ✅ void* 消除模板 — 对象池只存指针，不拥有对象
+class Graves {
+  void add(void *obj);
+  void *take();           // 调用方 static_cast 还原
+  std::vector<void *> _l; // 零模板开销
+};
+```
+
+#### 保留模板
+
+| 条件 | 示例 |
+|------|------|
+| 需要**值语义**（存储对象本身、非指针） | `Signal<Args...>` 存储参数包 |
+| 需要**编译期类型安全**，避免错误 cast | `Fields<T>` 反射系统 |
+| 编译期需要 `sizeof(T)` 或调用 `T` 的成员 | `std::vector<T>` |
+
+```cpp
+// ✅ 保留模板 — 反射系统需要编译期类型信息
+template <typename T>
+const auto &foo_fields() {
+  static const auto fs = fields<T>(field("id", FieldKind::Str, &T::id));
+  return fs;
+}
+```
+
+#### 决策流程
+
+```
+TS 有 template<T>
+    │
+    ├─ T 是引用/指针语义？ ──是──→ 用 void* 消除模板
+    │
+    ├─ 需要存到非模板容器？ ──是──→ 用 void* 消除模板
+    │
+    └─ 需要值语义/类型安全？ ──是──→ 保留 template<T>
+```
+
 ---
 
 ## 构建与测试

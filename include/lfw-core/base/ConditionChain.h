@@ -3,7 +3,6 @@
 
 #include <algorithm>
 #include <cstddef>
-#include <memory>
 #include <vector>
 
 #include "lfw-core/base/Expression.h"
@@ -12,87 +11,67 @@
 // ConditionChain — 条件链
 //
 // 对应 TypeScript 的 Expressions<T>：
-//   一组 IJudger<T> 按顺序链式求值
+//   一组 IJudger 按顺序链式求值
 //   - run()  执行当前条件
 //   - next() 前进到下一个
 //   - flow() 从当前位置连续执行，直到失败或末尾
 //
 // 用法:
-//   ConditionChain<BattleContext> chain;
+//   ConditionChain chain;
 //   chain.reset({ &cond1, &cond2 });
-//   bool ok = chain.flow(ctx);
+//   bool ok = chain.flow(&ctx);  // void* 上下文
 // ============================================================
-template <typename T>
 class ConditionChain
 {
 public:
-  using ExprPtr = IJudger<T> *;
+  using ExprPtr = IJudger *;
 
-  /// 当前表达式列表（只读视图）
   const std::vector<ExprPtr> &list() const { return _list; }
-
-  /// 是否在开头（_index <= 0）
   bool is_first() const { return _index <= 0; }
-
-  /// 是否在末尾（_index >= length - 1）
   bool is_last() const { return _index >= _list.size() - 1; }
-
-  /// 当前索引
   std::size_t index() const { return _index; }
 
-  // ----------------------------------------------------------
-  /// 重置表达式列表 — 对应 reset()
   void reset(const std::vector<ExprPtr> &list)
   {
     _index = 0;
     if (&_list == &list)
-      return; // 自赋值保护
+      return;
     _list = list;
   }
 
-  /// 从初始化列表重置
   void reset(std::initializer_list<ExprPtr> il)
   {
     _index = 0;
     _list.assign(il);
   }
 
-  // ----------------------------------------------------------
-  /// 执行当前表达式 — 对应 run()
-  bool run(const T &arg)
+  bool run(void *ctx)
   {
     if (_index >= _list.size())
       return false;
-    return _list[_index]->run(arg);
+    return _list[_index]->run(ctx);
   }
 
-  // ----------------------------------------------------------
-  /// 前进到下一个表达式 — 对应 next()
   void next()
   {
     if (!_list.empty())
       _index = std::min(_index + 1, _list.size() - 1);
   }
 
-  // ----------------------------------------------------------
-  /// 从当前位置连续执行表达式，直到失败或到达末尾
-  /// 返回 true 表示所有执行的表达式都通过了
-  /// 对应 TS 的 flow()
-  bool flow(const T &arg)
+  bool flow(void *ctx)
   {
     bool pass = false;
     do
     {
-      bool is_last = this->is_last();
-      pass = run(arg);
-      if (!pass || is_last)
+      bool last = is_last();
+      pass = run(ctx);
+      if (!pass || last)
         break;
       next();
     } while (true);
     return pass;
   }
 
-  /// 重置索引到开头
   void reset_index() { _index = 0; }
 
 private:
@@ -100,4 +79,4 @@ private:
   std::size_t _index = 0;
 };
 
-#endif // LFW_CORE_CONDITIONCHAIN_H
+#endif

@@ -19,17 +19,17 @@ struct Stats
 
 static auto make_getter()
 {
-  return [](const std::string &word) -> std::optional<ValGetter<Stats>>
+  return [](const std::string &word) -> std::optional<ValGetter>
   {
     if (word == "hp")
-      return ValGetter<Stats>{[](const Stats &ctx, const std::string &, const std::string &) -> std::any
-                              { return ctx.hp; }};
+      return ValGetter{[](void *ctx, const std::string &, const std::string &) -> std::any
+                       { return static_cast<Stats *>(ctx)->hp; }};
     if (word == "mp")
-      return ValGetter<Stats>{[](const Stats &ctx, const std::string &, const std::string &) -> std::any
-                              { return ctx.mp; }};
+      return ValGetter{[](void *ctx, const std::string &, const std::string &) -> std::any
+                       { return static_cast<Stats *>(ctx)->mp; }};
     if (word == "distance")
-      return ValGetter<Stats>{[](const Stats &ctx, const std::string &, const std::string &) -> std::any
-                              { return ctx.distance; }};
+      return ValGetter{[](void *ctx, const std::string &, const std::string &) -> std::any
+                       { return static_cast<Stats *>(ctx)->distance; }};
     return std::nullopt;
   };
 }
@@ -39,14 +39,14 @@ static void test_expression_numeric_compare()
   auto getter = make_getter();
   Stats ctx{30, 80, 100.0};
 
-  Expression<Stats> e1("hp < 50", getter);
-  assert(e1.run(ctx) == true);
+  Expression e1("hp < 50", getter);
+  assert(e1.run(&ctx) == true);
 
-  Expression<Stats> e2("hp >= 100", getter);
-  assert(e2.run(ctx) == false);
+  Expression e2("hp >= 100", getter);
+  assert(e2.run(&ctx) == false);
 
-  Expression<Stats> e3("mp > 20", getter);
-  assert(e3.run(ctx) == true);
+  Expression e3("mp > 20", getter);
+  assert(e3.run(&ctx) == true);
 }
 
 static void test_expression_and()
@@ -54,8 +54,8 @@ static void test_expression_and()
   auto getter = make_getter();
   Stats ctx{30, 80, 100.0};
 
-  Expression<Stats> e("hp < 50 && mp > 20", getter);
-  assert(e.run(ctx) == true);
+  Expression e("hp < 50 && mp > 20", getter);
+  assert(e.run(&ctx) == true);
 }
 
 static void test_expression_or()
@@ -63,11 +63,11 @@ static void test_expression_or()
   auto getter = make_getter();
   Stats ctx{30, 80, 100.0};
 
-  Expression<Stats> e1("hp < 50 || mp > 100", getter);
-  assert(e1.run(ctx) == true);
+  Expression e1("hp < 50 || mp > 100", getter);
+  assert(e1.run(&ctx) == true);
 
-  Expression<Stats> e2("hp > 50 || mp > 100", getter);
-  assert(e2.run(ctx) == false);
+  Expression e2("hp > 50 || mp > 100", getter);
+  assert(e2.run(&ctx) == false);
 }
 
 static void test_expression_equal()
@@ -75,8 +75,8 @@ static void test_expression_equal()
   auto getter = make_getter();
   Stats ctx{30, 80, 100.0};
 
-  Expression<Stats> e("distance == 100", getter);
-  assert(e.run(ctx) == true);
+  Expression e("distance == 100", getter);
+  assert(e.run(&ctx) == true);
 }
 
 static void test_expression_not_equal()
@@ -84,8 +84,8 @@ static void test_expression_not_equal()
   auto getter = make_getter();
   Stats ctx{30, 80, 100.0};
 
-  Expression<Stats> e("hp != 30", getter);
-  assert(e.run(ctx) == false);
+  Expression e("hp != 30", getter);
+  assert(e.run(&ctx) == false);
 }
 
 // ========================================================================

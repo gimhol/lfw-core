@@ -7,7 +7,7 @@
 #include <unordered_map>
 #include <vector>
 
-#include "lfw-core/defines/IExpression.hpp"
+#include "lfw-core/base/Expression.h"
 #include "lfw-core/defines/Difficulty.hpp"
 #include "lfw-core/defines/IDialogInfo.hpp"
 #include "lfw-core/defines/IStageObjectInfo.hpp"
@@ -52,10 +52,10 @@ struct IStagePhaseInfo
   std::optional<int> player_facing; ///< -1=左, 1=右
 
   // === 测试 / 动作 ===
-  std::optional<std::vector<std::string>> end_test;          ///< 结束判定表达式
-  std::optional<std::vector<IExpression<void>>> end_testers; ///< 结束测试器
-  std::optional<std::vector<std::string>> on_start;          ///< 开始时动作
-  std::optional<std::vector<std::string>> on_end;            ///< 结束时动作
+  std::optional<std::vector<std::string>> end_test;                     ///< 结束判定表达式
+  std::optional<std::vector<std::unique_ptr<IExpression>>> end_testers; ///< 结束测试器
+  std::optional<std::vector<std::string>> on_start;                     ///< 开始时动作
+  std::optional<std::vector<std::string>> on_end;                       ///< 结束时动作
 
   // === 开关 ===
   std::optional<int> hide_stats;           ///< 隐藏状态栏

@@ -1,8 +1,10 @@
-#ifndef LFW_CORE_DEFINES_ACTIONS_IACTION_BASE_HPP
-#define LFW_CORE_DEFINES_ACTIONS_IACTION_BASE_HPP
+#ifndef LFW_CORE_DEFINES_ACTIONS_IACTION_BASE_H
+#define LFW_CORE_DEFINES_ACTIONS_IACTION_BASE_H
 
 #include <optional>
 #include <string>
+
+#include "lfw-core/base/Expression.h"
 
 /// IAction_Base — 条件动作基类
 struct IAction_Base
@@ -15,7 +17,7 @@ struct IAction_Base
 
   /// 条件测试器（由 test 生成）
   /// 当 test 和 tester 都不存在时，视为测试通过
-  std::optional<void *> tester; // TODO: IExpression<T> 待实现后替换
+  IExpression *tester = nullptr;
 };
 
 #endif

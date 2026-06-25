@@ -259,21 +259,28 @@ inline const std::map<std::string, PredicateFn> &default_predicates()
 
 // ============================================================
 // 值获取器类型 — 对应 IValGetter / IValGetterGetter
+// 使用 void* 消除模板，由调用方 static_cast 还原上下文
 // ============================================================
-template <typename T>
-using ValGetter = std::function<std::any(const T &ctx, const std::string &word, const std::string &op)>;
+using ValGetter = std::function<std::any(void *ctx, const std::string &word, const std::string &op)>;
 
-template <typename T>
-using ValGetterGetter = std::function<std::optional<ValGetter<T>>(const std::string &word)>;
+using ValGetterGetter = std::function<std::optional<ValGetter>(const std::string &word)>;
 
 // ============================================================
-// IJudger — 求值器接口
+// IExpression — 表达式接口（无模板，void* 上下文）
+// 对应 TS IExpression
 // ============================================================
-template <typename T>
-struct IJudger
+struct IExpression
 {
-  virtual ~IJudger() = default;
-  virtual bool run(const T &ctx) = 0;
+  virtual ~IExpression() = default;
+  virtual bool run(void *ctx) = 0;
+};
+
+// ============================================================
+// IJudger — 求值器接口（无模板，继承 IExpression）
+// 对应 TS IJudger<T>：在 IExpression 上增加元数据
+// ============================================================
+struct IJudger : IExpression
+{
   virtual const std::string &text() const = 0;
   virtual const std::string *err() const { return nullptr; }
   virtual const std::string *warn() const { return nullptr; }
@@ -283,8 +290,7 @@ struct IJudger
 // ============================================================
 // ALWAYS_FALSE 辅助
 // ============================================================
-template <typename T>
-class AlwaysFalseJudger : public IJudger<T>
+class AlwaysFalseJudger : public IJudger
 {
   std::string _text;
   std::string _err;
@@ -292,29 +298,28 @@ class AlwaysFalseJudger : public IJudger<T>
 public:
   AlwaysFalseJudger(std::string text, std::string err)
       : _text(std::move(text)), _err(std::move(err)) {}
-  bool run(const T &) override { return false; }
+  bool run(void *) override { return false; }
   const std::string &text() const override { return _text; }
   const std::string *err() const override { return &_err; }
   std::optional<bool> result() const override { return false; }
 };
 
-template <typename T>
-std::unique_ptr<IJudger<T>> always_false(std::string text, std::string err = "")
+inline std::unique_ptr<IJudger> always_false(std::string text, std::string err = "")
 {
-  return std::make_unique<AlwaysFalseJudger<T>>(std::move(text), std::move(err));
+  return std::make_unique<AlwaysFalseJudger>(std::move(text), std::move(err));
 }
 
 // ============================================================
 // Expression — 表达式引擎（核心）
+// 对应 TS Expression<T1,T2>，void* 上下文 + std::any 值
 // ============================================================
-template <typename T>
-class Expression : public IJudger<T>
+class Expression : public IJudger
 {
 public:
   // 子表达式
-  std::vector<std::unique_ptr<IJudger<T>>> children;
+  std::vector<std::unique_ptr<IJudger>> children;
   std::vector<std::string> before; // child 之前的逻辑符号（空/"|"/"&"）
-  ValGetterGetter<T> get_val_getter;
+  ValGetterGetter get_val_getter;
   std::string _err;
   std::string _warn;
   std::string _text;
@@ -326,8 +331,8 @@ public:
   std::any val_1;
   std::any val_2;
 
-  // judger 模式的运行函数
-  std::function<bool(const T &)> _run_fn;
+  // judger 模式的运行函数（void* 上下文）
+  std::function<bool(void *)> _run_fn;
 
   // 谓词表（可外部替换，默认用 default_predicates）
   std::map<std::string, PredicateFn> predicates = default_predicates();
@@ -335,7 +340,7 @@ public:
   Expression() = default;
 
   // 构造函数：解析表达式字符串
-  Expression(const std::string &input, ValGetterGetter<T> getter)
+  Expression(const std::string &input, ValGetterGetter getter)
       : get_val_getter(std::move(getter))
   {
     if (input.empty())
@@ -365,7 +370,7 @@ private:
     std::size_t i = 0;
     std::string before_sym;
 
-    auto add_child = [&](std::unique_ptr<IJudger<T>> child)
+    auto add_child = [&](std::unique_ptr<IJudger> child)
     {
       children.push_back(std::move(child));
       this->before.push_back(before_sym);
@@ -401,7 +406,7 @@ private:
         if (end == std::string::npos)
           break;
 
-        auto child = std::make_unique<Expression<T>>();
+        auto child = std::make_unique<Expression>();
         child->get_val_getter = get_val_getter;
         child->predicates = predicates;
         child->_not = true;
@@ -419,7 +424,7 @@ private:
         if (end == std::string::npos)
           break;
 
-        auto child = std::make_unique<Expression<T>>();
+        auto child = std::make_unique<Expression>();
         child->get_val_getter = get_val_getter;
         child->predicates = predicates;
         child->_text = text.substr(i + 1, end - i - 1);
@@ -440,7 +445,7 @@ private:
           auto sub = text.substr(p, db ? i - 1 - p : i - p);
           if (!sub.empty())
           {
-            auto child = std::make_unique<Expression<T>>();
+            auto child = std::make_unique<Expression>();
             child->get_val_getter = get_val_getter;
             child->predicates = predicates;
             child->judger(sub);
@@ -454,7 +459,7 @@ private:
       {
         if (p < i)
         {
-          auto child = std::make_unique<Expression<T>>();
+          auto child = std::make_unique<Expression>();
           child->get_val_getter = get_val_getter;
           child->predicates = predicates;
           child->judger(text.substr(p, i - p));
@@ -536,7 +541,7 @@ private:
       bool result = it->second(val_1, val_2);
       _result = result;
       _warn = "expression \"" + _text + "\" is always " + (result ? "true" : "false") + " (both operands are literals)";
-      _run_fn = [this, result](const T &)
+      _run_fn = [result](void *)
       { return result; };
       return;
     }
@@ -547,7 +552,7 @@ private:
                getter_1 = std::move(getter_1),
                getter_2 = std::move(getter_2),
                v1 = val_1, v2 = val_2,
-               w1 = word1, w2 = word2](const T &ctx) -> bool
+               w1 = word1, w2 = word2](void *ctx) -> bool
     {
       auto a = getter_1 ? (*getter_1)(ctx, w1, this->op) : v1;
       auto b = getter_2 ? (*getter_2)(ctx, w2, this->op) : v2;
@@ -559,7 +564,7 @@ private:
   {
     _err = err;
     _result = false;
-    _run_fn = [](const T &)
+    _run_fn = [](void *)
     { return false; };
   }
 
@@ -596,7 +601,7 @@ private:
 
 public:
   // --- IJudger 接口 ---
-  bool run(const T &ctx) override
+  bool run(void *ctx) override
   {
     if (_run_fn)
     {

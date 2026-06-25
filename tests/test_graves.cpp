@@ -1,9 +1,10 @@
 #include <cassert>
 #include <iostream>
 #include <string>
-#include <utility>
 
 #include "lfw-core/base/Graves.h"
+
+using namespace lfw;
 
 // ========================================================================
 // Graves 对象池测试
@@ -13,85 +14,71 @@ struct TestItem
 {
   int id = 0;
   std::string label;
+  bool alive = true;
 
-  TestItem() = default;
-
-  TestItem(int id, std::string label)
-      : id(id), label(std::move(label)) {}
-
-  TestItem(const TestItem &) = delete;
-  TestItem &operator=(const TestItem &) = delete;
-
-  TestItem(TestItem &&other) noexcept
-      : id(other.id), label(std::move(other.label))
-  {
-    other.id = -1;
-  }
-
-  TestItem &operator=(TestItem &&other) noexcept
-  {
-    if (this != &other)
-    {
-      id = other.id;
-      label = std::move(other.label);
-      other.id = -1;
-    }
-    return *this;
-  }
+  TestItem(int i, std::string l) : id(i), label(std::move(l)) {}
 };
 
 static void test_graves_empty()
 {
-  Graves<TestItem> pool;
+  Graves pool;
   assert(pool.empty());
   assert(pool.available() == 0);
-  assert(!pool.take().has_value());
+  assert(pool.take() == nullptr);
 }
 
 static void test_graves_add_and_take()
 {
-  Graves<TestItem> pool;
-  pool.add(TestItem(1, "Alpha"));
+  Graves pool;
+  TestItem item(1, "Alpha");
 
+  pool.add(&item);
   assert(!pool.empty());
   assert(pool.available() == 1);
 
-  auto item = pool.take();
-  assert(item.has_value());
-  assert(item->id == 1);
-  assert(item->label == "Alpha");
+  auto *p = static_cast<TestItem *>(pool.take());
+  assert(p != nullptr);
+  assert(p->id == 1);
+  assert(p->label == "Alpha");
 
   assert(pool.empty());
-  assert(!pool.take().has_value());
+  assert(pool.take() == nullptr);
 }
 
 static void test_graves_reuse()
 {
-  Graves<TestItem> pool;
-  pool.add(TestItem(10, "First"));
-  pool.add(TestItem(20, "Second"));
+  Graves pool;
+  TestItem a(10, "First");
+  TestItem b(20, "Second");
 
-  auto a = pool.take();
-  auto b = pool.take();
-  assert(a.has_value() && b.has_value());
+  pool.add(&a);
+  pool.add(&b);
 
-  // 归还（move back）
-  pool.add(std::move(*a));
-  auto c = pool.take();
-  assert(c.has_value());
-  // 复用旧槽位，不会触发新构造
+  // 初始填充按 push 顺序 (FIFO)
+  auto *p1 = static_cast<TestItem *>(pool.take());
+  auto *p2 = static_cast<TestItem *>(pool.take());
+  assert(p1 == &a); // 先 push 的先出
+  assert(p2 == &b);
+
+  // 归还后复用槽位 (LIFO)
+  pool.add(&a);
+  auto *p3 = static_cast<TestItem *>(pool.take());
+  assert(p3 == &a); // 归还的立即在下次取出
 }
 
 static void test_graves_multiple_add_take()
 {
-  Graves<TestItem> pool;
-  for (int i = 0; i < 5; ++i)
-    pool.add(TestItem(i, "Item"));
+  Graves pool;
+  TestItem items[] = {
+      {0, "0"}, {1, "1"}, {2, "2"}, {3, "3"}, {4, "4"}};
+
+  for (auto &item : items)
+    pool.add(&item);
 
   assert(pool.available() == 5);
 
   int taken = 0;
-  while (auto v = pool.take())
+  while (pool.take())
     ++taken;
   assert(taken == 5);
   assert(pool.empty());

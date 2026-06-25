@@ -1,6 +1,5 @@
 #include <cassert>
 #include <iostream>
-#include <memory>
 #include <string>
 
 #include "lfw-core/base/ConditionChain.h"
@@ -14,9 +13,9 @@ struct Ctx
   int value = 0;
 };
 
-struct AlwaysTrue : IJudger<Ctx>
+struct AlwaysTrue : IJudger
 {
-  bool run(const Ctx &) override { return true; }
+  bool run(void *) override { return true; }
   const std::string &text() const override
   {
     static std::string t = "always_true";
@@ -24,9 +23,9 @@ struct AlwaysTrue : IJudger<Ctx>
   }
 };
 
-struct AlwaysFalse : IJudger<Ctx>
+struct AlwaysFalse : IJudger
 {
-  bool run(const Ctx &) override { return false; }
+  bool run(void *) override { return false; }
   const std::string &text() const override
   {
     static std::string t = "always_false";
@@ -34,11 +33,11 @@ struct AlwaysFalse : IJudger<Ctx>
   }
 };
 
-struct Increment : IJudger<Ctx>
+struct Increment : IJudger
 {
   int *counter;
   explicit Increment(int *c) : counter(c) {}
-  bool run(const Ctx &) override
+  bool run(void *) override
   {
     ++(*counter);
     return true;
@@ -50,11 +49,14 @@ struct Increment : IJudger<Ctx>
   }
 };
 
-struct ValueCheck : IJudger<Ctx>
+struct ValueCheck : IJudger
 {
   int expected;
   explicit ValueCheck(int e) : expected(e) {}
-  bool run(const Ctx &ctx) override { return ctx.value == expected; }
+  bool run(void *ctx) override
+  {
+    return static_cast<Ctx *>(ctx)->value == expected;
+  }
   const std::string &text() const override
   {
     static std::string t = "val_check";
@@ -64,17 +66,17 @@ struct ValueCheck : IJudger<Ctx>
 
 static void test_condition_chain_all_pass()
 {
-  ConditionChain<Ctx> chain;
+  ConditionChain chain;
   AlwaysTrue t1, t2;
   chain.reset({&t1, &t2});
 
   Ctx ctx;
-  assert(chain.flow(ctx) == true);
+  assert(chain.flow(&ctx) == true);
 }
 
 static void test_condition_chain_fail_fast()
 {
-  ConditionChain<Ctx> chain;
+  ConditionChain chain;
   int counter = 0;
   AlwaysTrue t1;
   Increment inc1(&counter);
@@ -83,17 +85,23 @@ static void test_condition_chain_fail_fast()
   chain.reset({&t1, &inc1, &f1, &inc2});
 
   Ctx ctx;
-  bool result = chain.flow(ctx);
-  assert(result == false);
-  assert(counter == 1);
+  assert(chain.flow(&ctx) == false);
+  assert(counter == 1); // inc1 ran, f1 failed, inc2 skipped
 }
 
-static void test_condition_chain_empty()
+static void test_condition_chain_value_check()
 {
-  ConditionChain<Ctx> chain;
-  Ctx ctx;
-  bool r = chain.flow(ctx);
-  (void)r;
+  ConditionChain chain;
+  ValueCheck vc1(10), vc2(20);
+  chain.reset({&vc1, &vc2});
+
+  Ctx ctx{10};
+  assert(chain.run(&ctx) == true);
+  chain.next();
+  assert(chain.run(&ctx) == false);
+
+  ctx.value = 20;
+  assert(chain.run(&ctx) == true);
 }
 
 // ========================================================================
@@ -103,7 +111,7 @@ void run_condition_chain_tests()
 
   test_condition_chain_all_pass();
   test_condition_chain_fail_fast();
-  test_condition_chain_empty();
+  test_condition_chain_value_check();
 
   std::cout << "  PASS: ConditionChain (3 subtests)\n";
 }
