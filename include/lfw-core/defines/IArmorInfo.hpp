@@ -28,18 +28,18 @@ struct IArmorInfo
 inline const auto &armor_info_fields()
 {
   static const auto fs = fields<IArmorInfo>(
-      field("id", FieldKind::String, &IArmorInfo::id, "ID"),
-      field("name", FieldKind::String, &IArmorInfo::name, "名称"),
+      field("id", FieldKind::Str, &IArmorInfo::id, "ID"),
+      field("name", FieldKind::Str, &IArmorInfo::name, "名称"),
       field("type", FieldKind::Int, &IArmorInfo::type, "护甲类型"),
-      field("toughness", FieldKind::Float, &IArmorInfo::toughness, "耐久"),
-      field("fireproof", FieldKind::Float, &IArmorInfo::fireproof, "防火"),
-      field("antifreeze", FieldKind::Float, &IArmorInfo::antifreeze, "防冻"),
+      field("toughness", FieldKind::Flt, &IArmorInfo::toughness, "耐久"),
+      field("fireproof", FieldKind::Flt, &IArmorInfo::fireproof, "防火"),
+      field("antifreeze", FieldKind::Flt, &IArmorInfo::antifreeze, "防冻"),
       field("fulltime", FieldKind::Bool, &IArmorInfo::fulltime, "全时生效"),
-      field("injury_ratio", FieldKind::Float, &IArmorInfo::injury_ratio, "受伤比例"),
-      field("shaking_ratio", FieldKind::Float, &IArmorInfo::shaking_ratio, "硬直比例"),
-      field("motionless_ratio", FieldKind::Float, &IArmorInfo::motionless_ratio, "不动比例"),
-      field("hit_sounds", FieldKind::Strings, &IArmorInfo::hit_sounds, "受击音效"),
-      field("dead_sounds", FieldKind::Strings, &IArmorInfo::dead_sounds, "击破音效"));
+      field("injury_ratio", FieldKind::Flt, &IArmorInfo::injury_ratio, "受伤比例"),
+      field("shaking_ratio", FieldKind::Flt, &IArmorInfo::shaking_ratio, "硬直比例"),
+      field("motionless_ratio", FieldKind::Flt, &IArmorInfo::motionless_ratio, "不动比例"),
+      field("hit_sounds", FieldKind::Strs, &IArmorInfo::hit_sounds, "受击音效"),
+      field("dead_sounds", FieldKind::Strs, &IArmorInfo::dead_sounds, "击破音效"));
   return fs;
 }
 

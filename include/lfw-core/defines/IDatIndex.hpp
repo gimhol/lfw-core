@@ -23,14 +23,14 @@ struct IDatIndex
 inline const auto &dat_index_fields()
 {
   static const auto fs = fields<IDatIndex>(
-      field("id", FieldKind::String, &IDatIndex::id, "ID"),
-      field("type", FieldKind::String, &IDatIndex::type, "数据类型"),
-      field("file", FieldKind::String, &IDatIndex::file, "文件"),
-      field("hash", FieldKind::String, &IDatIndex::hash, "哈希"),
-      field("alias", FieldKind::String, &IDatIndex::alias, "别名"),
-      field("groups", FieldKind::Strings, &IDatIndex::groups, "分组"),
-      field("skipped", FieldKind::String, &IDatIndex::skipped, "跳过"),
-      field("bot", FieldKind::String, &IDatIndex::bot, "Bot"));
+      field("id", FieldKind::Str, &IDatIndex::id, "ID"),
+      field("type", FieldKind::Str, &IDatIndex::type, "数据类型"),
+      field("file", FieldKind::Str, &IDatIndex::file, "文件"),
+      field("hash", FieldKind::Str, &IDatIndex::hash, "哈希"),
+      field("alias", FieldKind::Str, &IDatIndex::alias, "别名"),
+      field("groups", FieldKind::Strs, &IDatIndex::groups, "分组"),
+      field("skipped", FieldKind::Str, &IDatIndex::skipped, "跳过"),
+      field("bot", FieldKind::Str, &IDatIndex::bot, "Bot"));
   return fs;
 }
 

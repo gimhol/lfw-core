@@ -24,7 +24,7 @@ struct IAction_Broadcast : IAction_Base
 inline const auto &broadcast_data_fields()
 {
   static const auto fs = fields<IAction_Broadcast::Data>(
-      field("msg", FieldKind::String, &IAction_Broadcast::Data::msg, "消息"));
+      field("msg", FieldKind::Str, &IAction_Broadcast::Data::msg, "消息"));
   return fs;
 }
 

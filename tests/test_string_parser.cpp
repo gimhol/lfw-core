@@ -129,7 +129,7 @@ struct Hero
 static const auto &hero_fields_ref()
 {
   static const auto fs = fields<Hero>(
-      field("name", FieldKind::String, &Hero::name, "名称"),
+      field("name", FieldKind::Str, &Hero::name, "名称"),
       field("hp", FieldKind::Int, &Hero::hp, "生命"),
       field("mp", FieldKind::Int, &Hero::mp, "魔法"));
   return fs;

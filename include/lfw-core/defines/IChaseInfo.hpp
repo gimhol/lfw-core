@@ -21,7 +21,7 @@ inline const auto &chase_info_fields()
       field("stratedy", FieldKind::Int, &IChaseInfo::strategy, "策略"),
       field("flag", FieldKind::Int, &IChaseInfo::flag, "标志"),
       field("lost", FieldKind::Int, &IChaseInfo::lost, "丢失行为"),
-      field("oy", FieldKind::Float, &IChaseInfo::oy, "OY偏移"));
+      field("oy", FieldKind::Flt, &IChaseInfo::oy, "OY偏移"));
   return fs;
 }
 

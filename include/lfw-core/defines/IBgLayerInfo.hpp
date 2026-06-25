@@ -22,16 +22,16 @@ struct IBgLayerInfo
 inline const auto &bg_layer_info_fields()
 {
   static const auto fs = fields<IBgLayerInfo>(
-      field("id", FieldKind::String, &IBgLayerInfo::id, "ID"),
-      field("file", FieldKind::String, &IBgLayerInfo::file, "文件"),
-      field("width", FieldKind::Float, &IBgLayerInfo::width, "宽"),
-      field("height", FieldKind::Float, &IBgLayerInfo::height, "高"),
-      field("x", FieldKind::Float, &IBgLayerInfo::x, "X"),
-      field("y", FieldKind::Float, &IBgLayerInfo::y, "Y"),
-      field("z", FieldKind::Float, &IBgLayerInfo::z, "Z"),
-      field("w", FieldKind::Float, &IBgLayerInfo::w, "W"),
-      field("h", FieldKind::Float, &IBgLayerInfo::h, "H"),
-      field("loop", FieldKind::Float, &IBgLayerInfo::loop, "循环间隔"));
+      field("id", FieldKind::Str, &IBgLayerInfo::id, "ID"),
+      field("file", FieldKind::Str, &IBgLayerInfo::file, "文件"),
+      field("width", FieldKind::Flt, &IBgLayerInfo::width, "宽"),
+      field("height", FieldKind::Flt, &IBgLayerInfo::height, "高"),
+      field("x", FieldKind::Flt, &IBgLayerInfo::x, "X"),
+      field("y", FieldKind::Flt, &IBgLayerInfo::y, "Y"),
+      field("z", FieldKind::Flt, &IBgLayerInfo::z, "Z"),
+      field("w", FieldKind::Flt, &IBgLayerInfo::w, "W"),
+      field("h", FieldKind::Flt, &IBgLayerInfo::h, "H"),
+      field("loop", FieldKind::Flt, &IBgLayerInfo::loop, "循环间隔"));
   return fs;
 }
 

@@ -25,12 +25,12 @@ struct IVelocityInfo
 inline const auto &velocity_info_fields()
 {
   static const auto fs = fields<IVelocityInfo>(
-      field("dvx", FieldKind::Float, &IVelocityInfo::dvx, "DVX"),
-      field("dvy", FieldKind::Float, &IVelocityInfo::dvy, "DVY"),
-      field("dvz", FieldKind::Float, &IVelocityInfo::dvz, "DVZ"),
-      field("acc_x", FieldKind::Float, &IVelocityInfo::acc_x, "加速度X"),
-      field("acc_y", FieldKind::Float, &IVelocityInfo::acc_y, "加速度Y"),
-      field("acc_z", FieldKind::Float, &IVelocityInfo::acc_z, "加速度Z"),
+      field("dvx", FieldKind::Flt, &IVelocityInfo::dvx, "DVX"),
+      field("dvy", FieldKind::Flt, &IVelocityInfo::dvy, "DVY"),
+      field("dvz", FieldKind::Flt, &IVelocityInfo::dvz, "DVZ"),
+      field("acc_x", FieldKind::Flt, &IVelocityInfo::acc_x, "加速度X"),
+      field("acc_y", FieldKind::Flt, &IVelocityInfo::acc_y, "加速度Y"),
+      field("acc_z", FieldKind::Flt, &IVelocityInfo::acc_z, "加速度Z"),
       field("vxm", FieldKind::Int, &IVelocityInfo::vxm, "VX模式"),
       field("vym", FieldKind::Int, &IVelocityInfo::vym, "VY模式"),
       field("vzm", FieldKind::Int, &IVelocityInfo::vzm, "VZ模式"),

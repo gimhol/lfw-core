@@ -19,17 +19,17 @@
 
 #include "lfw-core/defines/EnumHelper.hpp"
 
-#define FIELD_KIND_ITEMS(X)                             \
-  X(FieldKind, Int, "int", "整数", = 0)                 \
-  X(FieldKind, Float, "float", "浮点", = 1)             \
-  X(FieldKind, String, "string", "字符串", = 2)         \
-  X(FieldKind, Bool, "bool", "布尔", = 3)               \
-  X(FieldKind, Strings, "string[]", "字符串数组", = 4)  \
-  X(FieldKind, Float2, "float[2]", "双精度对", = 5)     \
-  X(FieldKind, Float3, "float[3]", "双精度三元组", = 6) \
-  X(FieldKind, Map, "map", "映射", = 7)                 \
-  X(FieldKind, Variant, "variant", "变体", = 8)         \
-  X(FieldKind, Object, "object", "对象", = 9)
+#define FIELD_KIND_ITEMS(X)                         \
+  X(FieldKind, Int, "int", "整数", = 0)             \
+  X(FieldKind, Flt, "float", "浮点", = 1)           \
+  X(FieldKind, Str, "string", "字符串", = 2)        \
+  X(FieldKind, Bool, "bool", "布尔", = 3)           \
+  X(FieldKind, Strs, "string[]", "字符串数组", = 4) \
+  X(FieldKind, Flt2, "float[2]", "浮点对", = 5)     \
+  X(FieldKind, Flt3, "float[3]", "浮点三元组", = 6) \
+  X(FieldKind, Map, "map", "映射", = 7)             \
+  X(FieldKind, Var, "variant", "变体", = 8)         \
+  X(FieldKind, Obj, "object", "对象", = 9)
 
 enum class FieldKind : uint8_t
 {
@@ -71,7 +71,20 @@ struct FieldInfo
   bool array = false;
 
   // Map 约束
-  std::type_index value_type = typeid(void); // map 值类型，非 map 为 void
+  std::type_index value_type = typeid(void);  // map 值类型，非 map 为 void
+
+  // Object 约束：记录复杂对象的 C++ 具体类型，供序列化层按类型分发。
+  //
+  // 用法：在 field() 中用成员指针声明时，add_entry 自动填充 typeid(U)。
+  //       序列化层（to_json / from_json）根据此值分发：
+  //
+  //   if (info.object_type == typeid(std::optional<TNextFrame>))
+  //       { /* 序列化为 JSON 数组 */ }
+  //   else if (info.object_type == typeid(std::optional<IQubePair>))
+  //       { /* 序列化为 {left, right} */ }
+  //
+  // 新增 Object 类型时，只需在序列化函数中加 else if 分支，无需修改 FieldInfo。
+  std::type_index object_type = typeid(void);
 
   // 数值约束 (Int / Float)
   bool has_min = false;
@@ -110,8 +123,8 @@ struct CustomField;
 //
 //   auto fs = fields<Player>(
 //       field("hp", FieldKind::Int,    &Player::hp,    "生命值").min(0).max(9999),
-//       field("speed", FieldKind::Float, &Player::speed, "速度").min(0).max(100),
-//       field("name", FieldKind::String,&Player::name,  "名称")
+//       field("speed", FieldKind::Flt, &Player::speed, "速度").min(0).max(100),
+//       field("name", FieldKind::Str,&Player::name,  "名称")
 //   );
 //
 //   // 反射访问:
@@ -425,6 +438,7 @@ std::size_t Fields<T>::add_entry(FieldDef<T, U> def)
   info.max_length = def._max_length;
   info.options = std::move(def._options);
   info.value_type = typeid(typename map_traits<U>::mapped_type);
+  info.object_type = typeid(U);
 
   Getter getter = [member = def._member](const T &obj) -> std::any
   { return static_cast<U>(obj.*member); };

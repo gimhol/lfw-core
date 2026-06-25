@@ -40,15 +40,12 @@ inline const auto &cpoint_info_fields()
 {
   static const auto fs = fields<ICpointInfo>(
       field("kind", FieldKind::Int, &ICpointInfo::kind, "类型"),
-      field("x", FieldKind::Float, &ICpointInfo::x, "X"),
-      field("y", FieldKind::Float, &ICpointInfo::y, "Y"),
-      field("z", FieldKind::Float, &ICpointInfo::z, "Z"),
-      field("vaction", FieldKind::Object, [](const ICpointInfo &c) -> std::any
-            { return c.vaction; }, [](ICpointInfo &c, const std::any &val)
-            { c.vaction = std::any_cast<std::optional<TNextFrame>>(val); }, "被抓动作"),
-      field("injury", FieldKind::Int, &ICpointInfo::injury, "伤害"), field("hurtable", FieldKind::Int, &ICpointInfo::hurtable, "可受伤"), field("decrease", FieldKind::Float, &ICpointInfo::decrease, "衰减"), field("throwvx", FieldKind::Float, &ICpointInfo::throwvx, "投掷VX"), field("throwvy", FieldKind::Float, &ICpointInfo::throwvy, "投掷VY"), field("throwvz", FieldKind::Float, &ICpointInfo::throwvz, "投掷VZ"), field("throwinjury", FieldKind::Float, &ICpointInfo::throwinjury, "投掷伤害"), field("fronthurtact", FieldKind::String, &ICpointInfo::fronthurtact, "前受伤动作"), field("backhurtact", FieldKind::String, &ICpointInfo::backhurtact, "后受伤动作"), field("shaking", FieldKind::Float, &ICpointInfo::shaking, "震动"), field("indicator_info", FieldKind::Object, [](const ICpointInfo &c) -> std::any
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            { return c.indicator_info; }, [](ICpointInfo &c, const std::any &val)
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            { c.indicator_info = std::any_cast<std::optional<IQubePair>>(val); }, "指示器"));
+      field("x", FieldKind::Flt, &ICpointInfo::x, "X"),
+      field("y", FieldKind::Flt, &ICpointInfo::y, "Y"),
+      field("z", FieldKind::Flt, &ICpointInfo::z, "Z"),
+      field("vaction", FieldKind::Obj, &ICpointInfo::vaction, "被抓动作"),
+      field("injury", FieldKind::Int, &ICpointInfo::injury, "伤害"), field("hurtable", FieldKind::Int, &ICpointInfo::hurtable, "可受伤"), field("decrease", FieldKind::Flt, &ICpointInfo::decrease, "衰减"), field("throwvx", FieldKind::Flt, &ICpointInfo::throwvx, "投掷VX"), field("throwvy", FieldKind::Flt, &ICpointInfo::throwvy, "投掷VY"), field("throwvz", FieldKind::Flt, &ICpointInfo::throwvz, "投掷VZ"), field("throwinjury", FieldKind::Flt, &ICpointInfo::throwinjury, "投掷伤害"), field("fronthurtact", FieldKind::Str, &ICpointInfo::fronthurtact, "前受伤动作"), field("backhurtact", FieldKind::Str, &ICpointInfo::backhurtact, "后受伤动作"), field("shaking", FieldKind::Flt, &ICpointInfo::shaking, "震动"),
+      field("indicator_info", FieldKind::Obj, &ICpointInfo::indicator_info, "指示器"));
   return fs;
 }
 

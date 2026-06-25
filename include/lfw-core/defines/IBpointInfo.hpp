@@ -17,10 +17,10 @@ struct IBpointInfo
 inline const auto &bpoint_info_fields()
 {
   static const auto fs = fields<IBpointInfo>(
-      field("x", FieldKind::Float, &IBpointInfo::x, "X"),
-      field("y", FieldKind::Float, &IBpointInfo::y, "Y"),
-      field("z", FieldKind::Float, &IBpointInfo::z, "Z"),
-      field("r", FieldKind::Float, &IBpointInfo::r, "R"));
+      field("x", FieldKind::Flt, &IBpointInfo::x, "X"),
+      field("y", FieldKind::Flt, &IBpointInfo::y, "Y"),
+      field("z", FieldKind::Flt, &IBpointInfo::z, "Z"),
+      field("r", FieldKind::Flt, &IBpointInfo::r, "R"));
   return fs;
 }
 

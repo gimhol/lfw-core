@@ -19,8 +19,8 @@ struct IPictureInfo
 inline const auto &picture_info_fields()
 {
   static const auto fs = fields<IPictureInfo>(
-      field("id", FieldKind::String, &IPictureInfo::id, "ID"),
-      field("path", FieldKind::String, &IPictureInfo::path, "路径"),
+      field("id", FieldKind::Str, &IPictureInfo::id, "ID"),
+      field("path", FieldKind::Str, &IPictureInfo::path, "路径"),
       field("row", FieldKind::Int, &IPictureInfo::row, "行数"),
       field("col", FieldKind::Int, &IPictureInfo::col, "列数"),
       field("cell_w", FieldKind::Int, &IPictureInfo::cell_w, "格宽"));

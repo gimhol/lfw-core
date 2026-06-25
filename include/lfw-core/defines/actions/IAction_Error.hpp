@@ -24,7 +24,7 @@ struct IAction_Error : IAction_Base
 inline const auto &error_data_fields()
 {
   static const auto fs = fields<IAction_Error::Data>(
-      field("msg", FieldKind::String, &IAction_Error::Data::msg, "错误消息"));
+      field("msg", FieldKind::Str, &IAction_Error::Data::msg, "错误消息"));
   return fs;
 }
 

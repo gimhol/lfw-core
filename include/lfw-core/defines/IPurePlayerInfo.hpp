@@ -22,10 +22,10 @@ struct IPurePlayerInfo
 inline const auto &pure_player_info_fields()
 {
   static const auto fs = fields<IPurePlayerInfo>(
-      field("id", FieldKind::String, &IPurePlayerInfo::id, "ID"),
-      field("name", FieldKind::String, &IPurePlayerInfo::name, "名称"),
+      field("id", FieldKind::Str, &IPurePlayerInfo::id, "ID"),
+      field("name", FieldKind::Str, &IPurePlayerInfo::name, "名称"),
       field("keys", FieldKind::Map, &IPurePlayerInfo::keys, "按键映射"),
-      field("version", FieldKind::Float, &IPurePlayerInfo::version, "版本"),
+      field("version", FieldKind::Flt, &IPurePlayerInfo::version, "版本"),
       field("ctrl", FieldKind::Int, &IPurePlayerInfo::ctrl, "控制器"));
   return fs;
 }

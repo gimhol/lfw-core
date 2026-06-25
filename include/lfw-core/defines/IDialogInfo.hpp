@@ -19,11 +19,11 @@ struct IDialogInfo
 inline const auto &dialog_info_fields()
 {
   static const auto fs = fields<IDialogInfo>(
-      field("type", FieldKind::String, &IDialogInfo::type, "位置"),
-      field("fighter", FieldKind::String, &IDialogInfo::fighter, "说话者"),
+      field("type", FieldKind::Str, &IDialogInfo::type, "位置"),
+      field("fighter", FieldKind::Str, &IDialogInfo::fighter, "说话者"),
       field("pause", FieldKind::Bool, &IDialogInfo::pause, "暂停"),
-      field("i18n", FieldKind::String, &IDialogInfo::i18n, "文本"),
-      field("close_by", FieldKind::String, &IDialogInfo::close_by, "关闭方式"));
+      field("i18n", FieldKind::Str, &IDialogInfo::i18n, "文本"),
+      field("close_by", FieldKind::Str, &IDialogInfo::close_by, "关闭方式"));
   return fs;
 }
 

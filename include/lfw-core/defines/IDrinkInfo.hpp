@@ -19,11 +19,11 @@ struct IDrinkInfo
 inline const auto &drink_info_fields()
 {
   static const auto fs = fields<IDrinkInfo>(
-      field("id", FieldKind::String, &IDrinkInfo::id, "ID"),
-      field("name", FieldKind::String, &IDrinkInfo::name, "名称"),
-      field("hp_h_total", FieldKind::Float, &IDrinkInfo::hp_h_total, "总HP"),
-      field("mp_total", FieldKind::Float, &IDrinkInfo::mp_total, "总MP"),
-      field("hp_p", FieldKind::Float, &IDrinkInfo::hp_p, "HP百分比"));
+      field("id", FieldKind::Str, &IDrinkInfo::id, "ID"),
+      field("name", FieldKind::Str, &IDrinkInfo::name, "名称"),
+      field("hp_h_total", FieldKind::Flt, &IDrinkInfo::hp_h_total, "总HP"),
+      field("mp_total", FieldKind::Flt, &IDrinkInfo::mp_total, "总MP"),
+      field("hp_p", FieldKind::Flt, &IDrinkInfo::hp_p, "HP百分比"));
   return fs;
 }
 

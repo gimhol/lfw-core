@@ -29,7 +29,7 @@ struct IAction_Sound : IAction_Base
 inline const auto &sound_data_fields()
 {
   static const auto fs = fields<IAction_Sound::Data>(
-      field("path", FieldKind::Strings, &IAction_Sound::Data::path, "声音文件路径"));
+      field("path", FieldKind::Strs, &IAction_Sound::Data::path, "声音文件路径"));
   return fs;
 }
 

@@ -93,7 +93,7 @@ namespace string_parser
           {
           }
           break;
-        case FieldKind::Float:
+        case FieldKind::Flt:
           try
           {
             e->set(item, std::any(std::stod(v)));
@@ -102,7 +102,7 @@ namespace string_parser
           {
           }
           break;
-        case FieldKind::String:
+        case FieldKind::Str:
           e->set(item, std::any(v));
           break;
         case FieldKind::Bool:

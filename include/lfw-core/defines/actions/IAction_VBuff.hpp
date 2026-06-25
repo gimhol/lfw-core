@@ -28,8 +28,8 @@ struct IAction_VBuff : IAction_Base
 inline const auto &vbuff_data_fields()
 {
   static const auto fs = fields<IAction_VBuff::Data>(
-      field("duration", FieldKind::Float, &IAction_VBuff::Data::duration, "持续时间"),
-      field("buff", FieldKind::String, &IAction_VBuff::Data::buff, "Buff 类型"));
+      field("duration", FieldKind::Flt, &IAction_VBuff::Data::duration, "持续时间"),
+      field("buff", FieldKind::Str, &IAction_VBuff::Data::buff, "Buff 类型"));
   return fs;
 }
 

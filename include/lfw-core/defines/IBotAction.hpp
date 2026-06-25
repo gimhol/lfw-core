@@ -37,14 +37,14 @@ struct IBotAction
 inline const auto &bot_action_fields()
 {
   static const auto fs = fields<IBotAction>(
-      field("action_id", FieldKind::String, &IBotAction::action_id, "动作ID"),
-      field("desire", FieldKind::Float, &IBotAction::desire, "欲望值"),
-      field("desire_base", FieldKind::Float, &IBotAction::desire_base, "欲望基础值"),
-      field("desire_step", FieldKind::Float, &IBotAction::desire_step, "欲望步进值"),
+      field("action_id", FieldKind::Str, &IBotAction::action_id, "动作ID"),
+      field("desire", FieldKind::Flt, &IBotAction::desire, "欲望值"),
+      field("desire_base", FieldKind::Flt, &IBotAction::desire_base, "欲望基础值"),
+      field("desire_step", FieldKind::Flt, &IBotAction::desire_step, "欲望步进值"),
       field("e_ray", FieldKind::ObjectArray, &IBotAction::e_ray, "敌人射线"),
-      field("expression", FieldKind::String, &IBotAction::expression, "判定式"),
+      field("expression", FieldKind::Str, &IBotAction::expression, "判定式"),
       field("status", FieldKind::IntArray, &IBotAction::status, "Bot状态"),
-      field("keys", FieldKind::Strings, &IBotAction::keys, "按键"));
+      field("keys", FieldKind::Strs, &IBotAction::keys, "按键"));
   return fs;
 }
 

@@ -24,7 +24,7 @@ json to_json(const T &obj, const Fields<T> &fs)
     case FieldKind::Int:
       j[e.info.key] = std::any_cast<int>(val);
       break;
-    case FieldKind::Float:
+    case FieldKind::Flt:
     {
       double d = 0;
       try
@@ -38,13 +38,13 @@ json to_json(const T &obj, const Fields<T> &fs)
       j[e.info.key] = d;
       break;
     }
-    case FieldKind::String:
+    case FieldKind::Str:
       j[e.info.key] = std::any_cast<std::string>(val);
       break;
     case FieldKind::Bool:
       j[e.info.key] = std::any_cast<bool>(val);
       break;
-    case FieldKind::Strings:
+    case FieldKind::Strs:
     {
       auto &arr = std::any_cast<const std::vector<std::string> &>(val);
       j[e.info.key] = arr;
@@ -62,10 +62,46 @@ json to_json(const T &obj, const Fields<T> &fs)
       }
       break;
     }
-    case FieldKind::Object:
-      // 复杂对象：依赖具体类型的 to_json 重载递归处理
-      j[e.info.key] = "<object>";
+    case FieldKind::Obj:
+    {
+      // ============================================================
+      // FieldKind::Obj 序列化 —— 按 FieldInfo::object_type 分发
+      //
+      // object_type 在 field() 声明时由 add_entry 自动填充 typeid(U)。
+      // 序列化层无需 any_cast 猜测，直接按已知类型 switch。
+      //
+      // 新增 Object 类型步骤：
+      //   1. struct 中用成员指针声明：field("xxx", FieldKind::Obj, &T::xxx, "名称")
+      //   2. 在下方添加 else if 分支，匹配 typeid(你的类型)
+      // ============================================================
+      if (e.info.object_type == typeid(std::optional<TNextFrame>))
+      {
+        auto &opt = std::any_cast<const std::optional<TNextFrame> &>(val);
+        if (opt.has_value())
+        {
+          json arr = json::array();
+          for (const auto &nf : *opt)
+            arr.push_back({{"frames", nf.id.has_value() ? static_cast<int>(nf.id->size()) : 0}});
+          j[e.info.key] = std::move(arr);
+        }
+        else
+          j[e.info.key] = nullptr;
+      }
+      else if (e.info.object_type == typeid(std::optional<IQubePair>))
+      {
+        auto &opt = std::any_cast<const std::optional<IQubePair> &>(val);
+        if (opt.has_value())
+        {
+          j[e.info.key] = {{"left", {{"x", opt->left.x}, {"y", opt->left.y}}},
+                           {"right", {{"x", opt->right.x}, {"y", opt->right.y}}}};
+        }
+        else
+          j[e.info.key] = nullptr;
+      }
+      else
+        j[e.info.key] = "<object>";
       break;
+    }
     default:
       break;
     }
@@ -88,13 +124,13 @@ void from_json(T &obj, const json &j, const Fields<T> &fs)
       if (v.is_number_integer())
         e.set(obj, v.get<int>());
       break;
-    case FieldKind::Float:
+    case FieldKind::Flt:
       if (v.is_number_float())
         e.set(obj, v.get<double>());
       else if (v.is_number_integer())
         e.set(obj, static_cast<double>(v.get<int>()));
       break;
-    case FieldKind::String:
+    case FieldKind::Str:
       if (v.is_string())
         e.set(obj, v.get<std::string>());
       break;
@@ -102,7 +138,7 @@ void from_json(T &obj, const json &j, const Fields<T> &fs)
       if (v.is_boolean())
         e.set(obj, v.get<bool>());
       break;
-    case FieldKind::Strings:
+    case FieldKind::Strs:
       if (v.is_array())
       {
         std::vector<std::string> arr;
@@ -120,8 +156,8 @@ void from_json(T &obj, const json &j, const Fields<T> &fs)
         e.set(obj, m);
       }
       break;
-    case FieldKind::Object:
-      // 复杂对象：跳过，由具体类型自行处理
+    case FieldKind::Obj:
+      // 复杂对象：跳过反序列化，由具体类型自行处理
       break;
     default:
       break;
@@ -146,12 +182,12 @@ struct HeroStats
 static const auto &hero_fields()
 {
   static const auto fs = fields<HeroStats>(
-      field("name", FieldKind::String, &HeroStats::name, "名称"),
+      field("name", FieldKind::Str, &HeroStats::name, "名称"),
       field("level", FieldKind::Int, &HeroStats::level, "等级"),
       field("hp", FieldKind::Int, &HeroStats::hp, "生命值"),
       field("mp", FieldKind::Int, &HeroStats::mp, "魔法值"),
-      field("speed", FieldKind::Float, &HeroStats::speed, "速度"),
-      field("crit_rate", FieldKind::Float, &HeroStats::crit_rate, "暴击率"),
+      field("speed", FieldKind::Flt, &HeroStats::speed, "速度"),
+      field("crit_rate", FieldKind::Flt, &HeroStats::crit_rate, "暴击率"),
       field("is_ally", FieldKind::Bool, &HeroStats::is_ally, "友军"));
   return fs;
 }
@@ -240,10 +276,10 @@ static void test_json_schema_generation()
     case FieldKind::Int:
       prop["type"] = "integer";
       break;
-    case FieldKind::Float:
+    case FieldKind::Flt:
       prop["type"] = "number";
       break;
-    case FieldKind::String:
+    case FieldKind::Str:
       prop["type"] = "string";
       break;
     case FieldKind::Bool:
@@ -273,11 +309,11 @@ struct BotConfig
 static const auto &bot_config_fields()
 {
   static const auto fs = fields<BotConfig>(
-      field("name", FieldKind::String, &BotConfig::name, "名称"),
+      field("name", FieldKind::Str, &BotConfig::name, "名称"),
       field("keys", FieldKind::Map, [](const BotConfig &b) -> std::any
             { return b.keys; }, [](BotConfig &b, const std::any &val)
             { b.keys = std::any_cast<std::unordered_map<int, std::string>>(val); }, "按键映射"),
-      field("tags", FieldKind::Strings, &BotConfig::tags, "标签"));
+      field("tags", FieldKind::Strs, &BotConfig::tags, "标签"));
   return fs;
 }
 

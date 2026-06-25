@@ -18,11 +18,11 @@ struct IFramePictureInfo
 inline const auto &frame_picture_info_fields()
 {
   static const auto fs = fields<IFramePictureInfo>(
-      field("tex", FieldKind::String, &IFramePictureInfo::tex, "图片ID"),
-      field("x", FieldKind::Float, &IFramePictureInfo::x, "X"),
-      field("y", FieldKind::Float, &IFramePictureInfo::y, "Y"),
-      field("w", FieldKind::Float, &IFramePictureInfo::w, "宽"),
-      field("h", FieldKind::Float, &IFramePictureInfo::h, "高"));
+      field("tex", FieldKind::Str, &IFramePictureInfo::tex, "图片ID"),
+      field("x", FieldKind::Flt, &IFramePictureInfo::x, "X"),
+      field("y", FieldKind::Flt, &IFramePictureInfo::y, "Y"),
+      field("w", FieldKind::Flt, &IFramePictureInfo::w, "宽"),
+      field("h", FieldKind::Flt, &IFramePictureInfo::h, "高"));
   return fs;
 }
 

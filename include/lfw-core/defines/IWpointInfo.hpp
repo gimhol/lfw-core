@@ -24,14 +24,14 @@ inline const auto &wpoint_info_fields()
 {
   static const auto fs = fields<IWpointInfo>(
       field("kind", FieldKind::Int, &IWpointInfo::kind, "类型"),
-      field("x", FieldKind::Float, &IWpointInfo::x, "X"),
-      field("y", FieldKind::Float, &IWpointInfo::y, "Y"),
-      field("z", FieldKind::Float, &IWpointInfo::z, "Z"),
-      field("weaponact", FieldKind::String, &IWpointInfo::weaponact, "武器动作"),
-      field("attacking", FieldKind::String, &IWpointInfo::attacking, "攻击动作"),
-      field("dvx", FieldKind::Float, &IWpointInfo::dvx, "初速度X"),
-      field("dvy", FieldKind::Float, &IWpointInfo::dvy, "初速度Y"),
-      field("dvz", FieldKind::Float, &IWpointInfo::dvz, "初速度Z"));
+      field("x", FieldKind::Flt, &IWpointInfo::x, "X"),
+      field("y", FieldKind::Flt, &IWpointInfo::y, "Y"),
+      field("z", FieldKind::Flt, &IWpointInfo::z, "Z"),
+      field("weaponact", FieldKind::Str, &IWpointInfo::weaponact, "武器动作"),
+      field("attacking", FieldKind::Str, &IWpointInfo::attacking, "攻击动作"),
+      field("dvx", FieldKind::Flt, &IWpointInfo::dvx, "初速度X"),
+      field("dvy", FieldKind::Flt, &IWpointInfo::dvy, "初速度Y"),
+      field("dvz", FieldKind::Flt, &IWpointInfo::dvz, "初速度Z"));
   return fs;
 }
 

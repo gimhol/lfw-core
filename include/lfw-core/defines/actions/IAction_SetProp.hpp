@@ -28,7 +28,7 @@ struct IAction_SetProp : IAction_Base
 inline const auto &set_prop_data_fields()
 {
   static const auto fs = fields<IAction_SetProp::Data>(
-      field("name", FieldKind::String, &IAction_SetProp::Data::name, "属性名"));
+      field("name", FieldKind::Str, &IAction_SetProp::Data::name, "属性名"));
   return fs;
 }
 

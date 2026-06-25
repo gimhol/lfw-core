@@ -25,7 +25,7 @@ struct IAction_TurnTeam : IAction_Base
 inline const auto &turn_team_data_fields()
 {
   static const auto fs = fields<IAction_TurnTeam::Data>(
-      field("team", FieldKind::String, &IAction_TurnTeam::Data::team, "队伍"));
+      field("team", FieldKind::Str, &IAction_TurnTeam::Data::team, "队伍"));
   return fs;
 }
 

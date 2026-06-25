@@ -36,15 +36,15 @@ inline const auto &steal_value_data_fields()
 {
   static const auto fs = fields<IAction_StealValue::Data>(
       field("target", FieldKind::Int, &IAction_StealValue::Data::target, "目标"),
-      field("hp", FieldKind::Float, &IAction_StealValue::Data::hp, "加血"),
-      field("hp_r", FieldKind::Float, &IAction_StealValue::Data::hp_r, "加暗血"),
-      field("over_hp_r", FieldKind::Float, &IAction_StealValue::Data::over_hp_r, "允许恢复真伤"),
-      field("revive", FieldKind::Float, &IAction_StealValue::Data::revive, "允许复活"),
-      field("mp", FieldKind::Float, &IAction_StealValue::Data::mp, "加蓝"),
-      field("itr_hp_ratio", FieldKind::Float, &IAction_StealValue::Data::itr_hp_ratio, "吸血比例"),
-      field("itr_hp_r_ratio", FieldKind::Float, &IAction_StealValue::Data::itr_hp_r_ratio, "吸暗血比例"),
-      field("itr_mp_ratio", FieldKind::Float, &IAction_StealValue::Data::itr_mp_ratio, "吸蓝比例"),
-      field("over_injury", FieldKind::Float, &IAction_StealValue::Data::over_injury, "允许超伤"));
+      field("hp", FieldKind::Flt, &IAction_StealValue::Data::hp, "加血"),
+      field("hp_r", FieldKind::Flt, &IAction_StealValue::Data::hp_r, "加暗血"),
+      field("over_hp_r", FieldKind::Flt, &IAction_StealValue::Data::over_hp_r, "允许恢复真伤"),
+      field("revive", FieldKind::Flt, &IAction_StealValue::Data::revive, "允许复活"),
+      field("mp", FieldKind::Flt, &IAction_StealValue::Data::mp, "加蓝"),
+      field("itr_hp_ratio", FieldKind::Flt, &IAction_StealValue::Data::itr_hp_ratio, "吸血比例"),
+      field("itr_hp_r_ratio", FieldKind::Flt, &IAction_StealValue::Data::itr_hp_r_ratio, "吸暗血比例"),
+      field("itr_mp_ratio", FieldKind::Flt, &IAction_StealValue::Data::itr_mp_ratio, "吸蓝比例"),
+      field("over_injury", FieldKind::Flt, &IAction_StealValue::Data::over_injury, "允许超伤"));
   return fs;
 }
 

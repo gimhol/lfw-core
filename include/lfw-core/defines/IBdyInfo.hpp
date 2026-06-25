@@ -24,16 +24,16 @@ struct IBdyInfo : IQube
 inline const auto &bdy_info_fields()
 {
   static const auto fs = fields<IBdyInfo>(
-      field("id", FieldKind::String, &IBdyInfo::id, "ID"),
-      field("name", FieldKind::String, &IBdyInfo::name, "名称"),
+      field("id", FieldKind::Str, &IBdyInfo::id, "ID"),
+      field("name", FieldKind::Str, &IBdyInfo::name, "名称"),
       field("hit_flag", FieldKind::Int, &IBdyInfo::hit_flag, "碰撞标记"),
       field("kind", FieldKind::Int, &IBdyInfo::kind, "类型"),
-      field("x", FieldKind::Float, &IBdyInfo::x, "X"),
-      field("y", FieldKind::Float, &IBdyInfo::y, "Y"),
-      field("w", FieldKind::Float, &IBdyInfo::w, "宽"),
-      field("h", FieldKind::Float, &IBdyInfo::h, "高"),
-      field("z", FieldKind::Float, &IBdyInfo::z, "Z"),
-      field("l", FieldKind::Float, &IBdyInfo::l, "长"));
+      field("x", FieldKind::Flt, &IBdyInfo::x, "X"),
+      field("y", FieldKind::Flt, &IBdyInfo::y, "Y"),
+      field("w", FieldKind::Flt, &IBdyInfo::w, "宽"),
+      field("h", FieldKind::Flt, &IBdyInfo::h, "高"),
+      field("z", FieldKind::Flt, &IBdyInfo::z, "Z"),
+      field("l", FieldKind::Flt, &IBdyInfo::l, "长"));
   return fs;
 }
 

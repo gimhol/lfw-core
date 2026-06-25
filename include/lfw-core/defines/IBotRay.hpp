@@ -23,13 +23,13 @@ struct IBotRay
 inline const auto &bot_ray_fields()
 {
   static const auto fs = fields<IBotRay>(
-      field("x", FieldKind::Float, &IBotRay::x, "射线向量X"),
-      field("z", FieldKind::Float, &IBotRay::z, "射线向量Z"),
-      field("min_x", FieldKind::Float, &IBotRay::min_x, "最小X距离"),
-      field("max_x", FieldKind::Float, &IBotRay::max_x, "最大X距离"),
-      field("min_z", FieldKind::Float, &IBotRay::min_z, "最小Z距离"),
-      field("max_z", FieldKind::Float, &IBotRay::max_z, "最大Z距离"),
-      field("max_d", FieldKind::Float, &IBotRay::max_d, "投影距离平方最大值"),
+      field("x", FieldKind::Flt, &IBotRay::x, "射线向量X"),
+      field("z", FieldKind::Flt, &IBotRay::z, "射线向量Z"),
+      field("min_x", FieldKind::Flt, &IBotRay::min_x, "最小X距离"),
+      field("max_x", FieldKind::Flt, &IBotRay::max_x, "最大X距离"),
+      field("min_z", FieldKind::Flt, &IBotRay::min_z, "最小Z距离"),
+      field("max_z", FieldKind::Flt, &IBotRay::max_z, "最大Z距离"),
+      field("max_d", FieldKind::Flt, &IBotRay::max_d, "投影距离平方最大值"),
       field("reverse", FieldKind::Bool, &IBotRay::reverse, "反转判定"));
   return fs;
 }

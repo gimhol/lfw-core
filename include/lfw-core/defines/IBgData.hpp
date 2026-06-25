@@ -25,9 +25,9 @@ struct IBgData
 inline const auto &bg_data_fields()
 {
   static const auto fs = fields<IBgData>(
-      field("id", FieldKind::String, &IBgData::id, "ID"),
-      field("alias_id", FieldKind::String, &IBgData::alias_id, "别名ID"),
-      field("type", FieldKind::String, &IBgData::type, "类型"),
+      field("id", FieldKind::Str, &IBgData::id, "ID"),
+      field("alias_id", FieldKind::Str, &IBgData::alias_id, "别名ID"),
+      field("type", FieldKind::Str, &IBgData::type, "类型"),
       field("base", FieldKind::Map, // 嵌套对象，自定义序列化
             [](const IBgData &b) -> std::any
             { return b.base; }, [](IBgData &b, const std::any &val)

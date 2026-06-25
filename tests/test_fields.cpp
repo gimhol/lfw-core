@@ -21,10 +21,10 @@ struct TestConfig
 static const auto &test_fields()
 {
   static const auto fs = fields<TestConfig>(
-      field("name", FieldKind::String, &TestConfig::name, "名称"),
+      field("name", FieldKind::Str, &TestConfig::name, "名称"),
       field("hp", FieldKind::Int, &TestConfig::hp, "生命"),
-      field("speed", FieldKind::Float, &TestConfig::speed, "速度"),
-      field("crit", FieldKind::Float, &TestConfig::crit, "暴击率"),
+      field("speed", FieldKind::Flt, &TestConfig::speed, "速度"),
+      field("crit", FieldKind::Flt, &TestConfig::crit, "暴击率"),
       field("active", FieldKind::Bool, &TestConfig::active, "激活"));
   return fs;
 }

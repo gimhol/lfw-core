@@ -27,20 +27,20 @@ struct IItrInfo : IQube
 inline const auto &itr_info_fields()
 {
   static const auto fs = fields<IItrInfo>(
-      field("id", FieldKind::String, &IItrInfo::id, "ID"),
+      field("id", FieldKind::Str, &IItrInfo::id, "ID"),
       field("hit_flag", FieldKind::Int, &IItrInfo::hit_flag, "碰撞标记"),
       field("kind", FieldKind::Int, &IItrInfo::kind, "类型"),
       field("effect", FieldKind::Int, &IItrInfo::effect, "效果"),
-      field("fall", FieldKind::Float, &IItrInfo::fall, "击倒值"),
-      field("vrest", FieldKind::Float, &IItrInfo::vrest, "速度衰减"),
-      field("bdefend", FieldKind::Float, &IItrInfo::bdefend, "破防值"),
-      field("injury", FieldKind::Float, &IItrInfo::injury, "伤害"),
-      field("zwidth", FieldKind::Float, &IItrInfo::zwidth, "Z宽度"),
-      field("x", FieldKind::Float, &IItrInfo::x, "X"),
-      field("y", FieldKind::Float, &IItrInfo::y, "Y"),
-      field("w", FieldKind::Float, &IItrInfo::w, "宽"),
-      field("h", FieldKind::Float, &IItrInfo::h, "高"),
-      field("z", FieldKind::Float, &IItrInfo::z, "Z"));
+      field("fall", FieldKind::Flt, &IItrInfo::fall, "击倒值"),
+      field("vrest", FieldKind::Flt, &IItrInfo::vrest, "速度衰减"),
+      field("bdefend", FieldKind::Flt, &IItrInfo::bdefend, "破防值"),
+      field("injury", FieldKind::Flt, &IItrInfo::injury, "伤害"),
+      field("zwidth", FieldKind::Flt, &IItrInfo::zwidth, "Z宽度"),
+      field("x", FieldKind::Flt, &IItrInfo::x, "X"),
+      field("y", FieldKind::Flt, &IItrInfo::y, "Y"),
+      field("w", FieldKind::Flt, &IItrInfo::w, "宽"),
+      field("h", FieldKind::Flt, &IItrInfo::h, "高"),
+      field("z", FieldKind::Flt, &IItrInfo::z, "Z"));
   return fs;
 }
 
