@@ -2,6 +2,7 @@
 #define LFW_CORE_BUFF_BUFF_ELECTROSHOCK_H
 
 #include "lfw-core/buff/Buff.h"
+#include "lfw-core/entity/type_check.h"
 
 LFW_NS_BEGIN
 
