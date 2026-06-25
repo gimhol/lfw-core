@@ -3,71 +3,37 @@
 
 #include <cstdint>
 #include <optional>
+#include <string>
 #include <string_view>
 #include <unordered_map>
 
+#include "EnumHelper.hpp"
+
+#define ENUM_ITEMS(X)                                                \
+  X(StageVal, EnemiesCleared, "enemies_cleared", "敌人已清除", = 0)  \
+  X(StageVal, DialogCleared, "dialog_cleared", "对话已清除", = 1)    \
+  X(StageVal, CurPhaseTime, "cur_phase_time", "当前阶段时间", = 2)   \
+  X(StageVal, CurDialogTime, "cur_dialog_time", "当前对话时间", = 3) \
+  X(StageVal, PressAttack, "press_attack", "按下攻击", = 4)          \
+  X(StageVal, PressJump, "press_jump", "按下跳跃", = 5)              \
+  X(StageVal, PressDefend, "press_defend", "按下防御", = 6)          \
+  X(StageVal, PressUp, "press_up", "按下上", = 7)                    \
+  X(StageVal, PressDown, "press_down", "按下下", = 8)                \
+  X(StageVal, PressLeft, "press_left", "按下左", = 9)                \
+  X(StageVal, PressRight, "press_right", "按下右", = 10)             \
+  X(StageVal, Broadcast, "broadcast", "广播", = 11)
+
 enum class StageVal : uint8_t
 {
-  EnemiesCleared,
-  DialogCleared,
-  CurPhaseTime,
-  CurDialogTime,
-  PressAttack,
-  PressJump,
-  PressDefend,
-  PressUp,
-  PressDown,
-  PressLeft,
-  PressRight,
-  Broadcast
+  ENUM_ITEMS(ENUM_ITEM)
 };
-
-inline std::string_view stage_val_to_string(StageVal v)
-{
-  switch (v)
-  {
-  case StageVal::EnemiesCleared:
-    return "enemies_cleared";
-  case StageVal::DialogCleared:
-    return "dialog_cleared";
-  case StageVal::CurPhaseTime:
-    return "cur_phase_time";
-  case StageVal::CurDialogTime:
-    return "cur_dialog_time";
-  case StageVal::PressAttack:
-    return "press_attack";
-  case StageVal::PressJump:
-    return "press_jump";
-  case StageVal::PressDefend:
-    return "press_defend";
-  case StageVal::PressUp:
-    return "press_up";
-  case StageVal::PressDown:
-    return "press_down";
-  case StageVal::PressLeft:
-    return "press_left";
-  case StageVal::PressRight:
-    return "press_right";
-  case StageVal::Broadcast:
-    return "broadcast";
-  }
-  return "";
-}
-
-inline std::optional<StageVal> stage_val_from_string(std::string_view s)
-{
-  static const auto m = []
-  {
-    std::unordered_map<std::string_view, StageVal> r;
-    for (uint8_t i = 0; i <= static_cast<uint8_t>(StageVal::Broadcast); ++i)
-    {
-      auto v = static_cast<StageVal>(i);
-      r[stage_val_to_string(v)] = v;
-    }
-    return r;
-  }();
-  auto it = m.find(s);
-  return it != m.end() ? std::optional{it->second} : std::nullopt;
-}
-
+constexpr auto StageVal_MIN = StageVal::EnemiesCleared;
+constexpr auto StageVal_MAX = StageVal::Broadcast;
+GEN_ENUM_STR_MAP(StageValStringMap, ENUM_ITEMS, StageVal)
+GEN_ENUM_NAME_MAP(StageValNameMap, ENUM_ITEMS, StageVal)
+GEN_ENUM_DESC_MAP(StageValDescMap, ENUM_ITEMS, StageVal)
+#undef ENUM_ITEMS
+DEFINE_ENUM_STR_CONVERTERS(stage_val_to_string, stage_val_from_string, StageVal, StageValStringMap)
+DEFINE_ENUM_STR_CONVERTERS(stage_val_to_name, stage_val_from_name, StageVal, StageValNameMap)
+DEFINE_ENUM_TO_STR(stage_val_to_desc, StageVal, StageValDescMap)
 #endif // LFW_CORE_DEFINES_STAGEVAL_HPP
