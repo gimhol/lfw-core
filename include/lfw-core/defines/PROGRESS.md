@@ -15,9 +15,9 @@
 | 类别 | TS 文件数 | ✅ 已完成 | ⚠️ 部分完成 | ❌ 未转换 |
 | --- | --- | --- | --- | --- |
 | 枚举 (Enum) | 44 | 42 (95%) | 2 (5%) | 1 (2%) |
-| 接口 (Interface) | 59 | 41 (69%) | 7 (12%) | 9 (15%) |
-| 特殊/工具文件 | 4 | 1 (25%) | 1 (25%) | 2 (50%) |
-| **合计** | **107** | **84 (79%)** | **10 (9%)** | **12 (11%)** |
+| 接口 (Interface) | 59 | 50 (85%) | 7 (12%) | 0 (0%) |
+| 特殊/工具文件 | 4 | 3 (75%) | 1 (25%) | 0 (0%) |
+| **合计** | **107** | **95 (89%)** | **10 (9%)** | **1 (1%)** |
 
 > Action 动作接口子目录：**17/17 文件 ✅ 全部完成**（详见 [actions/PROGRESS.md](actions/PROGRESS.md)）
 
@@ -134,6 +134,15 @@
 | 39 | `ICpointInfo.ts` | `interface ICpointInfo` | 16 | `ICpointInfo.hpp` | 完整转换；新增 `vaction`(TNextFrame) + `indicator_info`(IQubePair)；含 `cpoint_info_fields()` |
 | 40 | `IDrinkInfo.ts` | `interface IDrinkInfo` | 11 | `IDrinkInfo.hpp` | 完整转换，含 id, name, hp_h_total/value/ticks, hp_r_total/value/ticks, mp_h_total/value/ticks；含 `drink_info_fields()` |
 | 41 | `IBotData.ts` | `interface IBotData` | 6 | `IBotData.hpp` | Bot 数据，含 id/oid/actions(states/frames)/dataset，含 `bot_data_fields()` |
+| 42 | `IDataLists.ts` | `IDataLists` + `ITempDataLists` | 4+4 | `IDataLists.hpp` | 数据索引列表；ITempDataLists 继承自 IDatIndex/ITempDatIndex |
+| 43 | `IDatContext.ts` | `interface IDatContext` | 5 | `IDatContext.hpp` | 数据上下文，含 index/base/text/frames/data |
+| 44 | `IEntityData.ts` | `IEntityData` + `TItrPrefabs` + `TBdyPrefabs` | 9 | `IEntityData.hpp` | 核心实体数据，继承 IBaseData；含 TItrPrefabs/TBdyPrefabs using 别名 |
+| 45 | `IFrameIndexes.ts` | `interface IFrameIndexes` | ~18 | `IFrameIndexes.hpp` | 帧索引；含 TFrameIdPair/TFrameIdListPair using 别名 |
+| 46 | `IFullGameZipInfo.ts` | 4 个 ZIP 接口 | 4-7 | `IFullGameZipInfo.hpp` | IBaseZipInfo + 3 个子类 (Game/Prel/Data) |
+| 47 | `ILegacyPictureInfo.ts` | `interface ILegacyPictureInfo extends IPictureInfo` | 7 | `ILegacyPictureInfo.hpp` | 旧版图片，继承 IPictureInfo，含 `legacy_picture_info_fields()` |
+| 48 | `IQubePair.ts` | `interface IQubePair extends IPairByFace<IQube>` | 2 | `IQubePair.hpp` | `using IQubePair = IPairByFace<IQube>` |
+| 49 | `IRectPair.ts` | `interface IRectPair extends IPairByFace<IRect>` | 2 | `IRectPair.hpp` | `using IRectPair = IPairByFace<IRect>` |
+| 50 | `IStyle.ts` | `interface IStyle` | ~28 | `IStyle.hpp` | Canvas 渲染样式 |
 
 ### ⚠️ 部分完成 (7)
 
@@ -147,19 +156,9 @@
 | 6 | `IOpointInfo.ts` | `IOpointMulti`(4字段) + `IOpointInfo`(~15字段) | `IOpointInfo.hpp` | ❌ name, origin_type, action(TNextFrame), IOpointMulti 字段, facing 相关字段 |
 | 7 | `IStageObjectInfo.ts` | `interface IStageObjectInfo` (~20字段) | `IStageObjectInfo.hpp` | ❌ hp_map, mp_map, times, ratio, is_boss, is_soldier, reserve, join, join_team, outline_color |
 
-### ❌ 未转换 (9)
+### ❌ 未转换 (0)
 
-| # | TS 文件 | TS 导出 | 优先级 | 说明 |
-| --- | --- | --- | --- | --- |
-| 1 | `IDataLists.ts` | `IDataLists` + `ITempDataLists` (各4字段) | 高 | 数据列表结构 |
-| 2 | `IDatContext.ts` | `interface IDatContext` (5字段) | 中 | 数据上下文 |
-| 3 | `IEntityData.ts` | `IEntityData` + `TItrPrefabs` + `TBdyPrefabs` (9字段) | ⭐关键 | 核心实体数据结构；TS 有 entity_data_new() |
-| 4 | `IFrameIndexes.ts` | `interface IFrameIndexes` (~20字段) | 高 | TS 有 frame_indexes_new() |
-| 5 | `IFullGameZipInfo.ts` | `IBaseZipInfo`,`IGameZipInfo`,`IPrelZipInfo`,`IDataZipInfo`,`IAnyZipInfo` | 低 | ZIP 信息类型 |
-| 6 | `ILegacyPictureInfo.ts` | `interface ILegacyPictureInfo extends IPictureInfo` (+5字段) | 低 | TS 有 legacy_picture_info_fields |
-| 7 | `IQubePair.ts` | `interface IQubePair extends IPairByFace<IQube>` | 中 | Qube 对类型 |
-| 8 | `IRectPair.ts` | `interface IRectPair extends IPairByFace<IRect>` | 中 | Rect 对类型 |
-| 9 | `IStyle.ts` | `interface IStyle` (~28字段) | 低 | Canvas 渲染样式 |
+> 🎉 所有接口文件已完成转换！
 
 ---
 
@@ -169,8 +168,8 @@
 | --- | --- | --- | --- | --- | --- |
 | 1 | `index.ts` | Barrel re-exports (105 行) | `EnumTypes.hpp` | ✅ 完成 | 聚合头文件，包含所有枚举头文件 |
 | 2 | `defines.ts` | `namespace Defines` (~60 常量、类型、VOID_BG, RANDOM_BG, VOID_STAGE, CheatInfos, Sounds 等) | `Defines.hpp` | ⚠️ 部分 | C++ 有: DATA_VERSION, 屏幕尺寸, 武器弹跳表, fall 值, armor 默认值, AI 常量, spreading 数组, Sounds, BuiltIn_*, Teams, TeamInfoMap, CheatInfo。缺少: VOID_BG, RANDOM_BG, VOID_STAGE, NEXT_FRAME_* 常量, DifficultyLabels, CheatInfos map |
-| 3 | `EMPTY_FRAME_INFO.ts` | `const EMPTY_FRAME_INFO: IFrameInfo` | — | ❌ 未转换 | 帧信息常量 |
-| 4 | `GONE_FRAME_INFO.ts` | `const GONE_FRAME_INFO: IFrameInfo` | — | ❌ 未转换 | 帧信息常量 |
+| 3 | `EMPTY_FRAME_INFO.ts` | `const EMPTY_FRAME_INFO: IFrameInfo` | `EMPTY_FRAME_INFO.hpp` | ✅ 完成 | 空帧常量；⚠️ 受限于简化版 IFrameInfo，部分 TS 字段暂缺 |
+| 4 | `GONE_FRAME_INFO.ts` | `const GONE_FRAME_INFO: IFrameInfo` | `GONE_FRAME_INFO.hpp` | ✅ 完成 | 消失帧常量；⚠️ 受限于简化版 IFrameInfo，部分 TS 字段暂缺 |
 | — | *(C++ only)* | — | `EnumHelper.hpp` | ✅ | X-macro 辅助宏 (GEN_ENUM_STR_MAP, DEFINE_ENUM_STR_CONVERTERS 等)，TS 无需对应 |
 
 ---
@@ -189,7 +188,6 @@
 
 | 优先级 | TS 文件 | 原因 |
 | --- | --- | --- |
-| ⭐⭐⭐ | `IEntityData.ts` | 核心实体数据模板，所有角色数据的基础 |
 | ⭐⭐⭐ | `INextFrame.ts` | 核心帧过渡逻辑 |
 | ⭐⭐⭐ | `IFrameInfo.ts` | 帧信息极度简化，C++ 仅 6/30 字段 |
 
@@ -197,11 +195,8 @@
 
 | TS 文件 | 原因 |
 | --- | --- |
-| `IBgData.ts` | 背景数据 |
 | `IBotAction.ts` | Bot 系统 |
-| `IDataLists.ts`, `IDataMap.ts` | 数据管理 |
-| `IDatIndex.ts` | 数据索引 |
-| `IFrameIndexes.ts` | 帧索引 |
+| `IDataMap.ts` | 数据管理 |
 | `IHitKeyCollection.ts`, `IHoldKeyCollection.ts` | 按键映射 |
 | `IItrInfo.ts` (完善) | 交互信息缺失大量字段 |
 
@@ -210,10 +205,7 @@
 | TS 文件 | 原因 |
 | --- | --- |
 | `IBaseData.ts` | 泛型接口 |
-| `IBotDataSet.ts`, `IBotRay.ts` | Bot 系统 |
-| `IDatContext.ts` | 数据上下文 |
 | `IPairByFace.ts` | 被多处使用的泛型 |
-| `IQubePair.ts`, `IRectPair.ts` | 泛型对类型 |
 | IVector 系列 (2/2Like/3/3Like/4Like) | 数学向量 |
 
 ### ⚪ 低优先级
@@ -221,12 +213,7 @@
 | TS 文件 | 原因 |
 | --- | --- |
 | `LF2Val.ts` | 仅 1 个值 |
-| `IBounding.ts` | 简单包围盒 |
-| `IFullGameZipInfo.ts` | ZIP 信息 |
-| `ILegacyPictureInfo.ts` | 遗留图片 |
 | `IPicture.ts` | 图片接口 |
-| `IStyle.ts` | Canvas 样式 |
-| `EMPTY_FRAME_INFO.ts`, `GONE_FRAME_INFO.ts` | 常量数据 |
 
 ---
 
