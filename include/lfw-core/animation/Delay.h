@@ -1,7 +1,7 @@
-#ifndef LFW_CORE_ANIMATION_DELAY_HPP
-#define LFW_CORE_ANIMATION_DELAY_HPP
+#ifndef LFW_CORE_ANIMATION_DELAY_H
+#define LFW_CORE_ANIMATION_DELAY_H
 
-#include "lfw-core/animation/Animation.hpp"
+#include "lfw-core/animation/Animation.h"
 
 LFW_NS_BEGIN
 
@@ -23,4 +23,4 @@ public:
 
 LFW_NS_END
 
-#endif // LFW_CORE_ANIMATION_DELAY_HPP
+#endif

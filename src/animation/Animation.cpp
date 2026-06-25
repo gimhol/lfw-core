@@ -1,4 +1,4 @@
-#include "lfw-core/animation/Animation.hpp"
+#include "lfw-core/animation/Animation.h"
 
 #include <algorithm>
 #include <cmath>
@@ -7,9 +7,16 @@
 
 LFW_NS_BEGIN
 
-// ============================================================
-// IAnimation 接口实现
-// ============================================================
+// ---- 静态 ----
+
+const char *Animation::tag() { return "Animation"; }
+
+// ---- IAnimation 接口 getters/setters ----
+
+double Animation::value() const { return _value; }
+void Animation::set_value(double v) { _value = v; }
+
+double Animation::duration() const { return _duration; }
 
 void Animation::set_duration(double v)
 {
@@ -17,19 +24,21 @@ void Animation::set_duration(double v)
   _time = math::clamp(_time, 0.0, _duration);
 }
 
+double Animation::time() const { return _time; }
+
 void Animation::set_time(double v)
 {
   _time = math::clamp(v, 0.0, _duration);
 }
+
+bool Animation::reverse() const { return _direction == -1; }
 
 void Animation::set_reverse(bool v)
 {
   _direction = v ? -1 : 1;
 }
 
-// ============================================================
-// 核心方法
-// ============================================================
+// ---- 扩展 getters/setters ----
 
 bool Animation::done() const
 {
@@ -38,17 +47,34 @@ bool Animation::done() const
   return _loop.done();
 }
 
+int Animation::fill_mode() const { return _fill_mode; }
+
 void Animation::set_fill_mode(int v)
 {
   if (v == 1 || v == 0)
     _fill_mode = v;
 }
 
+int Animation::count() const { return _loop.count(); }
+void Animation::set_count(int v) { _loop.set_count(v); }
+
+int Animation::times() const { return _loop.times(); }
+void Animation::set_times(int v) { _loop.set_times(v); }
+
+int Animation::direction() const { return _direction; }
+
 void Animation::set_direction(int v)
 {
   if (v == -1 || v == 1)
     _direction = v;
 }
+
+Loop &Animation::loop() { return _loop; }
+const Loop &Animation::loop() const { return _loop; }
+
+// ---- 核心方法 ----
+
+Animation &Animation::start() { return start(reverse()); }
 
 Animation &Animation::start(bool reverse_val)
 {

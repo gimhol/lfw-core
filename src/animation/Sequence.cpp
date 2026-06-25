@@ -1,6 +1,30 @@
-#include "lfw-core/animation/Sequence.hpp"
+#include "lfw-core/animation/Sequence.h"
 
 LFW_NS_BEGIN
+
+const char *Sequence::tag() { return "Sequence"; }
+
+Sequence::Sequence(std::initializer_list<std::shared_ptr<Animation>> anims)
+{
+  for (auto &a : anims)
+    add(a);
+}
+
+void Sequence::add(std::shared_ptr<Animation> anim)
+{
+  _anims.push_back(std::move(anim));
+  recompute_duration();
+}
+
+const std::vector<std::shared_ptr<Animation>> &Sequence::anims() const
+{
+  return _anims;
+}
+
+std::shared_ptr<Animation> Sequence::curr_anim() const
+{
+  return _curr_anim;
+}
 
 void Sequence::recompute_duration()
 {

@@ -1,5 +1,5 @@
-#ifndef LFW_CORE_ANIMATION_IANIMATION_HPP
-#define LFW_CORE_ANIMATION_IANIMATION_HPP
+#ifndef LFW_CORE_ANIMATION_IANIMATION_H
+#define LFW_CORE_ANIMATION_IANIMATION_H
 
 #include "lfw-core/core.hpp"
 
@@ -51,4 +51,4 @@ struct IAnimation
 
 LFW_NS_END
 
-#endif // LFW_CORE_ANIMATION_IANIMATION_HPP
+#endif

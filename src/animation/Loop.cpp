@@ -1,19 +1,34 @@
-#include "lfw-core/animation/Loop.hpp"
+#include "lfw-core/animation/Loop.h"
 
 #include <algorithm>
-#include <cmath>
 #include <limits>
 
 LFW_NS_BEGIN
+
+int Loop::count() const { return _count; }
 
 void Loop::set_count(int v)
 {
   _count = std::clamp(v, 0, _times);
 }
 
+Loop &Loop::set_count_chain(int v)
+{
+  set_count(v);
+  return *this;
+}
+
+int Loop::times() const { return _times; }
+
 void Loop::set_times(int v)
 {
   _times = std::clamp(v, 0, std::numeric_limits<int>::max());
+}
+
+Loop &Loop::set_times_chain(int v)
+{
+  set_times(v);
+  return *this;
 }
 
 Loop &Loop::set(int count_val, int times_val)

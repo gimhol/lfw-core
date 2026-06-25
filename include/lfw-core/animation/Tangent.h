@@ -1,10 +1,10 @@
-#ifndef LFW_CORE_ANIMATION_TANGENT_HPP
-#define LFW_CORE_ANIMATION_TANGENT_HPP
+#ifndef LFW_CORE_ANIMATION_TANGENT_H
+#define LFW_CORE_ANIMATION_TANGENT_H
 
 #include <cmath>
 #include <numbers>
 
-#include "lfw-core/animation/Periodic.hpp"
+#include "lfw-core/animation/Periodic.h"
 
 LFW_NS_BEGIN
 
@@ -27,4 +27,4 @@ public:
 
 LFW_NS_END
 
-#endif // LFW_CORE_ANIMATION_TANGENT_HPP
+#endif

@@ -130,16 +130,22 @@ DEFINE_ENUM_STR_CONVERTERS(my_to_string, my_from_string, MyEnum, MyStrMap)
 > 文件名和 `#include` 路径必须**严格保持与 TS 源文件一致的大小写**，因为 Linux/macOS 文件系统区分大小写。
 > 使用 `git mv` 进行重命名以确保版本控制正确追踪。
 
-### 5. 头文件保护
+### 5. 头文件格式与保护
+
+**文件扩展名**：统一使用 `.h`（不使用 `.hpp`）。若某 class/struct 同时有 `.h` 和 `.cpp`，则：
+
+- `.h` 中**仅保留声明**（成员函数声明、成员变量声明）
+- `.cpp` 中放置**所有函数实现**（包括之前内联在头文件的简单 getter/setter）
 
 ```cpp
-#ifndef LFW_CORE_DEFINES_IFOO_HPP
-#define LFW_CORE_DEFINES_IFOO_HPP
+// ===== Foo.h（仅声明）=====
+#ifndef LFW_CORE_DEFINES_IFOO_H
+#define LFW_CORE_DEFINES_IFOO_H
 // ...
 #endif
 ```
 
-命名规则: `LFW_CORE_<目录大写>_<文件名大写>_HPP`
+命名规则: `LFW_CORE_<目录大写>_<文件名大写>_H`
 
 ### 6. Class 转换：Pimpl 模式
 
