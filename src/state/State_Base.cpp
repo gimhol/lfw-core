@@ -1,7 +1,9 @@
 #include "lfw-core/state/State_Base.hpp"
 
+#include "lfw-core/defines/Defines.hpp"
 #include "lfw-core/defines/StateType.hpp"
 #include "lfw-core/entity/Entity.hpp"
+#include "lfw-core/state/spawn_buring_smoke.hpp"
 
 LFW_NS_BEGIN
 
@@ -27,7 +29,7 @@ void State_Base::leave(Entity &e, const IFrameInfo & /*next_frame*/)
   switch (state)
   {
   case StateType::HealSelf:
-    e.set_healing(STATE_HEAL_SELF_HP);
+    e.set_healing(Defines::STATE_HEAL_SELF_HP);
     break;
   default:
     break;

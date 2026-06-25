@@ -6,14 +6,15 @@
 #include <variant>
 #include <vector>
 
+#include "IFrameInfo.hpp"
 #include "IVelocityInfo.hpp"
 #include "lfw-core/base/Fields.hpp"
 
-// 前向声明
-struct IFrameInfo;
-
 /// StrOrNum — 字符串或数字
 using StrOrNum = std::variant<std::string, double>;
+
+// 前向声明（TNextFrame 在 struct 定义之前需要）
+struct INextFrame;
 
 /// TNextFrame — 帧过渡数组
 /// @note TS: `INextFrame | INextFrame[]`，C++ 简化为 `vector<INextFrame>`（单元素 = 1 项数组）

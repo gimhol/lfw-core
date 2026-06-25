@@ -71,7 +71,7 @@ struct FieldInfo
   bool array = false;
 
   // Map 约束
-  std::type_index value_type = typeid(void);  // map 值类型，非 map 为 void
+  std::type_index value_type = typeid(void); // map 值类型，非 map 为 void
 
   // Object 约束：记录复杂对象的 C++ 具体类型，供序列化层按类型分发。
   //
@@ -391,7 +391,9 @@ struct CustomField
 };
 
 /// field() — 自定义 getter/setter，G/S 从 lambda 推导
-template <typename G, typename S>
+/// 仅当 G 不是成员指针时启用（避免与成员指针版本冲突）
+template <typename G, typename S,
+          typename = std::enable_if_t<!std::is_member_pointer_v<G>>>
 CustomField field(std::string key, FieldKind kind,
                   G getter, S setter, std::string title = "")
 {

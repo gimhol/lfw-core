@@ -5,6 +5,9 @@
 #include <string>
 
 #include "IRect.hpp"
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
 
 /// IOpointInfo — 生成物信息
 struct IOpointInfo : IQube
@@ -23,5 +26,7 @@ struct IOpointInfo : IQube
   std::optional<int> count;
   std::optional<std::string> test;
 };
+
+LFW_NS_END
 
 #endif

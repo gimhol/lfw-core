@@ -2,6 +2,7 @@
 #define LFW_CORE_ENTITY_ENTITY_HPP
 
 #include <cstdint>
+#include <string>
 #include <vector>
 
 #include "lfw-core/defines/StateType.hpp"
@@ -13,6 +14,7 @@ namespace lfw
   struct IFrameInfo;
   struct INextFrame;
   struct IVector3;
+  struct LFW;
 
   /// Entity — 实体基类（虚类），对应 TS Entity 的核心接口
   /// 只暴露 State_Base 等状态系统所需的最小接口
@@ -34,6 +36,16 @@ namespace lfw
 
     /** 当前状态 */
     virtual StateType state() const = 0;
+
+    // === 游戏上下文 ===
+
+    /** 游戏上下文（含 mt 随机数生成器） */
+    virtual LFW *lfw() const { return nullptr; }
+
+    // === 帧几何（spawn_buring_smoke 等需要） ===
+
+    /** 当前帧信息 */
+    virtual const IFrameInfo &current_frame() const = 0;
 
     // === 状态系统所需方法 ===
 

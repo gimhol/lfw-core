@@ -9,10 +9,8 @@
 
 #include "lfw-core/defines/IExpression.hpp"
 #include "lfw-core/defines/Difficulty.hpp"
-
-// 前向声明
-struct IStageObjectInfo;
-struct IDialogInfo;
+#include "lfw-core/defines/IDialogInfo.hpp"
+#include "lfw-core/defines/IStageObjectInfo.hpp"
 
 /// StageSoundInfo — 关卡音效信息
 struct StageSoundInfo

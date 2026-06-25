@@ -214,6 +214,7 @@ namespace Defines
       "VOID_STAGE",                   // id
       "VOID_BG",                      // bg
       "VOID_STAGE",                   // name
+      {},                             // phases (empty)
       std::nullopt,                   // chapter
       std::nullopt,                   // next
       std::nullopt,                   // cond_end

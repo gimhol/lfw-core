@@ -12,4 +12,12 @@ struct IExpression
   virtual bool run(const T &arg) = 0;
 };
 
+/// void 特化 — IExpression<void>::run() 无需参数
+template <>
+struct IExpression<void>
+{
+  virtual ~IExpression() = default;
+  virtual bool run() = 0;
+};
+
 #endif // LFW_CORE_DEFINES_IEXPRESSION_HPP

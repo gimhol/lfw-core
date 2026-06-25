@@ -41,7 +41,7 @@
 
 // 世界/关卡
 #include "Difficulty.hpp"
-#include "SyncRender.hpp"
+#include "SyncRenderEnum.hpp"
 #include "StageGroup.hpp"
 #include "StageVal.hpp"
 #include "WorldVal.hpp"
