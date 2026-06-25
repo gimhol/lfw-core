@@ -44,6 +44,30 @@ json to_json(const T &obj, const Fields<T> &fs)
     case FieldKind::Bool:
       j[e.info.key] = std::any_cast<bool>(val);
       break;
+    case FieldKind::Strings:
+    {
+      auto &arr = std::any_cast<const std::vector<std::string> &>(val);
+      j[e.info.key] = arr;
+      break;
+    }
+    case FieldKind::Map:
+    {
+      if (e.info.value_type == typeid(std::string))
+      {
+        json obj_map = json::object();
+        auto &m = std::any_cast<const std::unordered_map<int, std::string> &>(val);
+        for (const auto &[k, v] : m)
+          obj_map[std::to_string(k)] = v;
+        j[e.info.key] = std::move(obj_map);
+      }
+      break;
+    }
+    case FieldKind::Object:
+      // 复杂对象：依赖具体类型的 to_json 重载递归处理
+      j[e.info.key] = "<object>";
+      break;
+    default:
+      break;
     }
   }
   return j;
@@ -77,6 +101,29 @@ void from_json(T &obj, const json &j, const Fields<T> &fs)
     case FieldKind::Bool:
       if (v.is_boolean())
         e.set(obj, v.get<bool>());
+      break;
+    case FieldKind::Strings:
+      if (v.is_array())
+      {
+        std::vector<std::string> arr;
+        for (const auto &item : v)
+          arr.push_back(item.get<std::string>());
+        e.set(obj, arr);
+      }
+      break;
+    case FieldKind::Map:
+      if (v.is_object() && e.info.value_type == typeid(std::string))
+      {
+        std::unordered_map<int, std::string> m;
+        for (auto it = v.begin(); it != v.end(); ++it)
+          m[std::stoi(it.key())] = it.value().get<std::string>();
+        e.set(obj, m);
+      }
+      break;
+    case FieldKind::Object:
+      // 复杂对象：跳过，由具体类型自行处理
+      break;
+    default:
       break;
     }
   }
@@ -213,7 +260,7 @@ static void test_json_schema_generation()
 }
 
 // ========================================================================
-// Map + StringArray 字段测试
+// Map + Strings 字段测试
 // ========================================================================
 
 struct BotConfig
@@ -230,7 +277,7 @@ static const auto &bot_config_fields()
       field("keys", FieldKind::Map, [](const BotConfig &b) -> std::any
             { return b.keys; }, [](BotConfig &b, const std::any &val)
             { b.keys = std::any_cast<std::unordered_map<int, std::string>>(val); }, "按键映射"),
-      field("tags", FieldKind::StringArray, &BotConfig::tags, "标签"));
+      field("tags", FieldKind::Strings, &BotConfig::tags, "标签"));
   return fs;
 }
 

@@ -15,9 +15,9 @@
 | 类别 | TS 文件数 | ✅ 已完成 | ⚠️ 部分完成 | ❌ 未转换 |
 | --- | --- | --- | --- | --- |
 | 枚举 (Enum) | 44 | 42 (95%) | 2 (5%) | 1 (2%) |
-| 接口 (Interface) | 59 | 38 (64%) | 9 (15%) | 10 (17%) |
+| 接口 (Interface) | 59 | 39 (66%) | 8 (14%) | 10 (17%) |
 | 特殊/工具文件 | 4 | 1 (25%) | 1 (25%) | 2 (50%) |
-| **合计** | **107** | **81 (76%)** | **12 (11%)** | **14 (13%)** |
+| **合计** | **107** | **82 (77%)** | **11 (10%)** | **13 (12%)** |
 
 > Action 动作接口子目录：**17/17 文件 ✅ 全部完成**（详见 [actions/PROGRESS.md](actions/PROGRESS.md)）
 
@@ -89,7 +89,7 @@
 
 ## 二、接口文件 (TS `interface` → C++ `struct` with Fields)
 
-### ✅ 已完成 (38)
+### ✅ 已完成 (39)
 
 | # | TS 文件 | TS 导出 | 字段数 | C++ 文件 | 备注 |
 | --- | --- | --- | --- | --- | --- |
@@ -131,35 +131,35 @@
 | 36 | `IHitKeyCollection.ts` | `interface IHitKeyCollection` | 16 | —（无需独立文件） | `std::unordered_map<string, TNextFrame>`，按键名→帧过渡 |
 | 37 | `IHoldKeyCollection.ts` | `interface IHoldKeyCollection` | 9 | —（无需独立文件） | `std::unordered_map<string, TNextFrame>`，按住键→帧过渡 |
 | 38 | `IBgData.ts` | `interface IBgData` | 6 | `IBgData.hpp` | 背景数据；`type` 固定 "background"；含 `bg_data_fields()` |
+| 39 | `ICpointInfo.ts` | `interface ICpointInfo` | 16 | `ICpointInfo.hpp` | 完整转换；新增 `vaction`(TNextFrame) + `indicator_info`(IQubePair)；含 `cpoint_info_fields()` |
 
-### ⚠️ 部分完成 (9)
+### ⚠️ 部分完成 (8)
 
 | # | TS 文件 | TS 导出 | C++ 文件 | C++ 缺少的字段/差异 |
 | --- | --- | --- | --- | --- |
 | 1 | `IBdyInfo.ts` | `interface IBdyInfo extends Partial<IQube>` (~14字段) | `IBdyInfo.hpp` | ❌ actions, code, tester, indicator_info, prefab_id |
-| 2 | `ICpointInfo.ts` | `interface ICpointInfo` (~16字段) | `ICpointInfo.hpp` | ❌ vaction(TNextFrame), indicator_info |
-| 3 | `IDialogInfo.ts` | `interface IDialogInfo` (~7字段) | `IDialogInfo.hpp` | ❌ hide_stats, end_test, end_testers；TS 有 DialogCloseBy 枚举 |
-| 4 | `IDrinkInfo.ts` | `interface IDrinkInfo` (~12字段) | `IDrinkInfo.hpp` | ❌ hp_h_value, hp_h_ticks, hp_r_total, hp_r_value, hp_r_ticks, mp_h_value, mp_h_ticks（HP/MP 恢复详情） — C++ 高度简化，仅 5 个基础字段 |
-| 5 | `IEntityInfo.ts` | `interface IEntityInfo extends Partial<IWorldDataset>` (~20字段) | `IEntityInfo.hpp` | ⚠️ 结构完全不同 — TS 是数据模板，C++ 是运行时实体状态 (id,name,oid,team,hp,mp,x/y/z,facing,state,weapons,is_bot) |
-| 6 | `IFrameInfo.ts` | `interface IFrameInfo extends Partial<IWorldDataset>, IVelocityInfo` (~30字段) | `IFrameInfo.hpp` | ❌ 极度简化 — C++ 仅 6 字段: id, wait, pic, next, state, facing。缺少: name, centerx/y, width, height, sound, hp_max, hold, hit, key_down/up, seqs, bdy, itr, wpoint, bpoint, opoint, cpoint, invisible, no_shadow, jump_flag, on_dead, on_exhaustion, on_landing, behavior, chase + IWorldDataset 字段 |
-| 7 | `IItrInfo.ts` | `interface IItrInfo extends Partial<IQube>` (~25字段) | `IItrInfo.hpp` | ❌ kind_name, effect_name, dvx/dvy/dvz, arest, catchingact, caughtact, on_hit_ground, actions, test, tester, code, ref, prefab_id, indicator_info, motionless, shaking |
-| 8 | `IOpointInfo.ts` | `IOpointMulti`(4字段) + `IOpointInfo`(~15字段) | `IOpointInfo.hpp` | ❌ name, origin_type, action(TNextFrame), IOpointMulti 字段, facing 相关字段 |
-| 9 | `IStageObjectInfo.ts` | `interface IStageObjectInfo` (~20字段) | `IStageObjectInfo.hpp` | ❌ hp_map, mp_map, times, ratio, is_boss, is_soldier, reserve, join, join_team, outline_color |
+| 2 | `IDialogInfo.ts` | `interface IDialogInfo` (~7字段) | `IDialogInfo.hpp` | ❌ hide_stats, end_test, end_testers；TS 有 DialogCloseBy 枚举 |
+| 3 | `IDrinkInfo.ts` | `interface IDrinkInfo` (~12字段) | `IDrinkInfo.hpp` | ❌ hp_h_value, hp_h_ticks, hp_r_total, hp_r_value, hp_r_ticks, mp_h_value, mp_h_ticks（HP/MP 恢复详情） — C++ 高度简化，仅 5 个基础字段 |
+| 4 | `IEntityInfo.ts` | `interface IEntityInfo extends Partial<IWorldDataset>` (~20字段) | `IEntityInfo.hpp` | ⚠️ 结构完全不同 — TS 是数据模板，C++ 是运行时实体状态 (id,name,oid,team,hp,mp,x/y/z,facing,state,weapons,is_bot) |
+| 5 | `IFrameInfo.ts` | `interface IFrameInfo extends Partial<IWorldDataset>, IVelocityInfo` (~30字段) | `IFrameInfo.hpp` | ❌ 极度简化 — C++ 仅 6 字段: id, wait, pic, next, state, facing。缺少: name, centerx/y, width, height, sound, hp_max, hold, hit, key_down/up, seqs, bdy, itr, wpoint, bpoint, opoint, cpoint, invisible, no_shadow, jump_flag, on_dead, on_exhaustion, on_landing, behavior, chase + IWorldDataset 字段 |
+| 6 | `IItrInfo.ts` | `interface IItrInfo extends Partial<IQube>` (~25字段) | `IItrInfo.hpp` | ❌ kind_name, effect_name, dvx/dvy/dvz, arest, catchingact, caughtact, on_hit_ground, actions, test, tester, code, ref, prefab_id, indicator_info, motionless, shaking |
+| 7 | `IOpointInfo.ts` | `IOpointMulti`(4字段) + `IOpointInfo`(~15字段) | `IOpointInfo.hpp` | ❌ name, origin_type, action(TNextFrame), IOpointMulti 字段, facing 相关字段 |
+| 8 | `IStageObjectInfo.ts` | `interface IStageObjectInfo` (~20字段) | `IStageObjectInfo.hpp` | ❌ hp_map, mp_map, times, ratio, is_boss, is_soldier, reserve, join, join_team, outline_color |
 
-### ❌ 未转换 (11)
+### ❌ 未转换 (10)
 
 | # | TS 文件 | TS 导出 | 优先级 | 说明 |
 | --- | --- | --- | --- | --- |
 | 1 | `IBotData.ts` | `interface IBotData` (5字段) | 高 | |
 | 2 | `IDataLists.ts` | `IDataLists` + `ITempDataLists` (各4字段) | 高 | 数据列表结构 |
 | 3 | `IDatContext.ts` | `interface IDatContext` (5字段) | 中 | 数据上下文 |
-| 5 | `IEntityData.ts` | `IEntityData` + `TItrPrefabs` + `TBdyPrefabs` (9字段) | ⭐关键 | 核心实体数据结构；TS 有 entity_data_new() |
-| 6 | `IFrameIndexes.ts` | `interface IFrameIndexes` (~20字段) | 高 | TS 有 frame_indexes_new() |
-| 7 | `IFullGameZipInfo.ts` | `IBaseZipInfo`,`IGameZipInfo`,`IPrelZipInfo`,`IDataZipInfo`,`IAnyZipInfo` | 低 | ZIP 信息类型 |
-| 8 | `ILegacyPictureInfo.ts` | `interface ILegacyPictureInfo extends IPictureInfo` (+5字段) | 低 | TS 有 legacy_picture_info_fields |
-| 9 | `IQubePair.ts` | `interface IQubePair extends IPairByFace<IQube>` | 中 | Qube 对类型 |
-| 10 | `IRectPair.ts` | `interface IRectPair extends IPairByFace<IRect>` | 中 | Rect 对类型 |
-| 11 | `IStyle.ts` | `interface IStyle` (~28字段) | 低 | Canvas 渲染样式 |
+| 4 | `IEntityData.ts` | `IEntityData` + `TItrPrefabs` + `TBdyPrefabs` (9字段) | ⭐关键 | 核心实体数据结构；TS 有 entity_data_new() |
+| 5 | `IFrameIndexes.ts` | `interface IFrameIndexes` (~20字段) | 高 | TS 有 frame_indexes_new() |
+| 6 | `IFullGameZipInfo.ts` | `IBaseZipInfo`,`IGameZipInfo`,`IPrelZipInfo`,`IDataZipInfo`,`IAnyZipInfo` | 低 | ZIP 信息类型 |
+| 7 | `ILegacyPictureInfo.ts` | `interface ILegacyPictureInfo extends IPictureInfo` (+5字段) | 低 | TS 有 legacy_picture_info_fields |
+| 8 | `IQubePair.ts` | `interface IQubePair extends IPairByFace<IQube>` | 中 | Qube 对类型 |
+| 9 | `IRectPair.ts` | `interface IRectPair extends IPairByFace<IRect>` | 中 | Rect 对类型 |
+| 10 | `IStyle.ts` | `interface IStyle` (~28字段) | 低 | Canvas 渲染样式 |
 
 ---
 

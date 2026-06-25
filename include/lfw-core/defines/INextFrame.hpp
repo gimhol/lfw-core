@@ -69,12 +69,12 @@ struct INextFrameResult
 inline const auto &next_frame_fields()
 {
   static const auto fs = fields<INextFrame>(
-      field("id", FieldKind::StringArray, &INextFrame::id, "目标帧ID"),
+      field("id", FieldKind::Strings, &INextFrame::id, "目标帧ID"),
       field("desc", FieldKind::String, &INextFrame::desc, "描述"),
       field("wait", FieldKind::Variant, [](const INextFrame &f) -> std::any
             { return f.wait; }, [](INextFrame &f, const std::any &val)
             { f.wait = std::any_cast<std::optional<StrOrNum>>(val); }, "持续策略"),
-      field("facing", FieldKind::Int, &INextFrame::facing, "转向"), field("expression", FieldKind::String, &INextFrame::expression, "判定式"), field("mp", FieldKind::Float, &INextFrame::mp, "消耗MP"), field("mp_mode", FieldKind::Int, &INextFrame::mp_mode, "MP不足模式"), field("hp", FieldKind::Float, &INextFrame::hp, "消耗HP"), field("sounds", FieldKind::StringArray, &INextFrame::sounds, "音效"), field("blink_time", FieldKind::Float, &INextFrame::blink_time, "闪烁时长"));
+      field("facing", FieldKind::Int, &INextFrame::facing, "转向"), field("expression", FieldKind::String, &INextFrame::expression, "判定式"), field("mp", FieldKind::Float, &INextFrame::mp, "消耗MP"), field("mp_mode", FieldKind::Int, &INextFrame::mp_mode, "MP不足模式"), field("hp", FieldKind::Float, &INextFrame::hp, "消耗HP"), field("sounds", FieldKind::Strings, &INextFrame::sounds, "音效"), field("blink_time", FieldKind::Float, &INextFrame::blink_time, "闪烁时长"));
   return fs;
 }
 

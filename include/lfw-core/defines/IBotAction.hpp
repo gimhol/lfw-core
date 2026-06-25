@@ -44,7 +44,7 @@ inline const auto &bot_action_fields()
       field("e_ray", FieldKind::ObjectArray, &IBotAction::e_ray, "敌人射线"),
       field("expression", FieldKind::String, &IBotAction::expression, "判定式"),
       field("status", FieldKind::IntArray, &IBotAction::status, "Bot状态"),
-      field("keys", FieldKind::StringArray, &IBotAction::keys, "按键"));
+      field("keys", FieldKind::Strings, &IBotAction::keys, "按键"));
   return fs;
 }
 

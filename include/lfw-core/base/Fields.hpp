@@ -16,44 +16,30 @@
 // ============================================================
 // FieldKind — 字段类型枚举
 // ============================================================
-enum class FieldKind
-{
-  Int,
-  Float,
-  String,
-  Bool,
-  StringArray,
-  DoublePair,
-  DoubleTriple,
-  Map,
-  Variant
-};
 
-inline const char *field_kind_name(FieldKind k)
+#include "lfw-core/defines/EnumHelper.hpp"
+
+#define FIELD_KIND_ITEMS(X)                                \
+  X(FieldKind, Int, "int", "整数", = 0)                    \
+  X(FieldKind, Float, "float", "浮点", = 1)                \
+  X(FieldKind, String, "string", "字符串", = 2)            \
+  X(FieldKind, Bool, "bool", "布尔", = 3)                  \
+  X(FieldKind, Strings, "string[]", "字符串数组", = 4) \
+  X(FieldKind, Float2, "float[2]", "双精度对", = 5)        \
+  X(FieldKind, Float3, "float[3]", "双精度三元组", = 6)    \
+  X(FieldKind, Map, "map", "映射", = 7)                    \
+  X(FieldKind, Variant, "variant", "变体", = 8)            \
+  X(FieldKind, Object, "object", "对象", = 9)
+
+enum class FieldKind : uint8_t
 {
-  switch (k)
-  {
-  case FieldKind::Int:
-    return "int";
-  case FieldKind::Float:
-    return "float";
-  case FieldKind::String:
-    return "string";
-  case FieldKind::Bool:
-    return "bool";
-  case FieldKind::StringArray:
-    return "string[]";
-  case FieldKind::DoublePair:
-    return "double[2]";
-  case FieldKind::DoubleTriple:
-    return "double[3]";
-  case FieldKind::Map:
-    return "map";
-  case FieldKind::Variant:
-    return "variant";
-  }
-  return "?";
-}
+  FIELD_KIND_ITEMS(ENUM_ITEM)
+};
+GEN_ENUM_STR_MAP(FieldKindStringMap, FIELD_KIND_ITEMS, FieldKind)
+GEN_ENUM_NAME_MAP(FieldKindNameMap, FIELD_KIND_ITEMS, FieldKind)
+GEN_ENUM_DESC_MAP(FieldKindDescMap, FIELD_KIND_ITEMS, FieldKind)
+#undef FIELD_KIND_ITEMS
+DEFINE_ENUM_TO_STR(field_kind_name, FieldKind, FieldKindStringMap)
 
 // ============================================================
 // FieldInfo — 单个字段的元数据（运行时反射信息）

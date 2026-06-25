@@ -32,7 +32,7 @@ inline const auto &bg_info_fields()
       field("shadow", FieldKind::String, &IBgInfo::shadow, "阴影文件"),
       field("shadow_w", FieldKind::Float, &IBgInfo::shadow_w, "阴影宽"),
       field("shadow_h", FieldKind::Float, &IBgInfo::shadow_h, "阴影高"),
-      field("group", FieldKind::StringArray, &IBgInfo::group, "分组"),
+      field("group", FieldKind::Strings, &IBgInfo::group, "分组"),
       field("left", FieldKind::Float, &IBgInfo::left, "左边界"),
       field("right", FieldKind::Float, &IBgInfo::right, "右边界"),
       field("far", FieldKind::Float, &IBgInfo::far, "远边界"),

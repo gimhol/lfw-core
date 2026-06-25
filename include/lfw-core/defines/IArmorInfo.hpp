@@ -38,8 +38,8 @@ inline const auto &armor_info_fields()
       field("injury_ratio", FieldKind::Float, &IArmorInfo::injury_ratio, "受伤比例"),
       field("shaking_ratio", FieldKind::Float, &IArmorInfo::shaking_ratio, "硬直比例"),
       field("motionless_ratio", FieldKind::Float, &IArmorInfo::motionless_ratio, "不动比例"),
-      field("hit_sounds", FieldKind::StringArray, &IArmorInfo::hit_sounds, "受击音效"),
-      field("dead_sounds", FieldKind::StringArray, &IArmorInfo::dead_sounds, "击破音效"));
+      field("hit_sounds", FieldKind::Strings, &IArmorInfo::hit_sounds, "受击音效"),
+      field("dead_sounds", FieldKind::Strings, &IArmorInfo::dead_sounds, "击破音效"));
   return fs;
 }
 

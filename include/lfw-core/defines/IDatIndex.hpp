@@ -28,7 +28,7 @@ inline const auto &dat_index_fields()
       field("file", FieldKind::String, &IDatIndex::file, "文件"),
       field("hash", FieldKind::String, &IDatIndex::hash, "哈希"),
       field("alias", FieldKind::String, &IDatIndex::alias, "别名"),
-      field("groups", FieldKind::StringArray, &IDatIndex::groups, "分组"),
+      field("groups", FieldKind::Strings, &IDatIndex::groups, "分组"),
       field("skipped", FieldKind::String, &IDatIndex::skipped, "跳过"),
       field("bot", FieldKind::String, &IDatIndex::bot, "Bot"));
   return fs;
