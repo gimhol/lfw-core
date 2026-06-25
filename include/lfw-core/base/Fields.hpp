@@ -19,16 +19,16 @@
 
 #include "lfw-core/defines/EnumHelper.hpp"
 
-#define FIELD_KIND_ITEMS(X)                                \
-  X(FieldKind, Int, "int", "整数", = 0)                    \
-  X(FieldKind, Float, "float", "浮点", = 1)                \
-  X(FieldKind, String, "string", "字符串", = 2)            \
-  X(FieldKind, Bool, "bool", "布尔", = 3)                  \
-  X(FieldKind, Strings, "string[]", "字符串数组", = 4) \
-  X(FieldKind, Float2, "float[2]", "双精度对", = 5)        \
-  X(FieldKind, Float3, "float[3]", "双精度三元组", = 6)    \
-  X(FieldKind, Map, "map", "映射", = 7)                    \
-  X(FieldKind, Variant, "variant", "变体", = 8)            \
+#define FIELD_KIND_ITEMS(X)                             \
+  X(FieldKind, Int, "int", "整数", = 0)                 \
+  X(FieldKind, Float, "float", "浮点", = 1)             \
+  X(FieldKind, String, "string", "字符串", = 2)         \
+  X(FieldKind, Bool, "bool", "布尔", = 3)               \
+  X(FieldKind, Strings, "string[]", "字符串数组", = 4)  \
+  X(FieldKind, Float2, "float[2]", "双精度对", = 5)     \
+  X(FieldKind, Float3, "float[3]", "双精度三元组", = 6) \
+  X(FieldKind, Map, "map", "映射", = 7)                 \
+  X(FieldKind, Variant, "variant", "变体", = 8)         \
   X(FieldKind, Object, "object", "对象", = 9)
 
 enum class FieldKind : uint8_t
