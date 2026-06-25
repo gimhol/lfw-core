@@ -6,6 +6,7 @@
 #include <string>
 #include <string_view>
 #include <unordered_map>
+#include "../core.hpp"
 
 #define DEFINE_ENUM_TO_STR(TO_STR, ENUM, MAP) \
   inline std::string_view TO_STR(ENUM v)      \

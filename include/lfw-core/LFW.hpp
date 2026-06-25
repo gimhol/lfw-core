@@ -1,5 +1,5 @@
-#ifndef LFW_CORE_ENTITY_LFW_HPP
-#define LFW_CORE_ENTITY_LFW_HPP
+#ifndef LFW_CORE_LFW_HPP
+#define LFW_CORE_LFW_HPP
 
 #include <memory>
 

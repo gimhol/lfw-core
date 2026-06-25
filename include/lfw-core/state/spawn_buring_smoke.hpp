@@ -4,7 +4,7 @@
 #include "lfw-core/defines/IOpointInfo.hpp"
 #include "lfw-core/defines/OID.hpp"
 #include "lfw-core/entity/Entity.hpp"
-#include "lfw-core/entity/LFW.hpp"
+#include "lfw-core/LFW.hpp"
 
 #include <cmath>
 

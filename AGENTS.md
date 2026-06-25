@@ -187,6 +187,34 @@ MersenneTwister &LFW::mt()       { return _->_mt; }
 - 所有公开 getter 委托给 `_->` 访问实际成员
 - 后续新增私有成员只需修改 `XXXPrivate`，头文件无需变动
 
+### 7. 命名空间
+
+所有 lfw-core 代码统一使用 `lfw` 命名空间，通过宏简化书写：
+
+```cpp
+// 定义于 include/lfw-core/core.hpp
+#define LFW_NS        lfw
+#define LFW_NS_BEGIN  namespace lfw {
+#define LFW_NS_END    }
+```
+
+**规则**：
+
+- 每个 `.hpp` / `.cpp` 文件内容包裹在 `LFW_NS_BEGIN` / `LFW_NS_END` 之间
+- 仅在 `core.hpp` 中使用 `using namespace` 或 `namespace lfw {}` 直接形式
+- 不要在头文件中使用 `using namespace`（污染客户命名空间）
+
+```cpp
+// 正确示例
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
+struct Foo { /* ... */ };
+
+LFW_NS_END
+```
+
 ---
 
 ## 构建与测试
