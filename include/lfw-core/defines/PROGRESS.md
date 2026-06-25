@@ -12,9 +12,9 @@
 | 类别 | TS 文件数 | ✅ 已完成 | ⚠️ 部分完成 | ❌ 未转换 |
 |---|---|---|---|---|
 | 枚举 (Enum) | 44 | 42 (95%) | 2 (5%) | 1 (2%) |
-| 接口 (Interface) | 59 | 33 (56%) | 9 (15%) | 15 (25%) |
+| 接口 (Interface) | 59 | 36 (61%) | 9 (15%) | 12 (20%) |
 | 特殊/工具文件 | 4 | 1 (25%) | 1 (25%) | 2 (50%) |
-| **合计** | **107** | **76 (71%)** | **12 (11%)** | **19 (18%)** |
+| **合计** | **107** | **79 (74%)** | **12 (11%)** | **16 (15%)** |
 
 > Action 动作接口子目录：**17/17 文件 ✅ 全部完成**（详见 [actions/PROGRESS.md](actions/PROGRESS.md)）
 
@@ -86,7 +86,7 @@
 
 ## 二、接口文件 (TS `interface` → C++ `struct` with Fields)
 
-### ✅ 已完成 (33)
+### ✅ 已完成 (36)
 
 | # | TS 文件 | TS 导出 | 字段数 | C++ 文件 | 备注 |
 |---|---|---|---|---|---|
@@ -124,6 +124,9 @@
 | 32 | `IBotAction.ts` | `interface IBotAction` | 9 | `IBotAction.hpp` | Bot 动作，含 `bot_action_fields()`；`judger` 用 `void*` |
 | 33 | `IPurePlayerInfo.ts` | `interface IPurePlayerInfo` | 5 | `IPurePlayerInfo.hpp` | `keys` 用 `std::unordered_map<GameKey, string>` |
 | 34 | `IBotDataSet.ts` | `interface IBotDataSet` | 35 | `IBotDataSet.hpp` | Bot 数据集，全 `optional<double>`，含 `bot_data_set_fields()` |
+| 35 | `INextFrame.ts` | `INextFrame extends IVelocityInfo` + `INextFrameResult` | 11+2 | `INextFrame.hpp` | 继承 `IVelocityInfo`；`judger` 用 `void*`；含 `next_frame_fields()` |
+| 36 | `IHitKeyCollection.ts` | `interface IHitKeyCollection` | 16 | —（无需独立文件） | `std::unordered_map<string, TNextFrame>`，按键名→帧过渡 |
+| 37 | `IHoldKeyCollection.ts` | `interface IHoldKeyCollection` | 9 | —（无需独立文件） | `std::unordered_map<string, TNextFrame>`，按住键→帧过渡 |
 
 ### ⚠️ 部分完成 (9)
 
@@ -139,7 +142,7 @@
 | 8 | `IOpointInfo.ts` | `IOpointMulti`(4字段) + `IOpointInfo`(~15字段) | `IOpointInfo.hpp` | ❌ name, origin_type, action(TNextFrame), IOpointMulti 字段, facing 相关字段 |
 | 9 | `IStageObjectInfo.ts` | `interface IStageObjectInfo` (~20字段) | `IStageObjectInfo.hpp` | ❌ hp_map, mp_map, times, ratio, is_boss, is_soldier, reserve, join, join_team, outline_color |
 
-### ❌ 未转换 (15)
+### ❌ 未转换 (12)
 
 | # | TS 文件 | TS 导出 | 优先级 | 说明 |
 |---|---|---|---|---|
@@ -150,13 +153,10 @@
 | 5 | `IEntityData.ts` | `IEntityData` + `TItrPrefabs` + `TBdyPrefabs` (9字段) | ⭐关键 | 核心实体数据结构；TS 有 entity_data_new() |
 | 6 | `IFrameIndexes.ts` | `interface IFrameIndexes` (~20字段) | 高 | TS 有 frame_indexes_new() |
 | 7 | `IFullGameZipInfo.ts` | `IBaseZipInfo`,`IGameZipInfo`,`IPrelZipInfo`,`IDataZipInfo`,`IAnyZipInfo` | 低 | ZIP 信息类型 |
-| 8 | `IHitKeyCollection.ts` | `interface IHitKeyCollection` (~15字段) | 高 | 命中按键映射 |
-| 9 | `IHoldKeyCollection.ts` | `interface IHoldKeyCollection` (9字段) | 高 | 按住按键映射 |
-| 10 | `ILegacyPictureInfo.ts` | `interface ILegacyPictureInfo extends IPictureInfo` (+5字段) | 低 | TS 有 legacy_picture_info_fields |
-| 11 | `INextFrame.ts` | `INextFrame extends IVelocityInfo`, `INextFrameResult`, `TNextFrame` (~12字段) | ⭐关键 | 核心帧过渡类型 |
-| 12 | `IQubePair.ts` | `interface IQubePair extends IPairByFace<IQube>` | 中 | Qube 对类型 |
-| 13 | `IRectPair.ts` | `interface IRectPair extends IPairByFace<IRect>` | 中 | Rect 对类型 |
-| 14 | `IStyle.ts` | `interface IStyle` (~28字段) | 低 | Canvas 渲染样式 |
+| 8 | `ILegacyPictureInfo.ts` | `interface ILegacyPictureInfo extends IPictureInfo` (+5字段) | 低 | TS 有 legacy_picture_info_fields |
+| 9 | `IQubePair.ts` | `interface IQubePair extends IPairByFace<IQube>` | 中 | Qube 对类型 |
+| 10 | `IRectPair.ts` | `interface IRectPair extends IPairByFace<IRect>` | 中 | Rect 对类型 |
+| 11 | `IStyle.ts` | `interface IStyle` (~28字段) | 低 | Canvas 渲染样式 |
 
 ---
 

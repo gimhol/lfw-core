@@ -25,7 +25,8 @@ enum class FieldKind
   StringArray,
   DoublePair,
   DoubleTriple,
-  Map
+  Map,
+  Variant
 };
 
 inline const char *field_kind_name(FieldKind k)
@@ -48,6 +49,8 @@ inline const char *field_kind_name(FieldKind k)
     return "double[3]";
   case FieldKind::Map:
     return "map";
+  case FieldKind::Variant:
+    return "variant";
   }
   return "?";
 }
