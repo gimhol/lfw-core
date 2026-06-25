@@ -57,6 +57,36 @@ private:
   std::size_t _i = 0;
 };
 
+// ============================================================
+// TypedGraves<T> — 类型安全薄包装，零开销（编译期内联展开）
+//
+// 用法:
+//   TypedGraves<Bullet> pool;
+//   pool.add(&b1);
+//   Bullet *p = pool.take();
+// ============================================================
+template <typename T>
+class TypedGraves
+{
+public:
+  void add(T *obj) { _pool.add(obj); }
+
+  [[nodiscard]] T *take() { return static_cast<T *>(_pool.take()); }
+
+  void clear() { _pool.clear(); }
+
+  [[nodiscard]] std::size_t available() const { return _pool.available(); }
+  [[nodiscard]] bool empty() const { return _pool.empty(); }
+  [[nodiscard]] std::size_t capacity() const { return _pool.capacity(); }
+
+  /// 访问底层无类型池（用于需要与 void* 交互的场景）
+  Graves &raw() { return _pool; }
+  const Graves &raw() const { return _pool; }
+
+private:
+  Graves _pool;
+};
+
 LFW_NS_END
 
 #endif

@@ -84,6 +84,31 @@ static void test_graves_multiple_add_take()
   assert(pool.empty());
 }
 
+static void test_typed_graves()
+{
+  TypedGraves<TestItem> pool;
+  TestItem a(1, "Alpha");
+  TestItem b(2, "Beta");
+
+  pool.add(&a);
+  pool.add(&b);
+
+  assert(pool.available() == 2);
+  assert(!pool.empty());
+
+  // 类型安全，无需 static_cast
+  TestItem *p1 = pool.take();
+  TestItem *p2 = pool.take();
+  assert(p1->id == 1);
+  assert(p2->id == 2);
+
+  assert(pool.empty());
+
+  // 与原始 Graves 交互
+  pool.raw().add(&a);
+  assert(pool.available() == 1);
+}
+
 // ========================================================================
 void run_graves_tests()
 {
@@ -93,6 +118,7 @@ void run_graves_tests()
   test_graves_add_and_take();
   test_graves_reuse();
   test_graves_multiple_add_take();
+  test_typed_graves();
 
-  std::cout << "  PASS: Graves (4 subtests)\n";
+  std::cout << "  PASS: Graves (5 subtests)\n";
 }

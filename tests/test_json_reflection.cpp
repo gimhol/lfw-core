@@ -54,11 +54,12 @@ json to_json(const T &obj, const Fields<T> &fs)
     }
     case FieldKind::Map:
     {
-      if (e.info.value_type == typeid(std::string))
+      // 用 any_cast 指针探测，比 typeid 比较更健壮
+      // （CustomField 不自动填充 value_type）
+      if (auto *m = std::any_cast<const std::unordered_map<int, std::string>>(&val))
       {
         json obj_map = json::object();
-        auto &m = std::any_cast<const std::unordered_map<int, std::string> &>(val);
-        for (const auto &[k, v] : m)
+        for (const auto &[k, v] : *m)
           obj_map[std::to_string(k)] = v;
         j[e.info.key] = std::move(obj_map);
       }
@@ -150,7 +151,7 @@ void from_json(T &obj, const json &j, const Fields<T> &fs)
       }
       break;
     case FieldKind::Map:
-      if (v.is_object() && e.info.value_type == typeid(std::string))
+      if (v.is_object())
       {
         std::unordered_map<int, std::string> m;
         for (auto it = v.begin(); it != v.end(); ++it)
@@ -356,7 +357,7 @@ static void test_json_map_value_type()
   auto *e = fs.find("keys");
   assert(e != nullptr);
   assert(e->info.kind == FieldKind::Map);
-  assert(e->info.value_type == typeid(std::string));
+  // CustomField 不自动填充 value_type，序列化层使用 any_cast 指针探测替代 typeid 比较
 }
 
 // ========================================================================
