@@ -9,17 +9,17 @@
 #include "EnumHelper.hpp"
 
 /* 格式: X(枚举类型, 枚举名, "字符串值", "描述", 值) */
-#define ENUM_ITEMS(X)                 \
-  X(DatEnum, Invalid, "", "", = 0)    \
-  X(DatEnum, Fighter, "0", "", = 1)   \
-  X(DatEnum, WeaponA, "1", "", = 2)   \
-  X(DatEnum, WeaponB, "2", "", = 3)   \
-  X(DatEnum, Ball, "3", "", = 4)      \
-  X(DatEnum, WeaponC, "4", "", = 5)   \
-  X(DatEnum, Criminal, "5", "", = 6)  \
-  X(DatEnum, WeaponD, "6", "", = 7)   \
+#define ENUM_ITEMS(X)                   \
+  X(DatEnum, Invalid, "", "", = 0)      \
+  X(DatEnum, Fighter, "0", "", = 1)     \
+  X(DatEnum, WeaponA, "1", "", = 2)     \
+  X(DatEnum, WeaponB, "2", "", = 3)     \
+  X(DatEnum, Ball, "3", "", = 4)        \
+  X(DatEnum, WeaponC, "4", "", = 5)     \
+  X(DatEnum, Criminal, "5", "", = 6)    \
+  X(DatEnum, WeaponD, "6", "", = 7)     \
   X(DatEnum, Background, "bg", "", = 8) \
-  X(DatEnum, Stage, "stage", "", = 9) \
+  X(DatEnum, Stage, "stage", "", = 9)   \
   X(DatEnum, Bot, "bot", "", = 10)
 
 enum class DatEnum : uint8_t
