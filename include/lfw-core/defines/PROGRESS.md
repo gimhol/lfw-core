@@ -11,10 +11,10 @@
 
 | 类别 | TS 文件数 | ✅ 已完成 | ⚠️ 部分完成 | ❌ 未转换 |
 |---|---|---|---|---|
-| 枚举 (Enum) | 44 | 41 (93%) | 2 (5%) | 1 (2%) |
-| 接口 (Interface) | 59 | 16 (27%) | 12 (20%) | 31 (53%) |
+| 枚举 (Enum) | 44 | 42 (95%) | 2 (5%) | 1 (2%) |
+| 接口 (Interface) | 59 | 18 (31%) | 12 (20%) | 29 (49%) |
 | 特殊/工具文件 | 4 | 1 (25%) | 1 (25%) | 2 (50%) |
-| **合计** | **107** | **58 (54%)** | **15 (14%)** | **34 (32%)** |
+| **合计** | **107** | **61 (57%)** | **15 (14%)** | **32 (30%)** |
 
 > Action 动作接口子目录：**17/17 文件 ✅ 全部完成**（详见 [actions/PROGRESS.md](actions/PROGRESS.md)）
 
@@ -67,25 +67,26 @@
 | 39 | `WeaponType.ts` | `WeaponEnum` | 6 | `WeaponType.hpp` | `WeaponType` | 重命名：WeaponEnum→WeaponType |
 | 40 | `WorldVal.ts` | `WorldVal` | 1(test) | `WorldVal.hpp` | `WorldVal` | |
 | 41 | `WpointKind.ts` | `WpointKind` | 4 | `WpointKind.hpp` | `WpointKind` | |
+| 42 | `IDatIndex.ts` | `DatTypeEnum` | 11 | `DatTypeEnum.hpp` | `DatTypeEnum` | + `dat_type_suffix()` 函数 |
 
 ### ⚠️ 部分完成 (2)
 
 | # | TS 文件 | TS 导出 | C++ 文件 | C++ 导出 | 差异说明 |
 |---|---|---|---|---|---|
-| 42 | `MagnificationTextureFilter.ts` | `enum MagnificationTextureFilter` (2 值, WebGL 1003/1006) | `TextureWrapping.hpp` | `MagnFilter` (0/1) | ⚡ 合并到 TextureWrapping.hpp，值体系不同 |
-| 43 | `MinificationTextureFilter.ts` | `enum MinificationTextureFilter` (6 值, WebGL 常量) | `TextureWrapping.hpp` | `MinFilter` (0-5) | ⚡ 合并到 TextureWrapping.hpp，值体系不同 |
+| 43 | `MagnificationTextureFilter.ts` | `enum MagnificationTextureFilter` (2 值, WebGL 1003/1006) | `TextureWrapping.hpp` | `MagnFilter` (0/1) | ⚡ 合并到 TextureWrapping.hpp，值体系不同 |
+| 44 | `MinificationTextureFilter.ts` | `enum MinificationTextureFilter` (6 值, WebGL 常量) | `TextureWrapping.hpp` | `MinFilter` (0-5) | ⚡ 合并到 TextureWrapping.hpp，值体系不同 |
 
 ### ❌ 未转换 (1)
 
 | # | TS 文件 | TS 导出 | 说明 |
 |---|---|---|---|
-| 44 | `LF2Val.ts` | `enum LF2Val` (1 值: `test2`) | 低优先级，仅含一个值 |
+| 45 | `LF2Val.ts` | `enum LF2Val` (1 值: `test2`) | 低优先级，仅含一个值 |
 
 ---
 
 ## 二、接口文件 (TS `interface` → C++ `struct` with Fields)
 
-### ✅ 已完成 (16)
+### ✅ 已完成 (18)
 
 | # | TS 文件 | TS 导出 | 字段数 | C++ 文件 | 备注 |
 |---|---|---|---|---|---|
@@ -107,6 +108,8 @@
 | 16 | `IVelocityInfo.ts` | `interface IVelocityInfo` | 12 | `IVelocityInfo.hpp` | |
 | 17 | `IWpointInfo.ts` | `interface IWpointInfo` | ~10 | `IWpointInfo.hpp` | |
 | 18 | `IWorldDataset.ts` | `interface IWorldDataset` | ~40 | `IWorldDataset.hpp` | 默认值对齐 |
+| 19 | `IBaseData.ts` | `interface IBaseData<I>` (泛型, 4字段) | 3 | `IBaseData.hpp` | C++ 纯基类 struct（含 id/type/alias_id），子类继承扩展 |
+| 20 | `IDatIndex.ts` | `DatTypeEnum`(11) + `IDatIndex`(8字段) + `ITempDatIndex` | 11+8+1 | `DatTypeEnum.hpp` + `IDatIndex.hpp` | 拆分为两个文件；`ITempDatIndex` 继承 `IDatIndex`；含 `fields()` 元数据 |
 
 ### ⚠️ 部分完成 (12)
 
@@ -124,43 +127,38 @@
 | 10 | `IPurePlayerInfo.ts` | `interface IPurePlayerInfo` (5字段) | `IPurePlayerInfo.hpp` | ⚠️ 字段不同 — TS: id,name,keys,version,ctrl；C++: name,id,team,is_bot,keys |
 | 11 | `IStageObjectInfo.ts` | `interface IStageObjectInfo` (~20字段) | `IStageObjectInfo.hpp` | ❌ hp_map, mp_map, times, ratio, is_boss, is_soldier, reserve, join, join_team, outline_color |
 
-### ❌ 未转换 (31)
+### ❌ 未转换 (29)
 
 | # | TS 文件 | TS 导出 | 优先级 | 说明 |
 |---|---|---|---|---|
-| 1 | `IBaseData.ts` | `interface IBaseData<I>` (泛型, 4字段) | 中 | 泛型接口，C++ 尚无模板对应 |
-| 2 | `IBgData.ts` | `interface IBgData` (6字段) | 高 | 背景数据结构；TS 有 bg_data_new(), Schema_IBgData |
-| 3 | `IBotAction.ts` | `interface IBotAction` (8字段) | 高 | 引用 CondMaker, IExpression, IBotRay |
-| 4 | `IBotData.ts` | `interface IBotData` (5字段) | 高 | |
-| 5 | `IBotDataSet.ts` | `interface IBotDataSet` (~25字段) | 中 | TS 有 fields 元数据 |
-| 6 | `IBotRay.ts` | `interface IBotRay` (8字段) | 中 | Bot 射线检测 |
-| 7 | `IBounding.ts` | `interface IBounding` (6字段) | 低 | 简单包围盒 |
-| 8 | `IDataLists.ts` | `IDataLists` + `ITempDataLists` (各4字段) | 高 | 数据列表结构 |
-| 9 | `IDataMap.ts` | `interface IDataMap` (5个索引字段) | 高 | 类型索引 Map |
-| 10 | `IDatContext.ts` | `interface IDatContext` (5字段) | 中 | 数据上下文 |
-| 11 | `IDatIndex.ts` | `DatTypeEnum`(11) + `IDatIndex`(8) + `ITempDatIndex` | 高 | + suffix_map |
-| 12 | `IEntityData.ts` | `IEntityData` + `TItrPrefabs` + `TBdyPrefabs` (9字段) | ⭐关键 | 核心实体数据结构；TS 有 entity_data_new() |
-| 13 | `IFrameIndexes.ts` | `interface IFrameIndexes` (~20字段) | 高 | TS 有 frame_indexes_new() |
-| 14 | `IFullGameZipInfo.ts` | `IBaseZipInfo`,`IGameZipInfo`,`IPrelZipInfo`,`IDataZipInfo`,`IAnyZipInfo` | 低 | ZIP 信息类型 |
-| 15 | `IHitKeyCollection.ts` | `interface IHitKeyCollection` (~15字段) | 高 | 命中按键映射 |
-| 16 | `IHoldKeyCollection.ts` | `interface IHoldKeyCollection` (9字段) | 高 | 按住按键映射 |
-| 17 | `ILegacyPictureInfo.ts` | `interface ILegacyPictureInfo extends IPictureInfo` (+5字段) | 低 | TS 有 legacy_picture_info_fields |
-| 18 | `INextFrame.ts` | `INextFrame extends IVelocityInfo`, `INextFrameResult`, `TNextFrame` (~12字段) | ⭐关键 | 核心帧过渡类型 |
-| 19 | `IPairByFace.ts` | `interface IPairByFace<T>` (泛型) | 中 | 泛型 Pair 类型，被 IRectPair, IQubePair, IFrameIndexes 使用 |
-| 20 | `IPicture.ts` | `interface IPicture<T>` (4字段) | 低 | |
-| 21 | `IQuaternion.ts` | `interface IQuaternion` (空) | 低 | 空占位接口 |
-| 22 | `IQubePair.ts` | `interface IQubePair extends IPairByFace<IQube>` | 中 | Qube 对类型 |
-| 23 | `IRaycaster.ts` | `interface IRaycaster` (空) | 低 | 空占位接口 |
-| 24 | `IRectPair.ts` | `interface IRectPair extends IPairByFace<IRect>` | 中 | Rect 对类型 |
-| 25 | `IStyle.ts` | `interface IStyle` (~28字段) | 低 | Canvas 渲染样式 |
-| 26 | `IVector2.ts` | `interface IVector2 extends IVector2Like` (4字段+方法) | 中 | 2D 向量 |
-| 27 | `IVector2Like.ts` | `interface IVector2Like` (2字段) | 中 | |
-| 28 | `IVector3.ts` | `interface IVector3 extends IVector3Like` (3字段+方法) | 中 | 3D 向量 |
-| 29 | `IVector3Like.ts` | `interface IVector3Like` (3字段) | 中 | |
-| 30 | `IVector4Like.ts` | `interface IVector4Like` (4字段) | 中 | |
-| 31 | `IWorldDataset.ts` | `interface IWorldDataset` (~40字段) | ⭐关键 | 已在上面 ✅ 列出 — 此项已转换 |
-
-> 注：`IWorldDataset` 已在"已完成"中统计，此处仅补列。
+| 1 | `IBgData.ts` | `interface IBgData` (6字段) | 高 | 背景数据结构；TS 有 bg_data_new(), Schema_IBgData |
+| 2 | `IBotAction.ts` | `interface IBotAction` (8字段) | 高 | 引用 CondMaker, IExpression, IBotRay |
+| 3 | `IBotData.ts` | `interface IBotData` (5字段) | 高 | |
+| 4 | `IBotDataSet.ts` | `interface IBotDataSet` (~25字段) | 中 | TS 有 fields 元数据 |
+| 5 | `IBotRay.ts` | `interface IBotRay` (8字段) | 中 | Bot 射线检测 |
+| 6 | `IBounding.ts` | `interface IBounding` (6字段) | 低 | 简单包围盒 |
+| 7 | `IDataLists.ts` | `IDataLists` + `ITempDataLists` (各4字段) | 高 | 数据列表结构 |
+| 8 | `IDataMap.ts` | `interface IDataMap` (5个索引字段) | 高 | 类型索引 Map |
+| 9 | `IDatContext.ts` | `interface IDatContext` (5字段) | 中 | 数据上下文 |
+| 10 | `IEntityData.ts` | `IEntityData` + `TItrPrefabs` + `TBdyPrefabs` (9字段) | ⭐关键 | 核心实体数据结构；TS 有 entity_data_new() |
+| 11 | `IFrameIndexes.ts` | `interface IFrameIndexes` (~20字段) | 高 | TS 有 frame_indexes_new() |
+| 12 | `IFullGameZipInfo.ts` | `IBaseZipInfo`,`IGameZipInfo`,`IPrelZipInfo`,`IDataZipInfo`,`IAnyZipInfo` | 低 | ZIP 信息类型 |
+| 13 | `IHitKeyCollection.ts` | `interface IHitKeyCollection` (~15字段) | 高 | 命中按键映射 |
+| 14 | `IHoldKeyCollection.ts` | `interface IHoldKeyCollection` (9字段) | 高 | 按住按键映射 |
+| 15 | `ILegacyPictureInfo.ts` | `interface ILegacyPictureInfo extends IPictureInfo` (+5字段) | 低 | TS 有 legacy_picture_info_fields |
+| 16 | `INextFrame.ts` | `INextFrame extends IVelocityInfo`, `INextFrameResult`, `TNextFrame` (~12字段) | ⭐关键 | 核心帧过渡类型 |
+| 17 | `IPairByFace.ts` | `interface IPairByFace<T>` (泛型) | 中 | 泛型 Pair 类型，被 IRectPair, IQubePair, IFrameIndexes 使用 |
+| 18 | `IPicture.ts` | `interface IPicture<T>` (4字段) | 低 | |
+| 19 | `IQuaternion.ts` | `interface IQuaternion` (空) | 低 | 空占位接口 |
+| 20 | `IQubePair.ts` | `interface IQubePair extends IPairByFace<IQube>` | 中 | Qube 对类型 |
+| 21 | `IRaycaster.ts` | `interface IRaycaster` (空) | 低 | 空占位接口 |
+| 22 | `IRectPair.ts` | `interface IRectPair extends IPairByFace<IRect>` | 中 | Rect 对类型 |
+| 23 | `IStyle.ts` | `interface IStyle` (~28字段) | 低 | Canvas 渲染样式 |
+| 24 | `IVector2.ts` | `interface IVector2 extends IVector2Like` (4字段+方法) | 中 | 2D 向量 |
+| 25 | `IVector2Like.ts` | `interface IVector2Like` (2字段) | 中 | |
+| 26 | `IVector3.ts` | `interface IVector3 extends IVector3Like` (3字段+方法) | 中 | 3D 向量 |
+| 27 | `IVector3Like.ts` | `interface IVector3Like` (3字段) | 中 | |
+| 28 | `IVector4Like.ts` | `interface IVector4Like` (4字段) | 中 | |
 
 ---
 
