@@ -12,9 +12,9 @@
 | 类别 | TS 文件数 | ✅ 已完成 | ⚠️ 部分完成 | ❌ 未转换 |
 |---|---|---|---|---|
 | 枚举 (Enum) | 44 | 42 (95%) | 2 (5%) | 1 (2%) |
-| 接口 (Interface) | 59 | 36 (61%) | 9 (15%) | 12 (20%) |
+| 接口 (Interface) | 59 | 38 (64%) | 9 (15%) | 10 (17%) |
 | 特殊/工具文件 | 4 | 1 (25%) | 1 (25%) | 2 (50%) |
-| **合计** | **107** | **79 (74%)** | **12 (11%)** | **16 (15%)** |
+| **合计** | **107** | **81 (76%)** | **12 (11%)** | **14 (13%)** |
 
 > Action 动作接口子目录：**17/17 文件 ✅ 全部完成**（详见 [actions/PROGRESS.md](actions/PROGRESS.md)）
 
@@ -86,7 +86,7 @@
 
 ## 二、接口文件 (TS `interface` → C++ `struct` with Fields)
 
-### ✅ 已完成 (36)
+### ✅ 已完成 (38)
 
 | # | TS 文件 | TS 导出 | 字段数 | C++ 文件 | 备注 |
 |---|---|---|---|---|---|
@@ -127,6 +127,7 @@
 | 35 | `INextFrame.ts` | `INextFrame extends IVelocityInfo` + `INextFrameResult` | 11+2 | `INextFrame.hpp` | 继承 `IVelocityInfo`；`judger` 用 `void*`；含 `next_frame_fields()` |
 | 36 | `IHitKeyCollection.ts` | `interface IHitKeyCollection` | 16 | —（无需独立文件） | `std::unordered_map<string, TNextFrame>`，按键名→帧过渡 |
 | 37 | `IHoldKeyCollection.ts` | `interface IHoldKeyCollection` | 9 | —（无需独立文件） | `std::unordered_map<string, TNextFrame>`，按住键→帧过渡 |
+| 38 | `IBgData.ts` | `interface IBgData` | 6 | `IBgData.hpp` | 背景数据；`type` 固定 "background"；含 `bg_data_fields()` |
 
 ### ⚠️ 部分完成 (9)
 
@@ -142,14 +143,13 @@
 | 8 | `IOpointInfo.ts` | `IOpointMulti`(4字段) + `IOpointInfo`(~15字段) | `IOpointInfo.hpp` | ❌ name, origin_type, action(TNextFrame), IOpointMulti 字段, facing 相关字段 |
 | 9 | `IStageObjectInfo.ts` | `interface IStageObjectInfo` (~20字段) | `IStageObjectInfo.hpp` | ❌ hp_map, mp_map, times, ratio, is_boss, is_soldier, reserve, join, join_team, outline_color |
 
-### ❌ 未转换 (12)
+### ❌ 未转换 (11)
 
 | # | TS 文件 | TS 导出 | 优先级 | 说明 |
 |---|---|---|---|---|
-| 1 | `IBgData.ts` | `interface IBgData` (6字段) | 高 | 背景数据结构；TS 有 bg_data_new(), Schema_IBgData |
-| 2 | `IBotData.ts` | `interface IBotData` (5字段) | 高 | |
-| 3 | `IDataLists.ts` | `IDataLists` + `ITempDataLists` (各4字段) | 高 | 数据列表结构 |
-| 4 | `IDatContext.ts` | `interface IDatContext` (5字段) | 中 | 数据上下文 |
+| 1 | `IBotData.ts` | `interface IBotData` (5字段) | 高 | |
+| 2 | `IDataLists.ts` | `IDataLists` + `ITempDataLists` (各4字段) | 高 | 数据列表结构 |
+| 3 | `IDatContext.ts` | `interface IDatContext` (5字段) | 中 | 数据上下文 |
 | 5 | `IEntityData.ts` | `IEntityData` + `TItrPrefabs` + `TBdyPrefabs` (9字段) | ⭐关键 | 核心实体数据结构；TS 有 entity_data_new() |
 | 6 | `IFrameIndexes.ts` | `interface IFrameIndexes` (~20字段) | 高 | TS 有 frame_indexes_new() |
 | 7 | `IFullGameZipInfo.ts` | `IBaseZipInfo`,`IGameZipInfo`,`IPrelZipInfo`,`IDataZipInfo`,`IAnyZipInfo` | 低 | ZIP 信息类型 |
