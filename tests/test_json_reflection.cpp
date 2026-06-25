@@ -213,6 +213,68 @@ static void test_json_schema_generation()
 }
 
 // ========================================================================
+// Map + StringArray 字段测试
+// ========================================================================
+
+struct BotConfig
+{
+  std::string name;
+  std::unordered_map<int, std::string> keys;
+  std::vector<std::string> tags;
+};
+
+static const auto &bot_config_fields()
+{
+  static const auto fs = fields<BotConfig>(
+      field("name", FieldKind::String, &BotConfig::name, "名称"),
+      field("keys", FieldKind::Map, [](const BotConfig &b) -> std::any
+            { return b.keys; }, [](BotConfig &b, const std::any &val)
+            { b.keys = std::any_cast<std::unordered_map<int, std::string>>(val); }, "按键映射"),
+      field("tags", FieldKind::StringArray, &BotConfig::tags, "标签"));
+  return fs;
+}
+
+static void test_json_map_serialize()
+{
+  const auto &fs = bot_config_fields();
+  BotConfig cfg{"BotA", {{1, "A"}, {2, "B"}, {3, "C"}}, {"melee", "ai"}};
+
+  json j = to_json(cfg, fs);
+  assert(j["name"] == "BotA");
+  assert(j["keys"]["1"] == "A");
+  assert(j["keys"]["2"] == "B");
+  assert(j["keys"]["3"] == "C");
+  assert(j["tags"].size() == 2);
+  assert(j["tags"][0] == "melee");
+}
+
+static void test_json_map_roundtrip()
+{
+  const auto &fs = bot_config_fields();
+  BotConfig original{"RT", {{10, "X"}, {20, "Y"}}, {"tag1"}};
+
+  json j = to_json(original, fs);
+  BotConfig restored;
+  from_json(restored, j, fs);
+
+  assert(restored.name == "RT");
+  assert(restored.keys.size() == 2);
+  assert(restored.keys[10] == "X");
+  assert(restored.keys[20] == "Y");
+  assert(restored.tags.size() == 1);
+  assert(restored.tags[0] == "tag1");
+}
+
+static void test_json_map_value_type()
+{
+  const auto &fs = bot_config_fields();
+  auto *e = fs.find("keys");
+  assert(e != nullptr);
+  assert(e->info.kind == FieldKind::Map);
+  assert(e->info.value_type == typeid(std::string));
+}
+
+// ========================================================================
 void run_json_reflection_tests()
 {
   std::cout << "  --- JSON Reflection ---\n";
@@ -222,6 +284,9 @@ void run_json_reflection_tests()
   test_json_roundtrip();
   test_json_partial_update();
   test_json_schema_generation();
+  test_json_map_serialize();
+  test_json_map_roundtrip();
+  test_json_map_value_type();
 
-  std::cout << "  PASS: JSON Reflection (5 subtests)\n";
+  std::cout << "  PASS: JSON Reflection (8 subtests)\n";
 }

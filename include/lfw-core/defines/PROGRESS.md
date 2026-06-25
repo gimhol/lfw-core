@@ -12,9 +12,9 @@
 | 类别 | TS 文件数 | ✅ 已完成 | ⚠️ 部分完成 | ❌ 未转换 |
 |---|---|---|---|---|
 | 枚举 (Enum) | 44 | 42 (95%) | 2 (5%) | 1 (2%) |
-| 接口 (Interface) | 59 | 31 (53%) | 10 (17%) | 16 (27%) |
+| 接口 (Interface) | 59 | 32 (54%) | 9 (15%) | 16 (27%) |
 | 特殊/工具文件 | 4 | 1 (25%) | 1 (25%) | 2 (50%) |
-| **合计** | **107** | **74 (69%)** | **13 (12%)** | **20 (19%)** |
+| **合计** | **107** | **75 (70%)** | **12 (11%)** | **20 (19%)** |
 
 > Action 动作接口子目录：**17/17 文件 ✅ 全部完成**（详见 [actions/PROGRESS.md](actions/PROGRESS.md)）
 
@@ -86,7 +86,7 @@
 
 ## 二、接口文件 (TS `interface` → C++ `struct` with Fields)
 
-### ✅ 已完成 (31)
+### ✅ 已完成 (32)
 
 | # | TS 文件 | TS 导出 | 字段数 | C++ 文件 | 备注 |
 |---|---|---|---|---|---|
@@ -122,8 +122,9 @@
 | 30 | `IPicture.ts` | `interface IPicture<T>` | 4 | `IPicture.hpp` | 非模板；`tex_id` 资源句柄，外部 TextureCache 管理 |
 | 31 | `IBotRay.ts` | `interface IBotRay` | 8 | `IBotRay.hpp` | XZ 射线检测，含 `bot_ray_fields()` |
 | 32 | `IBotAction.ts` | `interface IBotAction` | 9 | `IBotAction.hpp` | Bot 动作，含 `bot_action_fields()`；`judger` 用 `void*` |
+| 33 | `IPurePlayerInfo.ts` | `interface IPurePlayerInfo` | 5 | `IPurePlayerInfo.hpp` | `keys` 用 `std::unordered_map<GameKey, string>` |
 
-### ⚠️ 部分完成 (10)
+### ⚠️ 部分完成 (9)
 
 | # | TS 文件 | TS 导出 | C++ 文件 | C++ 缺少的字段/差异 |
 |---|---|---|---|---|
@@ -135,8 +136,7 @@
 | 6 | `IFrameInfo.ts` | `interface IFrameInfo extends Partial<IWorldDataset>, IVelocityInfo` (~30字段) | `IFrameInfo.hpp` | ❌ 极度简化 — C++ 仅 6 字段: id, wait, pic, next, state, facing。缺少: name, centerx/y, width, height, sound, hp_max, hold, hit, key_down/up, seqs, bdy, itr, wpoint, bpoint, opoint, cpoint, invisible, no_shadow, jump_flag, on_dead, on_exhaustion, on_landing, behavior, chase + IWorldDataset 字段 |
 | 7 | `IItrInfo.ts` | `interface IItrInfo extends Partial<IQube>` (~25字段) | `IItrInfo.hpp` | ❌ kind_name, effect_name, dvx/dvy/dvz, arest, catchingact, caughtact, on_hit_ground, actions, test, tester, code, ref, prefab_id, indicator_info, motionless, shaking |
 | 8 | `IOpointInfo.ts` | `IOpointMulti`(4字段) + `IOpointInfo`(~15字段) | `IOpointInfo.hpp` | ❌ name, origin_type, action(TNextFrame), IOpointMulti 字段, facing 相关字段 |
-| 9 | `IPurePlayerInfo.ts` | `interface IPurePlayerInfo` (5字段) | `IPurePlayerInfo.hpp` | ⚠️ 字段不同 — TS: id,name,keys,version,ctrl；C++: name,id,team,is_bot,keys |
-| 10 | `IStageObjectInfo.ts` | `interface IStageObjectInfo` (~20字段) | `IStageObjectInfo.hpp` | ❌ hp_map, mp_map, times, ratio, is_boss, is_soldier, reserve, join, join_team, outline_color |
+| 9 | `IStageObjectInfo.ts` | `interface IStageObjectInfo` (~20字段) | `IStageObjectInfo.hpp` | ❌ hp_map, mp_map, times, ratio, is_boss, is_soldier, reserve, join, join_team, outline_color |
 
 ### ❌ 未转换 (16)
 

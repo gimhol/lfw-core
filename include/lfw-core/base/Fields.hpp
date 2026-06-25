@@ -24,7 +24,8 @@ enum class FieldKind
   Bool,
   StringArray,
   DoublePair,
-  DoubleTriple
+  DoubleTriple,
+  Map
 };
 
 inline const char *field_kind_name(FieldKind k)
@@ -45,6 +46,8 @@ inline const char *field_kind_name(FieldKind k)
     return "double[2]";
   case FieldKind::DoubleTriple:
     return "double[3]";
+  case FieldKind::Map:
+    return "map";
   }
   return "?";
 }
@@ -52,6 +55,21 @@ inline const char *field_kind_name(FieldKind k)
 // ============================================================
 // FieldInfo — 单个字段的元数据（运行时反射信息）
 // ============================================================
+
+/// 提取 map 类型的 key_type / mapped_type（非 map 类型返回 void）
+template <typename T, typename = void>
+struct map_traits
+{
+  using key_type = void;
+  using mapped_type = void;
+};
+template <typename T>
+struct map_traits<T, std::void_t<typename T::key_type, typename T::mapped_type>>
+{
+  using key_type = typename T::key_type;
+  using mapped_type = typename T::mapped_type;
+};
+
 struct FieldInfo
 {
   std::string key; // 字段名
@@ -62,6 +80,9 @@ struct FieldInfo
 
   bool nullable = false;
   bool array = false;
+
+  // Map 约束
+  std::type_index value_type = typeid(void); // map 值类型，非 map 为 void
 
   // 数值约束 (Int / Float)
   bool has_min = false;
@@ -86,6 +107,8 @@ struct FieldInfo
 
 template <typename T, typename U>
 class FieldDef;
+
+struct CustomField;
 
 // ============================================================
 // Fields — 结构体的字段映射（反射容器）
@@ -162,6 +185,8 @@ public:
 
   template <typename U>
   std::size_t add_entry(FieldDef<T, U> def);
+
+  std::size_t add_entry(const CustomField &def);
 
 private:
   std::vector<Entry> _entries;
@@ -326,11 +351,55 @@ private:
 // ============================================================
 // field() — 创建字段定义
 // ============================================================
+
+/// 版本1：成员指针（默认）
 template <typename T, typename U>
 FieldDef<T, U> field(std::string key, FieldKind kind, U T::*member,
                      std::string title = "")
 {
   return FieldDef<T, U>(std::move(key), kind, member).title(std::move(title));
+}
+
+/// 版本2：自定义 getter/setter（无成员指针，T 由 fields<T>() 确定）
+struct CustomField
+{
+  std::string key;
+  FieldKind kind = FieldKind::Int;
+  std::any getter_any;
+  std::any setter_any;
+  std::string title;
+  std::string desc;
+  int order = -1;
+
+  CustomField &set_title(std::string v)
+  {
+    title = std::move(v);
+    return *this;
+  }
+  CustomField &set_desc(std::string v)
+  {
+    desc = std::move(v);
+    return *this;
+  }
+  CustomField &set_order(int v)
+  {
+    order = v;
+    return *this;
+  }
+};
+
+/// field() — 自定义 getter/setter，G/S 从 lambda 推导
+template <typename G, typename S>
+CustomField field(std::string key, FieldKind kind,
+                  G getter, S setter, std::string title = "")
+{
+  CustomField cf;
+  cf.key = std::move(key);
+  cf.kind = kind;
+  cf.getter_any = std::function(getter);
+  cf.setter_any = std::function(setter);
+  cf.title = std::move(title);
+  return cf;
 }
 
 // ============================================================
@@ -366,6 +435,7 @@ std::size_t Fields<T>::add_entry(FieldDef<T, U> def)
   info.bit_flag = def._bit_flag;
   info.max_length = def._max_length;
   info.options = std::move(def._options);
+  info.value_type = typeid(typename map_traits<U>::mapped_type);
 
   Getter getter = [member = def._member](const T &obj) -> std::any
   { return static_cast<U>(obj.*member); };
@@ -374,6 +444,25 @@ std::size_t Fields<T>::add_entry(FieldDef<T, U> def)
   {
     obj.*member = resolve_any<std::decay_t<U>>(val);
   };
+
+  _by_name[info.key] = _entries.size();
+  _entries.push_back({std::move(info), std::move(getter), std::move(setter)});
+  return _entries.size() - 1;
+}
+
+// 内部实现：CustomField → Fields::Entry（自定义 getter/setter）
+template <typename T>
+std::size_t Fields<T>::add_entry(const CustomField &def)
+{
+  FieldInfo info;
+  info.key = def.key;
+  info.kind = def.kind;
+  info.order = def.order >= 0 ? def.order : static_cast<int>(_entries.size());
+  info.title = def.title;
+  info.desc = def.desc;
+
+  auto getter = std::any_cast<Getter>(def.getter_any);
+  auto setter = std::any_cast<Setter>(def.setter_any);
 
   _by_name[info.key] = _entries.size();
   _entries.push_back({std::move(info), std::move(getter), std::move(setter)});
