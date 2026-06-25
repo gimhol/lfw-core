@@ -148,7 +148,7 @@ struct IWorldDataset
   int indicator_flags = 0;
 
   // === 时间 ===
-  double UPS = 60;
+  int UPS = 60;
   double playrate = 1;
   double atom_time = 1;
 
@@ -252,7 +252,7 @@ inline const auto &world_dataset_fields()
       field("whirlwind_acc_z", FieldKind::Float, &IWorldDataset::whirlwind_acc_z, "旋风加速度Z"),
       field("outline_enabled", FieldKind::Float, &IWorldDataset::outline_enabled, "outline_enabled"),
       field("indicator_flags", FieldKind::Int, &IWorldDataset::indicator_flags, "indicator_flags"),
-      field("UPS", FieldKind::Float, &IWorldDataset::UPS, "UPS"),
+      field("UPS", FieldKind::Int, &IWorldDataset::UPS, "UPS"),
       field("playrate", FieldKind::Float, &IWorldDataset::playrate, "playrate"),
       field("atom_time", FieldKind::Float, &IWorldDataset::atom_time, "atom_time"),
       field("lf2_net", FieldKind::Float, &IWorldDataset::lf2_net, "lf2_net"),
