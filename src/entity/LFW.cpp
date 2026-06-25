@@ -28,9 +28,4 @@ MersenneTwister &LFW::mt()
   return _->_mt;
 }
 
-const MersenneTwister &LFW::mt() const
-{
-  return _->_mt;
-}
-
 LFW_NS_END
