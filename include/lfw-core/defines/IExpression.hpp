@@ -1,5 +1,5 @@
-#ifndef LFW_CORE_IEXPRESSION_HPP
-#define LFW_CORE_IEXPRESSION_HPP
+#ifndef LFW_CORE_DEFINES_IEXPRESSION_HPP
+#define LFW_CORE_DEFINES_IEXPRESSION_HPP
 
 // ============================================================
 // IExpression — 表达式接口
@@ -12,4 +12,4 @@ struct IExpression
   virtual bool run(const T &arg) = 0;
 };
 
-#endif // LFW_CORE_IEXPRESSION_HPP
+#endif // LFW_CORE_DEFINES_IEXPRESSION_HPP

@@ -7,7 +7,7 @@
 #include <unordered_map>
 #include <vector>
 
-#include "lfw-core/base/IExpression.hpp"
+#include "lfw-core/defines/IExpression.hpp"
 #include "lfw-core/defines/Difficulty.hpp"
 
 // 前向声明
