@@ -63,7 +63,7 @@ public:
   Animation &start() { return start(reverse()); }
 
   /// 开始动画（指定反向状态）
-  Animation &start(bool reverse_val);
+  virtual Animation &start(bool reverse_val);
 
   /// 自动跳转（用于双向动画自动切换方向）
   Animation &auto_trip(bool reverse_val, double dt);

@@ -1,4 +1,4 @@
-#include "lfw-core/entity/LFW.hpp"
+#include "lfw-core/LFW.hpp"
 #include <chrono>
 
 LFW_NS_BEGIN
