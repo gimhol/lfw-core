@@ -9,7 +9,7 @@
 | **base/** | 13 | 9 | [→](include/lfw-core/base/PROGRESS.md) |
 | **utils/** | — | 9 | [✅ 100%](include/lfw-core/utils/PROGRESS.md) |
 | **defines/** | ~100 | 枚举+actions+Info | [→](include/lfw-core/defines/PROGRESS.md) |
-| **animation/** | 10 | 10 | ✅ 全部 | 
+| **animation/** | 10 | 10 | ✅ 全部 |
 | **bg/** | 2 | 2 | ✅ 全部 |
 | **ditto/** | ~30 | 0 | 🔴 |
 | **state/** | ~30 | 0 | 🔴 |
