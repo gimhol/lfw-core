@@ -6,16 +6,16 @@
 
 | 模块 | TS 文件数 | 已转换 | 详情 |
 | --- | --- | --- | --- |
-| **base/** | 13 | 8 | [→](include/lfw-core/base/PROGRESS.md) |
+| **base/** | 13 | 9 | [→](include/lfw-core/base/PROGRESS.md) |
 | **utils/** | — | 9 | [✅ 100%](include/lfw-core/utils/PROGRESS.md) |
 | **defines/** | ~100 | 枚举+actions+Info | [→](include/lfw-core/defines/PROGRESS.md) |
+| **animation/** | 10 | 10 | ✅ 全部 | 
+| **bg/** | 2 | 2 | ✅ 全部 |
 | **ditto/** | ~30 | 0 | 🔴 |
 | **state/** | ~30 | 0 | 🔴 |
 | **entity/** | — | 0 | 🔴 |
 | **controller/** | — | 0 | 🔴 |
-| **animation/** | — | 0 | 🔴 |
 | **collision/** | — | 0 | 🔴 |
-| **bg/** | — | 0 | 🔴 |
 | **buff/** | — | 0 | 🔴 |
 | **bot/** | — | 0 | 🔴 |
 | **dat_translator/** | — | 0 | 🔴 |
