@@ -5,14 +5,24 @@
 #include <string>
 #include <vector>
 
-/// IStageInfo — 关卡信息
+#include "lfw-core/defines/IStagePhaseInfo.hpp"
+
+/// IStageInfo — 关卡信息，对应 TS IStageInfo
 struct IStageInfo
 {
+  std::string id;
+  std::string bg;
   std::string name;
-  std::optional<std::string> bg;
-  std::optional<std::string> music;
-  std::optional<int> difficulty;
-  // phases — 待完善
+  std::vector<IStagePhaseInfo> phases;
+
+  std::optional<std::string> chapter;
+  std::optional<std::string> next;
+  std::optional<std::string> cond_end;         ///< 关卡结束判定
+  std::optional<std::string> act_of_goto_next; ///< 通过动作
+  std::optional<bool> is_starting;             ///< 是否为首个小关
+  std::optional<std::string> starting_name;    ///< 起点名称
+  std::optional<std::string> title;            ///< 大标题
+  std::optional<std::vector<std::string>> group;
 };
 
 #endif

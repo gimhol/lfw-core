@@ -3,8 +3,12 @@
 
 #include <array>
 #include <cstdint>
+#include <unordered_map>
 
 #include "lfw-core/core.hpp"
+#include "lfw-core/defines/CheatType.hpp"
+#include "lfw-core/defines/IStageInfo.hpp"
+#include "lfw-core/defines/TeamEnum.hpp"
 #include "lfw-core/defines/WeaponType.hpp"
 
 LFW_NS_BEGIN
@@ -148,6 +152,77 @@ namespace Defines
   {
     return static_cast<int>(MAX_AI_DESIRE * ratio + 0.5);
   }
+
+  // ============================================================
+  // === 队伍信息 ===
+  // ============================================================
+
+  struct ITeamInfo
+  {
+    const char *i18n;
+    const char *txt_color;
+    const char *txt_outline_color;
+    const char *outline_color = nullptr;
+  };
+
+  using ITeamInfoMap = std::unordered_map<TeamEnum, ITeamInfo>;
+
+  inline const std::array<TeamEnum, 5> Teams = {
+      TeamEnum::Independent,
+      TeamEnum::Team_1,
+      TeamEnum::Team_2,
+      TeamEnum::Team_3,
+      TeamEnum::Team_4,
+  };
+
+  inline const ITeamInfoMap TeamInfoMap = {
+      {TeamEnum::Independent, {"Independent", "#ffffff", "#000000"}},
+      {TeamEnum::Team_1, {"Team_1", "#4f9bff", "#001e46", "#4f9bff"}},
+      {TeamEnum::Team_2, {"Team_2", "#ff4f4f", "#460000", "#ff4f4f"}},
+      {TeamEnum::Team_3, {"Team_3", "#3cad0f", "#154103", "#3cad0f"}},
+      {TeamEnum::Team_4, {"Team_4", "#ffd34c", "#573100", "#ffd34c"}},
+      {TeamEnum::Team_5, {"Team_5", "#ff00bf", "#2b0020", "#ff5cd6"}},
+      {TeamEnum::Team_6, {"Team_6", "#00ffff", "#003131", "#00ffff"}},
+      {TeamEnum::Team_7, {"Team_7", "#000000", "#ff0000", "#300000"}},
+      {TeamEnum::Team_8, {"Team_8", "#000000", "#ffffff", "#ffffff"}},
+  };
+
+  // ============================================================
+  // === 作弊码信息 ===
+  // ============================================================
+
+  struct ICheatInfo
+  {
+    const char *keys;
+    const char *gkeys;
+    const char *sound;
+  };
+
+  using CheatInfoMap = std::unordered_map<CheatType, ICheatInfo>;
+
+  inline const CheatInfoMap CheatInfos = {
+      {CheatType::LF2_NET, {"lf2.net", "UUDDLRLRdada", "data/m_pass.wav.mp3"}},
+      {CheatType::HERO_FT, {"herofighter.com", "UUDDLRLRjaja", "data/m_end.wav.mp3"}},
+      {CheatType::GIM_INK, {"gim.ink", "UUDDLRLRdjdj", "data/093_r.wav.mp3"}},
+  };
+
+  // ============================================================
+  // === 内置关卡 ===
+  // ============================================================
+
+  inline const IStageInfo VOID_STAGE = {
+      "VOID_STAGE",                   // id
+      "VOID_BG",                      // bg
+      "VOID_STAGE",                   // name
+      std::nullopt,                   // chapter
+      std::nullopt,                   // next
+      std::nullopt,                   // cond_end
+      std::nullopt,                   // act_of_goto_next
+      std::nullopt,                   // is_starting
+      std::nullopt,                   // starting_name
+      std::nullopt,                   // title
+      std::vector<std::string>{"Dev"} // group
+  };
 
 } // namespace Defines
 
