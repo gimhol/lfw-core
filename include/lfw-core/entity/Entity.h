@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 
+#include "lfw-core/base/Signal.h"
 #include "lfw-core/core.hpp"
 #include "lfw-core/defines/EntityType.hpp"
 #include "lfw-core/defines/IFrameInfo.hpp"
@@ -14,6 +15,7 @@
 #include "lfw-core/defines/StateType.hpp"
 #include "lfw-core/defines/TeamEnum.hpp"
 #include "lfw-core/entity/EnterFrameResult.h"
+#include "lfw-core/entity/EntityCallbacks.h"
 #include "lfw-core/entity/StatBarType.h"
 #include "lfw-core/utils/math/Times.hpp"
 
@@ -48,19 +50,47 @@ public:
   // === 渲染 ===
   int render_effect_time() const { return _render_effect_time; }
   const std::string &outline_color() const { return _outline_color; }
-  void set_outline_color(const std::string &v) { _outline_color = v; ++_render_effect_time; }
+  void set_outline_color(const std::string &v)
+  {
+    _outline_color = v;
+    ++_render_effect_time;
+  }
   double outline_alpha() const { return _outline_alpha; }
-  void set_outline_alpha(double v) { _outline_alpha = v; ++_render_effect_time; }
+  void set_outline_alpha(double v)
+  {
+    _outline_alpha = v;
+    ++_render_effect_time;
+  }
   double outline_width() const { return _outline_width; }
-  void set_outline_width(double v) { _outline_width = v; ++_render_effect_time; }
+  void set_outline_width(double v)
+  {
+    _outline_width = v;
+    ++_render_effect_time;
+  }
   std::optional<int> outline_enabled() const { return _outline_enabled; }
-  void set_outline_enabled(std::optional<int> v) { _outline_enabled = v; ++_render_effect_time; }
+  void set_outline_enabled(std::optional<int> v)
+  {
+    _outline_enabled = v;
+    ++_render_effect_time;
+  }
   const std::string &mix_color() const { return _mix_color; }
-  void set_mix_color(const std::string &v) { _mix_color = v; ++_render_effect_time; }
+  void set_mix_color(const std::string &v)
+  {
+    _mix_color = v;
+    ++_render_effect_time;
+  }
   double mix_strength() const { return _mix_strength; }
-  void set_mix_strength(double v) { _mix_strength = v; ++_render_effect_time; }
+  void set_mix_strength(double v)
+  {
+    _mix_strength = v;
+    ++_render_effect_time;
+  }
   double greyscale() const { return _greyscale; }
-  void set_greyscale(double v) { _greyscale = v; ++_render_effect_time; }
+  void set_greyscale(double v)
+  {
+    _greyscale = v;
+    ++_render_effect_time;
+  }
 
   // === 位置 / 速度 ===
   virtual const IVector3 &position() const = 0;
@@ -143,6 +173,9 @@ public:
 
   // === Buff ===
   std::map<std::string, class Buff *> buffs;
+
+  // === 回调（Signal 系统替代 TS Callbacks） ===
+  SignalGroup<EntityCallbacks> callbacks;
 
   // === 实体类型 ===
   virtual EntityType entity_type() const { return EntityType::Entity; }
