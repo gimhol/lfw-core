@@ -6,7 +6,7 @@
 #include "CheatType.hpp"
 #include "Difficulty.hpp"
 #include "SyncRenderEnum.hpp"
-#include "lfw-core/base/Fields.hpp"
+#include "lfw-core/base/Fields.h"
 
 /// IWorldDataset — 世界数据集（全局物理/战斗参数）
 /// 默认值与 TS WorldDataset 类保持一致

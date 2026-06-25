@@ -1,5 +1,5 @@
-#ifndef LFW_CORE_FIELDS_HPP
-#define LFW_CORE_FIELDS_HPP
+#ifndef LFW_CORE_FIELDS_H
+#define LFW_CORE_FIELDS_H
 
 #include <algorithm>
 #include <any>
@@ -485,4 +485,4 @@ void reorder_keys(T & /*obj*/, const Fields<T> & /*fields_map*/)
   // 此函数保留作为 API 占位
 }
 
-#endif // LFW_CORE_FIELDS_HPP
+#endif // LFW_CORE_FIELDS_H

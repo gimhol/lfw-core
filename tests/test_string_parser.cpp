@@ -9,7 +9,7 @@
 #include "lfw-core/utils/string_parser/match_hash_end.hpp"
 #include "lfw-core/utils/string_parser/take_blocks.hpp"
 #include "lfw-core/utils/string_parser/take_sections.hpp"
-#include "lfw-core/base/Fields.hpp"
+#include "lfw-core/base/Fields.h"
 
 using namespace string_parser;
 

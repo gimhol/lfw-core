@@ -5,7 +5,7 @@
 
 #include "IAction_Base.hpp"
 #include "ActionType.hpp"
-#include "lfw-core/base/Fields.hpp"
+#include "lfw-core/base/Fields.h"
 
 /// 动作: 广播消息
 struct IAction_Broadcast : IAction_Base

@@ -2,7 +2,7 @@
 #define LFW_CORE_DEFINES_ILEGACY_PICTURE_INFO_HPP
 
 #include "IPictureInfo.hpp"
-#include "lfw-core/base/Fields.hpp"
+#include "lfw-core/base/Fields.h"
 
 /// ILegacyPictureInfo — 旧版实体图片信息（继承 IPictureInfo）
 struct ILegacyPictureInfo : IPictureInfo

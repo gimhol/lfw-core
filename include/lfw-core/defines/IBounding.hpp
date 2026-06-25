@@ -1,7 +1,7 @@
 #ifndef LFW_CORE_DEFINES_IBOUNDING_HPP
 #define LFW_CORE_DEFINES_IBOUNDING_HPP
 
-#include "lfw-core/base/Fields.hpp"
+#include "lfw-core/base/Fields.h"
 
 /// IBounding — 包围盒（6 面）
 struct IBounding

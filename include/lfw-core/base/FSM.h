@@ -1,5 +1,5 @@
-#ifndef LFW_CORE_FSM_HPP
-#define LFW_CORE_FSM_HPP
+#ifndef LFW_CORE_FSM_H
+#define LFW_CORE_FSM_H
 
 #include <cstddef>
 #include <functional>
@@ -10,7 +10,7 @@
 #include <type_traits>
 #include <vector>
 
-#include "lfw-core/base/Signal.hpp"
+#include "lfw-core/base/Signal.h"
 
 // ============================================================
 // IState — 状态接口
@@ -210,7 +210,7 @@ private:
 template <typename K, typename S>
 std::function<void(const std::string &)> FSM<K, S>::default_logger = nullptr;
 
-#endif // LFW_CORE_FSM_HPP
+#endif // LFW_CORE_FSM_H
 
 // ============================================================
 // 用法示例

@@ -2,7 +2,7 @@
 #include <cmath>
 #include <iostream>
 
-#include "lfw-core/base/FPS.hpp"
+#include "lfw-core/base/FPS.h"
 
 // ========================================================================
 // FPS 测试

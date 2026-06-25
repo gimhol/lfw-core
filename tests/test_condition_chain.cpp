@@ -3,7 +3,7 @@
 #include <memory>
 #include <string>
 
-#include "lfw-core/base/ConditionChain.hpp"
+#include "lfw-core/base/ConditionChain.h"
 
 // ========================================================================
 // ConditionChain 测试

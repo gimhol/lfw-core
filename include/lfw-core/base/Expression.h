@@ -1,5 +1,5 @@
-#ifndef LFW_CORE_EXPRESSION_HPP
-#define LFW_CORE_EXPRESSION_HPP
+#ifndef LFW_CORE_EXPRESSION_H
+#define LFW_CORE_EXPRESSION_H
 
 #include <algorithm>
 #include <any>
@@ -734,4 +734,4 @@ int main() {
 
 #endif
 
-#endif // LFW_CORE_EXPRESSION_HPP
+#endif // LFW_CORE_EXPRESSION_H

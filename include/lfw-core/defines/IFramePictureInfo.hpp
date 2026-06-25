@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "lfw-core/base/Fields.hpp"
+#include "lfw-core/base/Fields.h"
 
 /// IFramePictureInfo — 帧图片裁剪信息
 struct IFramePictureInfo

@@ -7,7 +7,7 @@
 #include "IAction_Base.hpp"
 #include "ActionType.hpp"
 #include "../HitFlag.hpp"
-#include "lfw-core/base/Fields.hpp"
+#include "lfw-core/base/Fields.h"
 
 /// 动作: 攻击者 Buff
 struct IAction_ABuff : IAction_Base

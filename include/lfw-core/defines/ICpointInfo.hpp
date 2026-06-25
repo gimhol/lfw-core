@@ -7,7 +7,7 @@
 #include "INextFrame.hpp"
 #include "IPairByFace.hpp"
 #include "IRect.hpp"
-#include "lfw-core/base/Fields.hpp"
+#include "lfw-core/base/Fields.h"
 
 /// IQubePair — Qube 对（按朝向区分）
 using IQubePair = IPairByFace<IQube>;

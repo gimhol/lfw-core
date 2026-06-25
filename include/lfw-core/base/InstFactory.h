@@ -1,5 +1,5 @@
-#ifndef LFW_CORE_INSTFACTORY_HPP
-#define LFW_CORE_INSTFACTORY_HPP
+#ifndef LFW_CORE_INSTFACTORY_H
+#define LFW_CORE_INSTFACTORY_H
 
 #include <cstddef>
 #include <cstdio>
@@ -219,4 +219,4 @@ private:
   }
 };
 
-#endif // LFW_CORE_INSTFACTORY_HPP
+#endif // LFW_CORE_INSTFACTORY_H

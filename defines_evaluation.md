@@ -182,7 +182,7 @@
 
 除了类型定义外，还包含 `fields()` 调用（`int()`/`flt()`/`str()`/`any()` 等字段元数据）。
 
-这些文件依赖 `Fields` 反射系统，转换后需要对接 `lfw-core/base/Fields.hpp`。
+这些文件依赖 `Fields` 反射系统，转换后需要对接 `lfw-core/base/Fields.h`。
 
 | 文件 | fields 调用体量 |
 |------|----------------|

@@ -1,5 +1,5 @@
-#ifndef LFW_CORE_FPS_HPP
-#define LFW_CORE_FPS_HPP
+#ifndef LFW_CORE_FPS_H
+#define LFW_CORE_FPS_H
 
 #include <algorithm>
 #include <cstddef>
@@ -48,4 +48,4 @@ private:
   float _retention = 0.99f; // 保留率 [0, 0.99]
 };
 
-#endif // LFW_CORE_FPS_HPP
+#endif // LFW_CORE_FPS_H

@@ -3,7 +3,7 @@
 
 #include <optional>
 
-#include "lfw-core/base/Fields.hpp"
+#include "lfw-core/base/Fields.h"
 
 /// IBotDataSet — Bot 数据集（AI 参数配置，默认值来自 BotDataSet.Default）
 struct IBotDataSet

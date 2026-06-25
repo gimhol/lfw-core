@@ -4,7 +4,7 @@
 #include <optional>
 #include <string>
 
-#include "lfw-core/base/Fields.hpp"
+#include "lfw-core/base/Fields.h"
 
 /// IBgLayerInfo — 背景层信息
 struct IBgLayerInfo

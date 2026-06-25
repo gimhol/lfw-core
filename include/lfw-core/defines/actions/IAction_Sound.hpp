@@ -8,7 +8,7 @@
 #include "IAction_Base.hpp"
 #include "IPos.hpp"
 #include "ActionType.hpp"
-#include "lfw-core/base/Fields.hpp"
+#include "lfw-core/base/Fields.h"
 
 /// 动作: 播放声音
 struct IAction_Sound : IAction_Base

@@ -8,7 +8,7 @@
 #include "IBgInfo.hpp"
 #include "IBgLayerInfo.hpp"
 #include "IWorldDataset.hpp"
-#include "lfw-core/base/Fields.hpp"
+#include "lfw-core/base/Fields.h"
 
 /// IBgData — 背景数据
 struct IBgData

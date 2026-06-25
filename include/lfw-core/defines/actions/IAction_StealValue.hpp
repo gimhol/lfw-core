@@ -5,7 +5,7 @@
 
 #include "IAction_Base.hpp"
 #include "ActionType.hpp"
-#include "lfw-core/base/Fields.hpp"
+#include "lfw-core/base/Fields.h"
 
 /// 动作: 偷取值（吸血/吸蓝等）
 struct IAction_StealValue : IAction_Base

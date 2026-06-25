@@ -6,7 +6,7 @@
 
 #include "IAction_Base.hpp"
 #include "ActionType.hpp"
-#include "lfw-core/base/Fields.hpp"
+#include "lfw-core/base/Fields.h"
 
 /// 动作: 转换队伍
 struct IAction_TurnTeam : IAction_Base

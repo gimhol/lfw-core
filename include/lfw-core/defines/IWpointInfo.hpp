@@ -4,7 +4,7 @@
 #include <optional>
 #include <string>
 
-#include "lfw-core/base/Fields.hpp"
+#include "lfw-core/base/Fields.h"
 
 /// IWpointInfo — 武器挂载点信息
 struct IWpointInfo

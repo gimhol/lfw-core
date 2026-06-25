@@ -1,7 +1,7 @@
 #include <cassert>
 #include <iostream>
 
-#include "lfw-core/base/FSM.hpp"
+#include "lfw-core/base/FSM.h"
 
 // ========================================================================
 // FSM 测试

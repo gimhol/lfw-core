@@ -6,7 +6,7 @@
 
 #include "CtrlDevice.hpp"
 #include "GameKey.hpp"
-#include "lfw-core/base/Fields.hpp"
+#include "lfw-core/base/Fields.h"
 
 /// IPurePlayerInfo — 纯玩家信息（不含运行时状态）
 struct IPurePlayerInfo

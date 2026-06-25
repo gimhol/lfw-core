@@ -7,7 +7,7 @@
 
 #include "BotState.hpp"
 #include "IBotRay.hpp"
-#include "lfw-core/base/Fields.hpp"
+#include "lfw-core/base/Fields.h"
 
 /// IBotAction — Bot 动作
 struct IBotAction

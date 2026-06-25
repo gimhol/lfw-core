@@ -5,7 +5,7 @@
 #include <string>
 
 #include "IRect.hpp"
-#include "lfw-core/base/Fields.hpp"
+#include "lfw-core/base/Fields.h"
 
 /// IItrInfo — 碰撞体信息（攻击）
 struct IItrInfo : IQube

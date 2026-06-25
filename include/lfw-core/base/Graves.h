@@ -1,5 +1,5 @@
-#ifndef LFW_CORE_GRAVES_HPP
-#define LFW_CORE_GRAVES_HPP
+#ifndef LFW_CORE_GRAVES_H
+#define LFW_CORE_GRAVES_H
 
 #include <cstddef>
 #include <optional>
@@ -66,4 +66,4 @@ private:
   std::size_t _i = 0;
 };
 
-#endif // LFW_CORE_GRAVES_HPP
+#endif // LFW_CORE_GRAVES_H

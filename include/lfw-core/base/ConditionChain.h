@@ -1,12 +1,12 @@
-#ifndef LFW_CORE_CONDITIONCHAIN_HPP
-#define LFW_CORE_CONDITIONCHAIN_HPP
+#ifndef LFW_CORE_CONDITIONCHAIN_H
+#define LFW_CORE_CONDITIONCHAIN_H
 
 #include <algorithm>
 #include <cstddef>
 #include <memory>
 #include <vector>
 
-#include "lfw-core/base/Expression.hpp"
+#include "lfw-core/base/Expression.h"
 
 // ============================================================
 // ConditionChain — 条件链
@@ -100,4 +100,4 @@ private:
   std::size_t _index = 0;
 };
 
-#endif // LFW_CORE_CONDITIONCHAIN_HPP
+#endif // LFW_CORE_CONDITIONCHAIN_H

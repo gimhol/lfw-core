@@ -2,7 +2,7 @@
 #include <iostream>
 #include <string>
 
-#include "lfw-core/base/Signal.hpp"
+#include "lfw-core/base/Signal.h"
 
 // ========================================================================
 // Signal 测试

@@ -1,5 +1,5 @@
-#ifndef LFW_CORE_SIGNAL_HPP
-#define LFW_CORE_SIGNAL_HPP
+#ifndef LFW_CORE_SIGNAL_H
+#define LFW_CORE_SIGNAL_H
 
 #include <cstddef>
 #include <deque>
@@ -246,4 +246,4 @@ protected:
   using SignalGroup<Signals>::signals; // 保持 protected 访问
 };
 
-#endif // LFW_CORE_SIGNAL_HPP
+#endif // LFW_CORE_SIGNAL_H

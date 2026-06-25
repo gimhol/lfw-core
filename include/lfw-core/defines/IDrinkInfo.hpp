@@ -4,7 +4,7 @@
 #include <optional>
 #include <string>
 
-#include "lfw-core/base/Fields.hpp"
+#include "lfw-core/base/Fields.h"
 
 /// IDrinkInfo — 饮料数据
 struct IDrinkInfo

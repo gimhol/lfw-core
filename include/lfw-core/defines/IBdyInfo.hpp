@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "IRect.hpp"
-#include "lfw-core/base/Fields.hpp"
+#include "lfw-core/base/Fields.h"
 
 /// IBdyInfo — 碰撞体信息（身体）
 struct IBdyInfo : IQube

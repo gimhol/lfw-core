@@ -8,7 +8,7 @@
 
 #include "IFrameInfo.hpp"
 #include "IVelocityInfo.hpp"
-#include "lfw-core/base/Fields.hpp"
+#include "lfw-core/base/Fields.h"
 
 /// StrOrNum — 字符串或数字
 using StrOrNum = std::variant<std::string, double>;

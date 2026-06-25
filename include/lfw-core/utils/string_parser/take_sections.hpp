@@ -10,7 +10,7 @@
 
 #include "match_colon_value.hpp"
 #include "take_blocks.hpp"
-#include "lfw-core/base/Fields.hpp"
+#include "lfw-core/base/Fields.h"
 
 namespace string_parser
 {

@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-#include "lfw-core/base/Fields.hpp"
+#include "lfw-core/base/Fields.h"
 
 /// IBgInfo — 背景信息
 struct IBgInfo

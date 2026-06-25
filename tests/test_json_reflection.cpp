@@ -5,7 +5,7 @@
 
 #include <nlohmann/json.hpp>
 
-#include "lfw-core/base/Fields.hpp"
+#include "lfw-core/base/Fields.h"
 #include "lfw-core/defines/INextFrame.hpp"
 #include "lfw-core/defines/IQubePair.hpp"
 

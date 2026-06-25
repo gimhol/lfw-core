@@ -58,7 +58,7 @@ export interface IFoo {
 // C++
 #include <optional>
 #include <string>
-#include "lfw-core/base/Fields.hpp"
+#include "lfw-core/base/Fields.h"
 
 struct IFoo {
   std::optional<std::string> id;

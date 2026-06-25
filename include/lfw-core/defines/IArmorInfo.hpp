@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "ArmorEnum.hpp"
-#include "lfw-core/base/Fields.hpp"
+#include "lfw-core/base/Fields.h"
 
 /// IArmorInfo — 护甲信息
 struct IArmorInfo

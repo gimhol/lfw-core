@@ -4,7 +4,7 @@
 #include <string>
 #include <utility>
 
-#include "lfw-core/base/InstFactory.hpp"
+#include "lfw-core/base/InstFactory.h"
 
 // ========================================================================
 // InstFactory 测试

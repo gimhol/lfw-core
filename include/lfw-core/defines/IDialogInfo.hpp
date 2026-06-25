@@ -4,7 +4,7 @@
 #include <optional>
 #include <string>
 
-#include "lfw-core/base/Fields.hpp"
+#include "lfw-core/base/Fields.h"
 
 /// IDialogInfo — 对话框信息
 struct IDialogInfo

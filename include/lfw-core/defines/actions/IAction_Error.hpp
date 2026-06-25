@@ -5,7 +5,7 @@
 
 #include "IAction_Base.hpp"
 #include "ActionType.hpp"
-#include "lfw-core/base/Fields.hpp"
+#include "lfw-core/base/Fields.h"
 
 /// 动作: 错误 — 对应 TS IAction_Error
 struct IAction_Error : IAction_Base

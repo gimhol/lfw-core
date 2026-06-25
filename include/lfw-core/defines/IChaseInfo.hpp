@@ -4,7 +4,7 @@
 #include <optional>
 
 #include "HitFlag.hpp"
-#include "lfw-core/base/Fields.hpp"
+#include "lfw-core/base/Fields.h"
 
 /// IChaseInfo — 追踪信息
 struct IChaseInfo

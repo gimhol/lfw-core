@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-#include "lfw-core/base/Fields.hpp"
+#include "lfw-core/base/Fields.h"
 
 /// IPictureInfo — 图片信息
 struct IPictureInfo

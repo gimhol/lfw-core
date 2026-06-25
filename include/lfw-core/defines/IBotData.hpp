@@ -8,7 +8,7 @@
 
 #include "IBotAction.hpp"
 #include "IBotDataSet.hpp"
-#include "lfw-core/base/Fields.hpp"
+#include "lfw-core/base/Fields.h"
 
 /// IBotData — Bot 数据
 struct IBotData
