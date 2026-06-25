@@ -18,10 +18,7 @@ Entity *Buff::attacker() const
   return world->find_entity(_attacker_id);
 }
 
-void Buff::set_attacker(const std::string &attacker_id_val)
-{
-  _attacker_id = attacker_id_val;
-}
+void Buff::set_attacker(const std::string &attacker_id_val) { _attacker_id = attacker_id_val; }
 
 void Buff::set_victims(const std::vector<std::string> &ids)
 {
@@ -29,7 +26,7 @@ void Buff::set_victims(const std::vector<std::string> &ids)
   {
     if (auto *e = world ? world->find_entity(vid) : nullptr)
     {
-      // TODO: e->buffs 需要 Entity 添加 buffs 成员后启用
+      // TODO: e->buffs 清除引用，等 Entity 添加 buffs 成员
     }
   }
   _victims.clear();
@@ -43,9 +40,6 @@ void Buff::add_victims(const std::vector<std::string> &ids)
     if (std::find(_victims.begin(), _victims.end(), vid) != _victims.end())
       continue;
     _victims.push_back(vid);
-    // TODO: Entity.buffs 转换后启用
-    // if (auto *e = world ? world->find_entity(vid) : nullptr)
-    //   e->buffs.set(id, this);
   }
 }
 
@@ -71,24 +65,12 @@ bool Buff::del_victim(const std::string &victim_id)
     ++slow;
   }
   _victims.resize(slow);
-  // TODO: Entity.buffs 转换后启用
   return found;
 }
 
-BuffResult Buff::on_tick(Entity *, Entity *)
-{
-  return BuffResult::Keep;
-}
-
-BuffResult Buff::on_update(Entity *, Entity *)
-{
-  return BuffResult::Keep;
-}
-
-BuffResult Buff::on_end(Entity *, Entity *)
-{
-  return BuffResult::Keep;
-}
+BuffResult Buff::on_tick(Entity *, Entity *) { return BuffResult::Keep; }
+BuffResult Buff::on_update(Entity *, Entity *) { return BuffResult::Keep; }
+BuffResult Buff::on_end(Entity *, Entity *) { return BuffResult::Keep; }
 
 void Buff::update(double d)
 {

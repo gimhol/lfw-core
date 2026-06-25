@@ -5,7 +5,7 @@
 #include <string>
 
 #include "lfw-core/core.hpp"
-#include "lfw-core/entity/Entity.hpp"
+#include "lfw-core/entity/Entity.h"
 
 LFW_NS_BEGIN
 

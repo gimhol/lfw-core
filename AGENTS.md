@@ -287,7 +287,7 @@ TS 有 template<T>
 #### 示例：Buff 依赖 Entity + World
 
 ```cpp
-// ✅ 最小化 Entity stub（entity/Entity.hpp — 在已有基础上添加）
+// ✅ 最小化 Entity stub（entity/Entity.h — 在已有基础上添加）
 class Entity {
 public:
   virtual const std::string &id() const = 0;  // Buff 需要
@@ -310,7 +310,7 @@ void *attacker() const;
 
 | 文件 | 说明 |
 |------|------|
-| `entity/Entity.hpp` | 实体基类（State_Base + Buff 共用，渐进式添加） |
+| `entity/Entity.h` | 实体基类（State_Base + Buff 共用，渐进式添加） |
 | `World.h` | 游戏世界（Buff 系统所需的最小接口） |
 
 ---

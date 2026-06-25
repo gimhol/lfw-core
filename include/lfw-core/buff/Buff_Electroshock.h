@@ -7,8 +7,6 @@ LFW_NS_BEGIN
 
 /**
  * 电击 Buff — 对应 TS Buff_Electroshock
- *
- * TODO: 等 Entity 的 wait / full StateEnum 覆盖后实现完整逻辑
  */
 class Buff_Electroshock : public Buff
 {
@@ -19,9 +17,16 @@ public:
 
   void init() override { set_ticks(3); }
 
-  BuffResult on_tick(Entity *, Entity *) override
+  BuffResult on_tick(Entity * /*attacker*/, Entity *victim) override
   {
-    // TODO: 实现 Entity.state() 判断 + victim->wait 修改
+    if (!victim || !is_fighter(victim))
+      return BuffResult::Del;
+
+    auto s = victim->state();
+    if (s == StateType::Falling || s == StateType::Injured || s == StateType::Lying)
+      return BuffResult::Keep;
+
+    victim->wait += 1;
     return BuffResult::Keep;
   }
 };

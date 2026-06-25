@@ -2,7 +2,7 @@
 
 #include "lfw-core/defines/Defines.hpp"
 #include "lfw-core/defines/StateType.hpp"
-#include "lfw-core/entity/Entity.hpp"
+#include "lfw-core/entity/Entity.h"
 #include "lfw-core/state/spawn_buring_smoke.hpp"
 
 LFW_NS_BEGIN
