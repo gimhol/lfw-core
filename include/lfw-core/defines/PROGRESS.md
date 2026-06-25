@@ -12,9 +12,9 @@
 | 类别 | TS 文件数 | ✅ 已完成 | ⚠️ 部分完成 | ❌ 未转换 |
 |---|---|---|---|---|
 | 枚举 (Enum) | 44 | 42 (95%) | 2 (5%) | 1 (2%) |
-| 接口 (Interface) | 59 | 18 (31%) | 12 (20%) | 29 (49%) |
+| 接口 (Interface) | 59 | 24 (41%) | 12 (20%) | 23 (39%) |
 | 特殊/工具文件 | 4 | 1 (25%) | 1 (25%) | 2 (50%) |
-| **合计** | **107** | **61 (57%)** | **15 (14%)** | **32 (30%)** |
+| **合计** | **107** | **67 (63%)** | **15 (14%)** | **26 (24%)** |
 
 > Action 动作接口子目录：**17/17 文件 ✅ 全部完成**（详见 [actions/PROGRESS.md](actions/PROGRESS.md)）
 
@@ -86,7 +86,7 @@
 
 ## 二、接口文件 (TS `interface` → C++ `struct` with Fields)
 
-### ✅ 已完成 (18)
+### ✅ 已完成 (24)
 
 | # | TS 文件 | TS 导出 | 字段数 | C++ 文件 | 备注 |
 |---|---|---|---|---|---|
@@ -110,6 +110,12 @@
 | 18 | `IWorldDataset.ts` | `interface IWorldDataset` | ~40 | `IWorldDataset.hpp` | 默认值对齐 |
 | 19 | `IBaseData.ts` | `interface IBaseData<I>` (泛型, 4字段) | 3 | `IBaseData.hpp` | C++ 纯基类 struct（含 id/type/alias_id），子类继承扩展 |
 | 20 | `IDatIndex.ts` | `DatTypeEnum`(11) + `IDatIndex`(8字段) + `ITempDatIndex` | 11+8+1 | `DatTypeEnum.hpp` + `IDatIndex.hpp` | 拆分为两个文件；`ITempDatIndex` 继承 `IDatIndex`；含 `fields()` 元数据 |
+| 21 | `IBounding.ts` | `interface IBounding` | 6 | `IBounding.hpp` | 包围盒，含 `bounding_fields()` |
+| 22 | `IVector2Like.ts` | `interface IVector2Like` | 2 | `IVector2Like.hpp` | 基础二维向量 |
+| 23 | `IVector2.ts` | `interface IVector2 extends IVector2Like` | 2+6方法 | `IVector2.hpp` | 继承 IVector2Like，含 set/add/sub/length/clone/normalize/equals |
+| 24 | `IVector3Like.ts` | `interface IVector3Like` | 3 | `IVector3Like.hpp` | 基础三维向量 |
+| 25 | `IVector3.ts` | `interface IVector3 extends IVector3Like` | 3+7方法 | `IVector3.hpp` | 继承 IVector3Like，含 set/add/sub/copy/clone/normalize/equals |
+| 26 | `IVector4Like.ts` | `interface IVector4Like` | 4 | `IVector4Like.hpp` | 基础四维向量 |
 
 ### ⚠️ 部分完成 (12)
 
@@ -127,7 +133,7 @@
 | 10 | `IPurePlayerInfo.ts` | `interface IPurePlayerInfo` (5字段) | `IPurePlayerInfo.hpp` | ⚠️ 字段不同 — TS: id,name,keys,version,ctrl；C++: name,id,team,is_bot,keys |
 | 11 | `IStageObjectInfo.ts` | `interface IStageObjectInfo` (~20字段) | `IStageObjectInfo.hpp` | ❌ hp_map, mp_map, times, ratio, is_boss, is_soldier, reserve, join, join_team, outline_color |
 
-### ❌ 未转换 (29)
+### ❌ 未转换 (23)
 
 | # | TS 文件 | TS 导出 | 优先级 | 说明 |
 |---|---|---|---|---|
@@ -136,29 +142,23 @@
 | 3 | `IBotData.ts` | `interface IBotData` (5字段) | 高 | |
 | 4 | `IBotDataSet.ts` | `interface IBotDataSet` (~25字段) | 中 | TS 有 fields 元数据 |
 | 5 | `IBotRay.ts` | `interface IBotRay` (8字段) | 中 | Bot 射线检测 |
-| 6 | `IBounding.ts` | `interface IBounding` (6字段) | 低 | 简单包围盒 |
-| 7 | `IDataLists.ts` | `IDataLists` + `ITempDataLists` (各4字段) | 高 | 数据列表结构 |
-| 8 | `IDataMap.ts` | `interface IDataMap` (5个索引字段) | 高 | 类型索引 Map |
-| 9 | `IDatContext.ts` | `interface IDatContext` (5字段) | 中 | 数据上下文 |
-| 10 | `IEntityData.ts` | `IEntityData` + `TItrPrefabs` + `TBdyPrefabs` (9字段) | ⭐关键 | 核心实体数据结构；TS 有 entity_data_new() |
-| 11 | `IFrameIndexes.ts` | `interface IFrameIndexes` (~20字段) | 高 | TS 有 frame_indexes_new() |
-| 12 | `IFullGameZipInfo.ts` | `IBaseZipInfo`,`IGameZipInfo`,`IPrelZipInfo`,`IDataZipInfo`,`IAnyZipInfo` | 低 | ZIP 信息类型 |
-| 13 | `IHitKeyCollection.ts` | `interface IHitKeyCollection` (~15字段) | 高 | 命中按键映射 |
-| 14 | `IHoldKeyCollection.ts` | `interface IHoldKeyCollection` (9字段) | 高 | 按住按键映射 |
-| 15 | `ILegacyPictureInfo.ts` | `interface ILegacyPictureInfo extends IPictureInfo` (+5字段) | 低 | TS 有 legacy_picture_info_fields |
-| 16 | `INextFrame.ts` | `INextFrame extends IVelocityInfo`, `INextFrameResult`, `TNextFrame` (~12字段) | ⭐关键 | 核心帧过渡类型 |
-| 17 | `IPairByFace.ts` | `interface IPairByFace<T>` (泛型) | 中 | 泛型 Pair 类型，被 IRectPair, IQubePair, IFrameIndexes 使用 |
-| 18 | `IPicture.ts` | `interface IPicture<T>` (4字段) | 低 | |
-| 19 | `IQuaternion.ts` | `interface IQuaternion` (空) | 低 | 空占位接口 |
-| 20 | `IQubePair.ts` | `interface IQubePair extends IPairByFace<IQube>` | 中 | Qube 对类型 |
-| 21 | `IRaycaster.ts` | `interface IRaycaster` (空) | 低 | 空占位接口 |
-| 22 | `IRectPair.ts` | `interface IRectPair extends IPairByFace<IRect>` | 中 | Rect 对类型 |
-| 23 | `IStyle.ts` | `interface IStyle` (~28字段) | 低 | Canvas 渲染样式 |
-| 24 | `IVector2.ts` | `interface IVector2 extends IVector2Like` (4字段+方法) | 中 | 2D 向量 |
-| 25 | `IVector2Like.ts` | `interface IVector2Like` (2字段) | 中 | |
-| 26 | `IVector3.ts` | `interface IVector3 extends IVector3Like` (3字段+方法) | 中 | 3D 向量 |
-| 27 | `IVector3Like.ts` | `interface IVector3Like` (3字段) | 中 | |
-| 28 | `IVector4Like.ts` | `interface IVector4Like` (4字段) | 中 | |
+| 6 | `IDataLists.ts` | `IDataLists` + `ITempDataLists` (各4字段) | 高 | 数据列表结构 |
+| 7 | `IDataMap.ts` | `interface IDataMap` (5个索引字段) | 高 | 类型索引 Map |
+| 8 | `IDatContext.ts` | `interface IDatContext` (5字段) | 中 | 数据上下文 |
+| 9 | `IEntityData.ts` | `IEntityData` + `TItrPrefabs` + `TBdyPrefabs` (9字段) | ⭐关键 | 核心实体数据结构；TS 有 entity_data_new() |
+| 10 | `IFrameIndexes.ts` | `interface IFrameIndexes` (~20字段) | 高 | TS 有 frame_indexes_new() |
+| 11 | `IFullGameZipInfo.ts` | `IBaseZipInfo`,`IGameZipInfo`,`IPrelZipInfo`,`IDataZipInfo`,`IAnyZipInfo` | 低 | ZIP 信息类型 |
+| 12 | `IHitKeyCollection.ts` | `interface IHitKeyCollection` (~15字段) | 高 | 命中按键映射 |
+| 13 | `IHoldKeyCollection.ts` | `interface IHoldKeyCollection` (9字段) | 高 | 按住按键映射 |
+| 14 | `ILegacyPictureInfo.ts` | `interface ILegacyPictureInfo extends IPictureInfo` (+5字段) | 低 | TS 有 legacy_picture_info_fields |
+| 15 | `INextFrame.ts` | `INextFrame extends IVelocityInfo`, `INextFrameResult`, `TNextFrame` (~12字段) | ⭐关键 | 核心帧过渡类型 |
+| 16 | `IPairByFace.ts` | `interface IPairByFace<T>` (泛型) | 中 | 泛型 Pair 类型，被 IRectPair, IQubePair, IFrameIndexes 使用 |
+| 17 | `IPicture.ts` | `interface IPicture<T>` (4字段) | 低 | |
+| 18 | `IQuaternion.ts` | `interface IQuaternion` (空) | 低 | 空占位接口 |
+| 19 | `IQubePair.ts` | `interface IQubePair extends IPairByFace<IQube>` | 中 | Qube 对类型 |
+| 20 | `IRaycaster.ts` | `interface IRaycaster` (空) | 低 | 空占位接口 |
+| 21 | `IRectPair.ts` | `interface IRectPair extends IPairByFace<IRect>` | 中 | Rect 对类型 |
+| 22 | `IStyle.ts` | `interface IStyle` (~28字段) | 低 | Canvas 渲染样式 |
 
 ---
 
