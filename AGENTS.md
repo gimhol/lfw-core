@@ -13,6 +13,9 @@
 - **构建**: CMake + vcpkg（依赖 nlohmann-json）
 - **测试框架**: doctest（`tests/` 目录）
 
+> 📌 **移植策略**：当前 C++ 移植为渐进式，逐步添加成员。每个 struct/class
+> 先从 TS 源码中最核心的成员开始移植，后续按需扩展，而非一次性完整复制所有字段。
+
 ---
 
 ## 目录结构
@@ -123,6 +126,10 @@ DEFINE_ENUM_STR_CONVERTERS(my_to_string, my_from_string, MyEnum, MyStrMap)
 | `FooEnum` | `FooType` 或 `Foo` | 去掉冗余 Enum 后缀 |
 | `camelCase` | `snake_case` | 函数/变量命名（已有风格保持一致） |
 
+> ⚠️ **大小写敏感**：本项目目标跨平台编译（Windows / Linux / macOS）。
+> 文件名和 `#include` 路径必须**严格保持与 TS 源文件一致的大小写**，因为 Linux/macOS 文件系统区分大小写。
+> 使用 `git mv` 进行重命名以确保版本控制正确追踪。
+
 ### 5. 头文件保护
 
 ```cpp
@@ -133,6 +140,52 @@ DEFINE_ENUM_STR_CONVERTERS(my_to_string, my_from_string, MyEnum, MyStrMap)
 ```
 
 命名规则: `LFW_CORE_<目录大写>_<文件名大写>_HPP`
+
+### 6. Class 转换：Pimpl 模式
+
+TS 中以 `class` 声明的核心容器（如 `LFW`），其私有成员数量多且会持续扩展，
+使用 **Pimpl（Pointer to Implementation）** 模式隔离实现细节。
+
+```cpp
+// ===== LFW.hpp（公开头文件）=====
+struct LFWPrivate;  // 仅前向声明，无定义
+
+class LFW
+{
+public:
+  LFW();
+  ~LFW();           // 必须显式声明，定义在 .cpp（LFWPrivate 完整类型之后）
+
+  // 公开接口 — getter 委托给 _->member
+  MersenneTwister &mt();
+
+private:
+  std::unique_ptr<LFWPrivate> _;  // 命名约定：下划线单字符
+};
+```
+
+```cpp
+// ===== LFW.cpp（私有实现）=====
+struct LFWPrivate
+{
+  MersenneTwister _mt;  // 真正的成员都放在这里
+
+  LFWPrivate() : _mt(/* seed */) {}
+};
+
+LFW::LFW()  : _(std::make_unique<LFWPrivate>()) {}
+LFW::~LFW() = default;  // 必须在 LFWPrivate 完整定义之后
+
+MersenneTwister &LFW::mt()       { return _->_mt; }
+```
+
+**规则**：
+
+- `XXXPrivate` 在 `.hpp` 中仅前向声明，定义放在 `.cpp`
+- `LFW` 通过 `std::unique_ptr<XXXPrivate> _` 持有私有实现
+- 析构函数必须在 `.hpp` 声明、在 `.cpp` 定义（`= default`），确保 `unique_ptr` 析构时 `XXXPrivate` 已是完整类型
+- 所有公开 getter 委托给 `_->` 访问实际成员
+- 后续新增私有成员只需修改 `XXXPrivate`，头文件无需变动
 
 ---
 

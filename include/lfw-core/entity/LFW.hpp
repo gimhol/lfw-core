@@ -1,6 +1,8 @@
 #ifndef LFW_CORE_ENTITY_LFW_HPP
 #define LFW_CORE_ENTITY_LFW_HPP
 
+#include <memory>
+
 #include "lfw-core/utils/math/MT.hpp"
 #include "lfw-core/core.hpp"
 
@@ -20,10 +22,20 @@ LFW_NS_BEGIN
 ///   - MersenneTwister 随机数生成器（_mt）
 ///   - i18n 国际化（I18N）
 /// 当前 C++ 移植为渐进式，逐步添加成员。
-struct LFW
+///
+/// 私有成员通过 LFWPrivate（Pimpl）隔离，仅在 LFW.cpp 中定义。
+struct LFWPrivate;
+
+class LFW
 {
-  /// 梅森旋转随机数生成器 — 对应 TS lfw._mt（私有，通过 get mt() 暴露）
-  MersenneTwister mt;
+public:
+  LFW();
+  ~LFW();
+
+  MersenneTwister &mt();
+
+private:
+  std::unique_ptr<LFWPrivate> _;
 };
 
 LFW_NS_END

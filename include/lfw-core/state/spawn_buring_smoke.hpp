@@ -4,7 +4,7 @@
 #include "lfw-core/defines/IOpointInfo.hpp"
 #include "lfw-core/defines/OID.hpp"
 #include "lfw-core/entity/Entity.hpp"
-#include "lfw-core/entity/Lfw.hpp"
+#include "lfw-core/entity/LFW.hpp"
 
 #include <cmath>
 
@@ -28,7 +28,7 @@ inline IOpointInfo spawn_buring_smoke(const Entity &e, int foo)
 
   // 随机朝向：对应 TS mt.pick([-1, 1])
   if (auto *l = e.lfw())
-    ret.facing = static_cast<int>(l->mt.range(0, 2)) * 2 - 1; // -1 or 1
+    ret.facing = static_cast<int>(l->mt().range(0, 2)) * 2 - 1; // -1 or 1
   else
     ret.facing = 1;
 
