@@ -4,6 +4,8 @@
 >
 > **TS 源目录**: `C:\Users\Gimho\little-fighter-j\src\LFW\defines\`（共 107 个 .ts 文件，不含 actions/）
 > **C++ 目标目录**: `C:\Users\Gimho\lfw-core\include\lfw-core\defines\`
+>
+> 📖 枚举转换规范见 [ENUM_CONVERSION.md](ENUM_CONVERSION.md)
 
 ---
 

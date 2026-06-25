@@ -7,7 +7,9 @@
 #include <unordered_map>
 
 #include "EnumHelper.hpp"
+#include "../core.hpp"
 
+LFW_NS_BEGIN
 /* 格式: X(枚举类型, 枚举名, "字符串值", "描述", 值) */
 #define ENUM_ITEMS(X)                   \
   X(DatEnum, Invalid, "", "", = 0)      \
@@ -32,20 +34,21 @@ GEN_ENUM_NAME_MAP(DatNameMap, ENUM_ITEMS, DatEnum)
 DEFINE_ENUM_STR_CONVERTERS(dat_to_string, dat_from_string, DatEnum, DatStringMap)
 DEFINE_ENUM_STR_CONVERTERS(dat_to_name, dat_from_name, DatEnum, DatNameMap)
 
-/// 根据 DatEnum 返回文件后缀
-inline std::string_view dat_suffix(DatEnum v)
-{
-  switch (v)
-  {
-  case DatEnum::Background:
-    return "bg";
-  case DatEnum::Stage:
-    return "stage";
-  case DatEnum::Bot:
-    return "bot";
-  default:
-    return "obj";
-  }
-}
-
+/* 后缀映射: DatEnum → 文件后缀 */
+#define SUFFIX_ITEMS(X)                 \
+  X(DatEnum, Invalid, "obj", "", = 0)   \
+  X(DatEnum, Fighter, "obj", "", = 1)   \
+  X(DatEnum, WeaponA, "obj", "", = 2)   \
+  X(DatEnum, WeaponB, "obj", "", = 3)   \
+  X(DatEnum, Ball, "obj", "", = 4)      \
+  X(DatEnum, WeaponC, "obj", "", = 5)   \
+  X(DatEnum, Criminal, "obj", "", = 6)  \
+  X(DatEnum, WeaponD, "obj", "", = 7)   \
+  X(DatEnum, Background, "bg", "", = 8) \
+  X(DatEnum, Stage, "stage", "", = 9)   \
+  X(DatEnum, Bot, "bot", "", = 10)
+GEN_ENUM_STR_MAP(DatSuffixMap, SUFFIX_ITEMS, DatEnum)
+#undef SUFFIX_ITEMS
+DEFINE_ENUM_TO_STR(dat_suffix, DatEnum, DatSuffixMap)
+LFW_NS_END
 #endif
