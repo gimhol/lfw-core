@@ -14,14 +14,19 @@ namespace lfw
   struct IFrameInfo;
   struct INextFrame;
   struct IVector3;
-  struct LFW;
+  class LFW;
 
   /// Entity — 实体基类（虚类），对应 TS Entity 的核心接口
-  /// 只暴露 State_Base 等状态系统所需的最小接口
+  /// 渐进式转换：逐步添加成员，当前已添加 Buff 系统所需的最小接口
   class Entity
   {
   public:
     virtual ~Entity() = default;
+
+    // === 基础标识 ===
+
+    /** 实体唯一 ID */
+    virtual const std::string &id() const = 0;
 
     // === 状态系统所需属性 ===
 

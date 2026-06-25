@@ -272,6 +272,47 @@ TS 有 template<T>
     └─ 需要值语义/类型安全？ ──是──→ 保留 template<T>
 ```
 
+### 9. 依赖未转换文件时的最小化实现策略
+
+当转换一个文件时，若其依赖的 TS 文件尚未转为 C++，**不应使用 `void*` 占位**，
+而应创建一个**最小化 stub**，包含当前转换所需的最小接口。
+
+#### 规则
+
+1. 创建最小化 stub（仅含当前编译所需成员），标注 `/// TODO: 完整转换 pending`
+2. stub 放在与被依赖 TS 文件对应的位置（`include/lfw-core/xxx/`）
+3. stub 应能直接编译通过，后续逐步增补成员
+4. 优先添加纯虚的 getter/setter，避免实现细节
+
+#### 示例：Buff 依赖 Entity + World
+
+```cpp
+// ✅ 最小化 Entity stub（entity/Entity.hpp — 在已有基础上添加）
+class Entity {
+public:
+  virtual const std::string &id() const = 0;  // Buff 需要
+  // ... 已有成员保持不变
+};
+
+// ✅ 最小化 World stub（World.h — 新建）
+class World {
+public:
+  Entity *find_entity(const std::string &eid);         // Buff.loop() 需要
+  std::map<std::string, Buff *> buffs;                 // Buff.mount() 需要
+};
+
+// ❌ 错误：用 void* 占位
+void *world = nullptr;
+void *attacker() const;
+```
+
+#### 已有的最小化 stub
+
+| 文件 | 说明 |
+|------|------|
+| `entity/Entity.hpp` | 实体基类（State_Base + Buff 共用，渐进式添加） |
+| `World.h` | 游戏世界（Buff 系统所需的最小接口） |
+
 ---
 
 ## 构建与测试
