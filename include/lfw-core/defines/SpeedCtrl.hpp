@@ -9,10 +9,10 @@
 
 #include "EnumHelper.hpp"
 
-#define ENUM_ITEMS(X)                                \
-  X(SpeedCtrl, None, "none", "无", = 0)               \
-  X(SpeedCtrl, Control, "control", "控制", = 1)        \
-  X(SpeedCtrl, Enable, "enable", "启用", = 2)          \
+#define ENUM_ITEMS(X)                           \
+  X(SpeedCtrl, None, "none", "无", = 0)         \
+  X(SpeedCtrl, Control, "control", "控制", = 1) \
+  X(SpeedCtrl, Enable, "enable", "启用", = 2)   \
   X(SpeedCtrl, Disable, "disable", "禁用", = 3)
 
 enum class SpeedCtrl : uint8_t

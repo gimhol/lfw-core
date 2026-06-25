@@ -9,12 +9,12 @@
 
 #include "EnumHelper.hpp"
 
-#define ENUM_ITEMS(X)                                  \
-  X(WeaponType, None, "none", "无", = 0)               \
-  X(WeaponType, Stick, "stick", "棍", = 1)             \
-  X(WeaponType, Heavy, "heavy", "重武器", = 2)          \
-  X(WeaponType, Knife, "knife", "刀", = 3)             \
-  X(WeaponType, Baseball, "baseball", "棒球棍", = 4)    \
+#define ENUM_ITEMS(X)                                \
+  X(WeaponType, None, "none", "无", = 0)             \
+  X(WeaponType, Stick, "stick", "棍", = 1)           \
+  X(WeaponType, Heavy, "heavy", "重武器", = 2)       \
+  X(WeaponType, Knife, "knife", "刀", = 3)           \
+  X(WeaponType, Baseball, "baseball", "棒球棍", = 4) \
   X(WeaponType, Drink, "drink", "饮料", = 5)
 
 enum class WeaponType : uint8_t

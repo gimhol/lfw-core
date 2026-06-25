@@ -10,8 +10,8 @@
 #include "EnumHelper.hpp"
 
 // === OpointKind ===
-#define OPOINT_KIND_ITEMS(X)                     \
-  X(OpointKind, Normal, "normal", "普通", = 1)    \
+#define OPOINT_KIND_ITEMS(X)                   \
+  X(OpointKind, Normal, "normal", "普通", = 1) \
   X(OpointKind, Pick, "pick", "拾取", = 2)
 
 enum class OpointKind : uint8_t
@@ -29,9 +29,9 @@ DEFINE_ENUM_STR_CONVERTERS(opoint_kind_to_name, opoint_kind_from_name, OpointKin
 DEFINE_ENUM_TO_STR(opoint_kind_to_desc, OpointKind, OpointKindDescMap)
 
 // === OpointSpreading ===
-#define OPOINT_SPREADING_ITEMS(X)                            \
-  X(OpointSpreading, Normal, "normal", "普通", = 0)           \
-  X(OpointSpreading, Spreading, "spreading", "扩散", = 1)     \
+#define OPOINT_SPREADING_ITEMS(X)                                \
+  X(OpointSpreading, Normal, "normal", "普通", = 0)              \
+  X(OpointSpreading, Spreading, "spreading", "扩散", = 1)        \
   X(OpointSpreading, FloatRange, "float_range", "浮动范围", = 2) \
   X(OpointSpreading, AngelBlessing, "angel_blessing", "天使祝福", = 4)
 
@@ -50,7 +50,7 @@ DEFINE_ENUM_STR_CONVERTERS(opoint_spreading_to_name, opoint_spreading_from_name,
 DEFINE_ENUM_TO_STR(opoint_spreading_to_desc, OpointSpreading, OpointSpreadingDescMap)
 
 // === OpointMulti ===
-#define OPOINT_MULTI_ITEMS(X)                                        \
+#define OPOINT_MULTI_ITEMS(X)                                          \
   X(OpointMulti, AccordingEnemies, "according_enemies", "按敌人", = 0) \
   X(OpointMulti, AccordingAllies, "according_allies", "按队友", = 1)
 
