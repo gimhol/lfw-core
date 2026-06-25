@@ -6,13 +6,14 @@
 > **C++ 目标目录**: `C:\Users\Gimho\lfw-core\include\lfw-core\defines\`
 >
 > 📖 枚举转换规范见 [ENUM_CONVERSION.md](ENUM_CONVERSION.md)
+> 📖 IPairByFace 转换规范见 [IPAIR_CONVERSION.md](IPAIR_CONVERSION.md)
 
 ---
 
 ## 📊 总体统计
 
 | 类别 | TS 文件数 | ✅ 已完成 | ⚠️ 部分完成 | ❌ 未转换 |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | 枚举 (Enum) | 44 | 42 (95%) | 2 (5%) | 1 (2%) |
 | 接口 (Interface) | 59 | 38 (64%) | 9 (15%) | 10 (17%) |
 | 特殊/工具文件 | 4 | 1 (25%) | 1 (25%) | 2 (50%) |
@@ -27,7 +28,7 @@
 ### ✅ 已完成 (42)
 
 | # | TS 文件 | TS 枚举名 | 条目 | C++ 文件 | C++ 枚举名 | 备注 |
-|---|---|---|---|---|---|---|
+| --- | --- | --- | --- | --- | --- | --- |
 | 1 | `ArmorEnum.ts` | `ArmorEnum` | 4 | `ArmorEnum.hpp` | `ArmorEnum` | + ALL_*, LABEL_MAP, DESC_MAP |
 | 2 | `BackgroundGroup.ts` | `BackgroundGroup` | 2 | `BackgroundGroup.hpp` | `BackgroundGroup` | |
 | 3 | `BdyKind.ts` | `BdyKind` | 4 | `BdyKind.hpp` | `BdyKind` | TS 有 OLD_* 常量，C++ 省略 |
@@ -47,7 +48,7 @@
 | 17 | `EntityGroup.ts` | `EntityGroup` | 10 | `EntityGroup.hpp` | `EntityGroup` | TS 有 Gaint 拼写错误，C++ 修正为 Giant |
 | 18 | `EntityVal.ts` | `EntityVal` | 36 | `EntityVal.hpp` | `EntityVal` | TS: CAUGHT→C++: Caught; Holding_W_Type→HoldingWType |
 | 19 | `FacingFlag.ts` | `FacingFlag` | 11 | `FacingFlag.hpp` | `FacingFlag` | 两边都有别名常量 |
-| 20 | `FrameBehavior.ts` | `FrameBehavior` | 9 | `FrameBehavior.hpp` | `FrameBehavior` | |
+| 20 | `FIPairByFacerameBehavior.ts` | `FrameBehavior` | 9 | `FrameBehavior.hpp` | `FrameBehavior` | |
 | 21 | `GameKey.ts` | `GK` | 7 | `GameKey.hpp` | `GameKey` | TS 有 GKLabels, CONFLICTS_KEY_MAP, AGK；C++ 有 GameKeyLabelMap, GameKeyConflictMap |
 | 22 | `HitFlag.ts` | `HitFlag` | ~20(位标志) | `HitFlag.hpp` | `HitFlag` | C++ 有 operator\|/\&, hit_flag_names |
 | 23 | `ItrEffect.ts` | `ItrEffect` | 13 | `ItrEffect.hpp` | `ItrEffect` | ⚠️ TS 缺少 Explosion=23, Ice2=30, Ignore=10000 |
@@ -74,14 +75,14 @@
 ### ⚠️ 部分完成 (2)
 
 | # | TS 文件 | TS 导出 | C++ 文件 | C++ 导出 | 差异说明 |
-|---|---|---|---|---|---|
+| --- | --- | --- | --- | --- | --- |
 | 43 | `MagnificationTextureFilter.ts` | `enum MagnificationTextureFilter` (2 值, WebGL 1003/1006) | `TextureWrapping.hpp` | `MagnFilter` (0/1) | ⚡ 合并到 TextureWrapping.hpp，值体系不同 |
 | 44 | `MinificationTextureFilter.ts` | `enum MinificationTextureFilter` (6 值, WebGL 常量) | `TextureWrapping.hpp` | `MinFilter` (0-5) | ⚡ 合并到 TextureWrapping.hpp，值体系不同 |
 
 ### ❌ 未转换 (1)
 
 | # | TS 文件 | TS 导出 | 说明 |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | 45 | `LF2Val.ts` | `enum LF2Val` (1 值: `test2`) | 低优先级，仅含一个值 |
 
 ---
@@ -91,7 +92,7 @@
 ### ✅ 已完成 (38)
 
 | # | TS 文件 | TS 导出 | 字段数 | C++ 文件 | 备注 |
-|---|---|---|---|---|---|
+| --- | --- | --- | --- | --- | --- |
 | 1 | `IArmorInfo.ts` | `interface IArmorInfo` | 13 | `IArmorInfo.hpp` | C++ 额外添加 hit_sounds, dead_sounds |
 | 2 | `IBgInfo.ts` | `interface IBgInfo` | ~12 | `IBgInfo.hpp` | C++ 省略已弃用字段 shadowsize, zoom |
 | 3 | `IBgLayerInfo.ts` | `interface IBgLayerInfo` | ~18 | `IBgLayerInfo.hpp` | TS 有 Schema_IBgLayerInfo |
@@ -134,7 +135,7 @@
 ### ⚠️ 部分完成 (9)
 
 | # | TS 文件 | TS 导出 | C++ 文件 | C++ 缺少的字段/差异 |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | 1 | `IBdyInfo.ts` | `interface IBdyInfo extends Partial<IQube>` (~14字段) | `IBdyInfo.hpp` | ❌ actions, code, tester, indicator_info, prefab_id |
 | 2 | `ICpointInfo.ts` | `interface ICpointInfo` (~16字段) | `ICpointInfo.hpp` | ❌ vaction(TNextFrame), indicator_info |
 | 3 | `IDialogInfo.ts` | `interface IDialogInfo` (~7字段) | `IDialogInfo.hpp` | ❌ hide_stats, end_test, end_testers；TS 有 DialogCloseBy 枚举 |
@@ -148,7 +149,7 @@
 ### ❌ 未转换 (11)
 
 | # | TS 文件 | TS 导出 | 优先级 | 说明 |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | 1 | `IBotData.ts` | `interface IBotData` (5字段) | 高 | |
 | 2 | `IDataLists.ts` | `IDataLists` + `ITempDataLists` (各4字段) | 高 | 数据列表结构 |
 | 3 | `IDatContext.ts` | `interface IDatContext` (5字段) | 中 | 数据上下文 |
@@ -165,7 +166,7 @@
 ## 三、特殊/工具文件
 
 | # | TS 文件 | TS 导出 | C++ 文件 | 状态 | 说明 |
-|---|---|---|---|---|---|
+| --- | --- | --- | --- | --- | --- |
 | 1 | `index.ts` | Barrel re-exports (105 行) | `EnumTypes.hpp` | ✅ 完成 | 聚合头文件，包含所有枚举头文件 |
 | 2 | `defines.ts` | `namespace Defines` (~60 常量、类型、VOID_BG, RANDOM_BG, VOID_STAGE, CheatInfos, Sounds 等) | `Defines.hpp` | ⚠️ 部分 | C++ 有: DATA_VERSION, 屏幕尺寸, 武器弹跳表, fall 值, armor 默认值, AI 常量, spreading 数组, Sounds, BuiltIn_*, Teams, TeamInfoMap, CheatInfo。缺少: VOID_BG, RANDOM_BG, VOID_STAGE, NEXT_FRAME_* 常量, DifficultyLabels, CheatInfos map |
 | 3 | `EMPTY_FRAME_INFO.ts` | `const EMPTY_FRAME_INFO: IFrameInfo` | — | ❌ 未转换 | 帧信息常量 |
@@ -177,7 +178,7 @@
 ## 四、仅存在于 C++ 的文件（TS 无对应）
 
 | # | C++ 文件 | 说明 |
-|---|---|---|
+| --- | --- | --- |
 | 1 | `EnumHelper.hpp` | X-macro 枚举-字符串转换辅助宏，C++ 基础设施 |
 
 ---
@@ -187,7 +188,7 @@
 ### 🔴 关键（核心数据结构）
 
 | 优先级 | TS 文件 | 原因 |
-|---|---|---|
+| --- | --- | --- |
 | ⭐⭐⭐ | `IEntityData.ts` | 核心实体数据模板，所有角色数据的基础 |
 | ⭐⭐⭐ | `INextFrame.ts` | 核心帧过渡逻辑 |
 | ⭐⭐⭐ | `IFrameInfo.ts` | 帧信息极度简化，C++ 仅 6/30 字段 |
@@ -195,7 +196,7 @@
 ### 🟡 高优先级
 
 | TS 文件 | 原因 |
-|---|---|
+| --- | --- |
 | `IBgData.ts` | 背景数据 |
 | `IBotAction.ts`, `IBotData.ts` | Bot 系统 |
 | `IDataLists.ts`, `IDataMap.ts` | 数据管理 |
@@ -208,7 +209,7 @@
 ### 🟢 中优先级
 
 | TS 文件 | 原因 |
-|---|---|
+| --- | --- |
 | `IBaseData.ts` | 泛型接口 |
 | `IBotDataSet.ts`, `IBotRay.ts` | Bot 系统 |
 | `IDatContext.ts` | 数据上下文 |
@@ -219,7 +220,7 @@
 ### ⚪ 低优先级
 
 | TS 文件 | 原因 |
-|---|---|
+| --- | --- |
 | `LF2Val.ts` | 仅 1 个值 |
 | `IBounding.ts` | 简单包围盒 |
 | `IFullGameZipInfo.ts` | ZIP 信息 |
@@ -233,7 +234,7 @@
 ## 六、命名变更对照
 
 | TS 原名 | C++ 新名 | 原因 |
-|---|---|---|
+| --- | --- | --- |
 | `BotStateEnum` | `BotState` | 简化 |
 | `CheatEnum` | `CheatType` | 语义更清晰 |
 | `EntityEnum` | `EntityType` | 语义更清晰 |
@@ -248,7 +249,7 @@
 ## 七、合并文件对照
 
 | TS 文件 (独立) | C++ 文件 (合并于) | 合并内容 |
-|---|---|---|
+| --- | --- | --- |
 | `ChaseStratedy.ts` | `ChaseLost.hpp` | ChaseLost + ChaseStrategy 枚举 |
 | `OpointMultiEnum.ts` | `OpointKind.hpp` | OpointKind + OpointMulti 枚举 |
 | `OpointSpreading.ts` | `OpointKind.hpp` | OpointKind + OpointSpreading 枚举 |
