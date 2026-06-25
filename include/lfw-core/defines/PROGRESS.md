@@ -67,7 +67,7 @@
 | 39 | `WeaponType.ts` | `WeaponEnum` | 6 | `WeaponType.hpp` | `WeaponType` | 重命名：WeaponEnum→WeaponType |
 | 40 | `WorldVal.ts` | `WorldVal` | 1(test) | `WorldVal.hpp` | `WorldVal` | |
 | 41 | `WpointKind.ts` | `WpointKind` | 4 | `WpointKind.hpp` | `WpointKind` | |
-| 42 | `IDatIndex.ts` | `DatTypeEnum` | 11 | `DatTypeEnum.hpp` | `DatTypeEnum` | + `dat_type_suffix()` 函数 |
+| 42 | `IDatIndex.ts` | `DatTypeEnum` | 11 | `DatEnum.hpp` | `DatEnum` | + `dat_suffix()` 函数 |
 
 ### ⚠️ 部分完成 (2)
 
@@ -109,7 +109,7 @@
 | 17 | `IWpointInfo.ts` | `interface IWpointInfo` | ~10 | `IWpointInfo.hpp` | |
 | 18 | `IWorldDataset.ts` | `interface IWorldDataset` | ~40 | `IWorldDataset.hpp` | 默认值对齐 |
 | 19 | `IBaseData.ts` | `interface IBaseData<I>` (泛型, 4字段) | 3 | `IBaseData.hpp` | C++ 纯基类 struct（含 id/type/alias_id），子类继承扩展 |
-| 20 | `IDatIndex.ts` | `DatTypeEnum`(11) + `IDatIndex`(8字段) + `ITempDatIndex` | 11+8+1 | `DatTypeEnum.hpp` + `IDatIndex.hpp` | 拆分为两个文件；`ITempDatIndex` 继承 `IDatIndex`；含 `fields()` 元数据 |
+| 20 | `IDatIndex.ts` | `DatTypeEnum`(11) + `IDatIndex`(8字段) + `ITempDatIndex` | 11+8+1 | `DatEnum.hpp` + `IDatIndex.hpp` | 拆分为两个文件；`DatTypeEnum`→C++ `DatEnum`；`ITempDatIndex` 继承 `IDatIndex` |
 | 21 | `IBounding.ts` | `interface IBounding` | 6 | `IBounding.hpp` | 包围盒，含 `bounding_fields()` |
 | 22 | `IVector2Like.ts` | `interface IVector2Like` | 2 | `IVector2Like.hpp` | 基础二维向量 |
 | 23 | `IVector2.ts` | `interface IVector2 extends IVector2Like` | 2+6方法 | `IVector2.hpp` | 继承 IVector2Like，含 set/add/sub/length/clone/normalize/equals |
@@ -235,6 +235,7 @@
 | `BotStateEnum` | `BotState` | 简化 |
 | `CheatEnum` | `CheatType` | 语义更清晰 |
 | `EntityEnum` | `EntityType` | 语义更清晰 |
+| `DatTypeEnum` | `DatEnum` | 简化 |
 | `SparkEnum` | `SparkType` | 语义更清晰 |
 | `StageActions` | `StageAction` | 单数命名 |
 | `StateEnum` | `StateType` | 语义更清晰 |
