@@ -5,10 +5,9 @@
 #include <vector>
 
 #include "lfw-core/core.hpp"
+#include "lfw-core/defines/IFrameInfo.hpp"
 
 LFW_NS_BEGIN
-
-struct IFrameInfo;
 
 /// 帧方向对（-1 方向帧ID列表, 1 方向帧ID列表）
 /// 对应 TS TFrameIdListPair / TFrameIdPair

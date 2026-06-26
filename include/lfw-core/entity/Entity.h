@@ -212,6 +212,10 @@ inline bool is_ball(const Entity *e)
   return e && e->entity_type() == EntityType::Ball;
 }
 
+/// 伤害统计 — 对应 TS summary_mgr.apply_damage
+/// TODO: 等 SummaryMgr 转换后替换
+inline void apply_damage_summary(Entity *, double, Entity *, double) {}
+
 LFW_NS_END
 
 #endif
