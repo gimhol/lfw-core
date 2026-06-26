@@ -16,7 +16,6 @@
 #include "lfw-core/defines/IFrameInfo.hpp"
 #include "lfw-core/defines/INextFrame.hpp"
 #include "lfw-core/defines/StateType.hpp"
-#include "lfw-core/defines/TeamEnum.hpp"
 #include "lfw-core/entity/EnterFrameResult.h"
 #include "lfw-core/entity/EntityCallbacks.h"
 #include "lfw-core/entity/StatBarType.h"
@@ -238,13 +237,20 @@ public:
   double throwinjury = 0;
 
   // === 队伍 ===
-  TeamEnum team() const { return _team; }
-  void set_team(TeamEnum v)
+  const std::string &team() const { return _team; }
+  void set_team(const std::string &v)
   {
-    TeamEnum o = _team;
+    std::string o = _team;
     _team = v;
-    variant = static_cast<int>(v);
-    callbacks.signals.on_team_changed.emit(this, std::string{team_enum_to_string(v)}, std::string{team_enum_to_string(o)});
+    try
+    {
+      variant = std::stoi(v);
+    }
+    catch (...)
+    {
+      variant = 0;
+    }
+    callbacks.signals.on_team_changed.emit(this, v, o);
     ++_render_effect_time;
   }
 
@@ -432,7 +438,7 @@ protected:
   double _healing = 0;
   double _hp = 0, _hp_r = 0, _hp_max = 0;
   double _mp = 0, _mp_max = 0;
-  TeamEnum _team = TeamEnum::Independent;
+  std::string _team;
   double _lifetime = 0;
   int _facing = 1;
 
