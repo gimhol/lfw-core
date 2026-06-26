@@ -10,6 +10,7 @@
 
 #include "lfw-core/base/Signal.h"
 #include "lfw-core/core.hpp"
+#include "lfw-core/defines/EntityGroup.hpp"
 #include "lfw-core/defines/EntityType.hpp"
 #include "lfw-core/defines/IEntityData.hpp"
 #include "lfw-core/defines/IFrameInfo.hpp"
@@ -183,13 +184,27 @@ public:
   virtual EntityType entity_type() const { return EntityType::Entity; }
 
   // === 杂项 getter/setter ===
-  StatBarType stat_bar_type() const { return _stat_bar_type.value_or(StatBarType::None); }
+  StatBarType stat_bar_type() const { return _stat_bar_type.value_or(key_role() ? StatBarType::Float : StatBarType::None); }
   void set_stat_bar_type(StatBarType v) { _stat_bar_type = v; }
 
   double resting() const { return _resting; }
-  void set_resting(double v) { _resting = v; }
+  void set_resting(double v)
+  {
+    auto o = _resting;
+    if (o == v)
+      return;
+    _resting = v;
+    callbacks.signals.on_resting_changed.emit(this, v, o);
+  }
   double resting_max() const { return _resting_max; }
-  void set_resting_max(double v) { _resting_max = v; }
+  void set_resting_max(double v)
+  {
+    auto o = _resting_max;
+    if (o == v)
+      return;
+    _resting_max = v;
+    callbacks.signals.on_resting_max_changed.emit(this, v, o);
+  }
 
   double toughness_resting() const { return _toughness_resting; }
   void set_toughness_resting(double v) { _toughness_resting = v; }
@@ -197,11 +212,32 @@ public:
   void set_toughness_resting_max(double v) { _toughness_resting_max = v; }
 
   double catch_time_max() const { return _catch_time_max; }
-  void set_catch_time_max(double v) { _catch_time_max = v; }
+  void set_catch_time_max(double v)
+  {
+    auto o = _catch_time_max;
+    if (o == v)
+      return;
+    _catch_time_max = v;
+    callbacks.signals.on_catch_time_max_changed.emit(this, v, o);
+  }
   double fall_value_max() const { return _fall_value_max; }
-  void set_fall_value_max(double v) { _fall_value_max = v; }
+  void set_fall_value_max(double v)
+  {
+    auto o = _fall_value_max;
+    if (o == v)
+      return;
+    _fall_value_max = v;
+    callbacks.signals.on_fall_value_max_changed.emit(this, v, o);
+  }
   double defend_value_max() const { return _defend_value_max; }
-  void set_defend_value_max(double v) { _defend_value_max = v; }
+  void set_defend_value_max(double v)
+  {
+    auto o = _defend_value_max;
+    if (o == v)
+      return;
+    _defend_value_max = v;
+    callbacks.signals.on_defend_value_max_changed.emit(this, v, o);
+  }
   double defend_ratio() const { return _defend_ratio; }
   void set_defend_ratio(double v) { _defend_ratio = v; }
 
@@ -216,7 +252,14 @@ public:
   void set_name(const std::string &v) { _name = v; }
 
   double reserve() const { return _reserve; }
-  void set_reserve(double v) { _reserve = v; }
+  void set_reserve(double v)
+  {
+    auto o = _reserve;
+    if (o == v)
+      return;
+    _reserve = v;
+    callbacks.signals.on_reserve_changed.emit(this, v, o);
+  }
 
   int mounted() const { return _mounted; }
   void set_mounted(int v) { _mounted = v; }

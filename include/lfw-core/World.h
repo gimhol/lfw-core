@@ -5,6 +5,7 @@
 #include <string>
 
 #include "lfw-core/core.hpp"
+#include "lfw-core/defines/IWorldDataset.hpp"
 #include "lfw-core/entity/Entity.h"
 
 LFW_NS_BEGIN
@@ -28,6 +29,9 @@ public:
 
   /// Buff 注册表（id → Buff*）
   std::map<std::string, Buff *> buffs;
+
+  /// 全局游戏参数（对应 TS World extends WorldDataset）
+  IWorldDataset dataset;
 };
 
 LFW_NS_END
