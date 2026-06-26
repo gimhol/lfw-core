@@ -201,6 +201,7 @@ void Entity::set_mp_max(double v)
 double Entity::toughness() const { return _->_toughness; }
 void Entity::set_toughness(double v)
 {
+  v = math::round_float(v);
   if (v < 0)
     v = 0;
   double o = _->_toughness;
@@ -214,9 +215,10 @@ void Entity::set_toughness(double v)
 double Entity::toughness_max() const { return _->_toughness_max; }
 void Entity::set_toughness_max(double v)
 {
-  auto o = _->_toughness_max;
+  v = math::round_float(v);
   if (v < 0)
     v = 0;
+  auto o = _->_toughness_max;
   if (o == v)
     return;
   _->_toughness_max = v;
@@ -255,6 +257,7 @@ void Entity::set_defend_value(double v)
 double Entity::healing() const { return _->_healing; }
 void Entity::set_healing(double v)
 {
+  v = math::round_float(v);
   if (_->_hp_r == _->_hp)
     v = 0;
   double o = _->_healing;
@@ -318,6 +321,7 @@ void Entity::set_stat_bar_type(StatBarType v) { _->_stat_bar_type = v; }
 double Entity::resting() const { return _->_resting; }
 void Entity::set_resting(double v)
 {
+  v = math::round_float(v);
   auto o = _->_resting;
   if (o == v)
     return;
@@ -327,6 +331,7 @@ void Entity::set_resting(double v)
 double Entity::resting_max() const { return _->_resting_max; }
 void Entity::set_resting_max(double v)
 {
+  v = math::round_float(v);
   auto o = _->_resting_max;
   if (o == v)
     return;
@@ -334,12 +339,21 @@ void Entity::set_resting_max(double v)
   callbacks.signals.on_resting_max_changed.emit(this, v, o);
 }
 double Entity::toughness_resting() const { return _->_toughness_resting; }
-void Entity::set_toughness_resting(double v) { _->_toughness_resting = v; }
+void Entity::set_toughness_resting(double v)
+{
+  v = math::round_float(v);
+  _->_toughness_resting = v;
+}
 double Entity::toughness_resting_max() const { return _->_toughness_resting_max; }
-void Entity::set_toughness_resting_max(double v) { _->_toughness_resting_max = v; }
+void Entity::set_toughness_resting_max(double v)
+{
+  v = math::round_float(v);
+  _->_toughness_resting_max = v;
+}
 double Entity::catch_time_max() const { return _->_catch_time_max; }
 void Entity::set_catch_time_max(double v)
 {
+  v = math::round_float(v);
   auto o = _->_catch_time_max;
   if (o == v)
     return;
@@ -349,6 +363,7 @@ void Entity::set_catch_time_max(double v)
 double Entity::fall_value_max() const { return _->_fall_value_max; }
 void Entity::set_fall_value_max(double v)
 {
+  v = math::round_float(v);
   auto o = _->_fall_value_max;
   if (o == v)
     return;
@@ -358,6 +373,7 @@ void Entity::set_fall_value_max(double v)
 double Entity::defend_value_max() const { return _->_defend_value_max; }
 void Entity::set_defend_value_max(double v)
 {
+  v = math::round_float(v);
   auto o = _->_defend_value_max;
   if (o == v)
     return;
@@ -365,9 +381,13 @@ void Entity::set_defend_value_max(double v)
   callbacks.signals.on_defend_value_max_changed.emit(this, v, o);
 }
 double Entity::defend_ratio() const { return _->_defend_ratio; }
-void Entity::set_defend_ratio(double v) { _->_defend_ratio = v; }
+void Entity::set_defend_ratio(double v)
+{
+  v = math::round_float(v);
+  _->_defend_ratio = v;
+}
 int Entity::blinking() const { return _->_blinking_duration; }
-void Entity::set_blinking(int v) { _->_blinking_duration = std::max(0, v); }
+void Entity::set_blinking(int v) { _->_blinking_duration = static_cast<int>(math::round_float(std::max(0.0, static_cast<double>(v)))); }
 int Entity::invisible() const { return _->_invisible_duration; }
 void Entity::set_invisible(int v) { _->_invisible_duration = std::max(0, v); }
 int Entity::invulnerable() const { return _->_invulnerable_duration; }
@@ -377,6 +397,7 @@ void Entity::set_name(const std::string &v) { _->_name = v; }
 double Entity::reserve() const { return _->_reserve; }
 void Entity::set_reserve(double v)
 {
+  v = math::round_float(v);
   auto o = _->_reserve;
   if (o == v)
     return;
