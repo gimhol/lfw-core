@@ -1,6 +1,8 @@
 #include "lfw-core/entity/Entity.h"
 #include <algorithm>
 #include <cmath>
+#include <lfw-core/utils/math/Math.hpp>
+#include <lfw-core/utils/math/Times.hpp>
 
 LFW_NS_BEGIN
 
@@ -20,10 +22,14 @@ struct Entity::Private
   IVector3 _position = Ditto::vec3();
   IVector3 _prev_position = Ditto::vec3();
   IVector3 _velocity = Ditto::vec3();
+  IVector3 _temp_v = Ditto::vec3();
   double _ground_y = 0;
 
   IEntityData _data{};
   IFrameInfo _frame{};
+  IFrameInfo _prev_frame{};
+  INextFrame _next_frame_by_id{};
+  IFrameInfo *_landing_frame = nullptr;
 
   double _hp = 0, _hp_r = 0, _hp_max = 0;
   double _mp = 0, _mp_max = 0;
@@ -41,6 +47,7 @@ struct Entity::Private
   double _resting = 0, _resting_max = 0;
   double _catch_time = 0, _catch_time_max = 0;
   Times _toughness_r_tick, _fall_r_tick, _defend_r_tick, _hp_r_tick, _mp_r_tick;
+  Times _resting_tick;
   double _fall_r_value = 0, _defend_r_value = 0;
 
   int _blinking_duration = 0, _invisible_duration = 0, _invulnerable_duration = 0;
@@ -55,6 +62,11 @@ struct Entity::Private
 
   Entity *_catching = nullptr, *_catcher = nullptr;
   Entity *_bearer = nullptr, *_holding = nullptr;
+
+  double aabb_min_x = 0, aabb_max_x = 0, aabb_min_z = 0, aabb_max_z = 0;
+  int motionless = 0;
+  int shaking = 0;
+  std::optional<std::vector<std::string>> transforms;
 };
 
 const char *Entity::TAG = "Entity";
@@ -134,7 +146,7 @@ EntityType Entity::type() const { return _->_data.type; }
 double Entity::hp() const { return _->_hp; }
 void Entity::set_hp(double v)
 {
-  v = std::max(0.0, v);
+  v = math::round_float(std::max(0.0, v));
   double o = _->_hp;
   if (o == v)
     return;
@@ -148,7 +160,7 @@ void Entity::set_hp(double v)
 double Entity::hp_r() const { return _->_hp_r; }
 void Entity::set_hp_r(double v)
 {
-  v = std::max(0.0, v);
+  v = math::round_float(std::max(0.0, v));
   double o = _->_hp_r;
   if (o == v)
     return;
@@ -157,8 +169,8 @@ void Entity::set_hp_r(double v)
 double Entity::hp_max() const { return _->_hp_max; }
 void Entity::set_hp_max(double v)
 {
+  v = math::round_float(std::max(0.0, v));
   auto o = _->_hp_max;
-  v = std::max(0.0, v);
   if (o == v)
     return;
   _->_hp_max = v;
@@ -167,7 +179,7 @@ void Entity::set_hp_max(double v)
 double Entity::mp() const { return _->_mp; }
 void Entity::set_mp(double v)
 {
-  v = std::max(0.0, v);
+  v = math::round_float(std::max(0.0, v));
   double o = _->_mp;
   if (o == v)
     return;
@@ -177,8 +189,8 @@ void Entity::set_mp(double v)
 double Entity::mp_max() const { return _->_mp_max; }
 void Entity::set_mp_max(double v)
 {
+  v = math::round_float(std::max(0.0, v));
   auto o = _->_mp_max;
-  v = std::max(0.0, v);
   if (o == v)
     return;
   _->_mp_max = v;
@@ -213,6 +225,7 @@ void Entity::set_toughness_max(double v)
 double Entity::fall_value() const { return _->_fall_value; }
 void Entity::set_fall_value(double v)
 {
+  v = math::round_float(v);
   double o = _->_fall_value;
   if (o == v)
     return;
@@ -227,6 +240,7 @@ void Entity::set_fall_value(double v)
 double Entity::defend_value() const { return _->_defend_value; }
 void Entity::set_defend_value(double v)
 {
+  v = math::round_float(v);
   double o = _->_defend_value;
   if (o == v)
     return;
@@ -374,7 +388,7 @@ void Entity::set_mounted(int v) { _->_mounted = v; }
 int Entity::ghosted() const { return _->_ghosted; }
 void Entity::set_ghosted(int v) { _->_ghosted = v; }
 double Entity::arest() const { return _->_arest; }
-void Entity::set_arest(double v) { _->_arest = v; }
+void Entity::set_arest(double v) { _->_arest = math::round_float(v); }
 int Entity::strength() const { return _->_data.base.strength.value_or(1); }
 int Entity::weight() const { return _->_data.base.weight.value_or(1); }
 int Entity::base_type() const { return _->_data.base.type.value_or(0); }
