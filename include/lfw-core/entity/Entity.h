@@ -116,43 +116,148 @@ public:
   virtual EntityType type() const = 0;
 
   // === HP / MP ===
-  virtual double hp() const = 0;
-  virtual void set_hp(double v) = 0;
-  virtual double hp_r() const = 0;
-  virtual void set_hp_r(double v) = 0;
-  virtual double hp_max() const = 0;
-  virtual void set_hp_max(double v) = 0;
-  virtual double mp() const = 0;
-  virtual void set_mp(double v) = 0;
-  virtual double mp_max() const = 0;
-  virtual void set_mp_max(double v) = 0;
+  double hp() const { return _hp; }
+  void set_hp(double v)
+  {
+    v = std::max(0.0, v);
+    double o = _hp;
+    if (o == v)
+      return;
+    _hp = v;
+    callbacks.signals.on_hp_changed.emit(this, v, o);
+    if (o > 0 && v <= 0)
+      callbacks.signals.on_dead.emit(this);
+    if (v > _hp_r)
+      _hp_r = v;
+  }
+  double hp_r() const { return _hp_r; }
+  void set_hp_r(double v)
+  {
+    v = std::max(0.0, v);
+    double o = _hp_r;
+    if (o == v)
+      return;
+    callbacks.signals.on_hp_r_changed.emit(this, (_hp_r = v), o);
+  }
+  double hp_max() const { return _hp_max; }
+  void set_hp_max(double v)
+  {
+    auto o = _hp_max;
+    v = std::max(0.0, v);
+    if (o == v)
+      return;
+    _hp_max = v;
+    callbacks.signals.on_hp_max_changed.emit(this, v, o);
+  }
+  double mp() const { return _mp; }
+  void set_mp(double v)
+  {
+    v = std::max(0.0, v);
+    double o = _mp;
+    if (o == v)
+      return;
+    _mp = v;
+    callbacks.signals.on_mp_changed.emit(this, v, o);
+  }
+  double mp_max() const { return _mp_max; }
+  void set_mp_max(double v)
+  {
+    auto o = _mp_max;
+    v = std::max(0.0, v);
+    if (o == v)
+      return;
+    _mp_max = v;
+    callbacks.signals.on_mp_max_changed.emit(this, v, o);
+  }
 
   // === 韧性 / 防御 / 坠落 ===
-  virtual double toughness() const = 0;
-  virtual void set_toughness(double v) = 0;
-  virtual double toughness_max() const = 0;
-  virtual void set_toughness_max(double v) = 0;
-  virtual double fall_value() const = 0;
-  virtual void set_fall_value(double v) = 0;
-  virtual double defend_value() const = 0;
-  virtual void set_defend_value(double v) = 0;
-  virtual double healing() const { return 0; }
-  virtual void set_healing(double) {}
+  double toughness() const { return _toughness; }
+  void set_toughness(double v)
+  {
+    if (v < 0)
+      v = 0;
+    double o = _toughness;
+    if (o == v)
+      return;
+    _toughness = v;
+    if (v < o)
+      _toughness_resting = _toughness_resting_max;
+    callbacks.signals.on_toughness_changed.emit(this, v, o);
+  }
+  double toughness_max() const { return _toughness_max; }
+  void set_toughness_max(double v)
+  {
+    auto o = _toughness_max;
+    if (v < 0)
+      v = 0;
+    if (o == v)
+      return;
+    _toughness_max = v;
+    callbacks.signals.on_toughness_max_changed.emit(this, v, o);
+  }
+  double fall_value() const { return _fall_value; }
+  void set_fall_value(double v)
+  {
+    double o = _fall_value;
+    if (o == v)
+      return;
+    _fall_value = v;
+    if (v < o)
+    {
+      _resting = _resting_max;
+      _toughness_resting = _toughness_resting_max;
+    }
+    callbacks.signals.on_fall_value_changed.emit(this, v, o);
+  }
+  double defend_value() const { return _defend_value; }
+  void set_defend_value(double v)
+  {
+    double o = _defend_value;
+    if (o == v)
+      return;
+    _defend_value = v;
+    if (v < o)
+    {
+      _resting = _resting_max;
+      _toughness_resting = _toughness_resting_max;
+    }
+    callbacks.signals.on_defend_value_changed.emit(this, v, o);
+  }
+  double healing() const { return _healing; }
+  void set_healing(double v)
+  {
+    if (_hp_r == _hp)
+      v = 0;
+    double o = _healing;
+    if (o == v)
+      return;
+    _healing = v;
+    callbacks.signals.on_healing_changed.emit(this, v, o);
+  }
   double fallinjury = 0;
   double throwinjury = 0;
 
   // === 队伍 ===
-  virtual TeamEnum team() const = 0;
-  virtual void set_team(TeamEnum v) = 0;
+  TeamEnum team() const { return _team; }
+  void set_team(TeamEnum v)
+  {
+    TeamEnum o = _team;
+    _team = v;
+    variant = static_cast<int>(v);
+    callbacks.signals.on_team_changed.emit(this, std::string{team_enum_to_string(v)}, std::string{team_enum_to_string(o)});
+    ++_render_effect_time;
+  }
 
   // === 状态 ===
-  virtual StateType state() const = 0;
-  virtual double lifetime() const = 0;
+  double lifetime() const { return _lifetime; }
+  void set_lifetime(double v) { _lifetime = v; }
+  virtual StateType state() const = 0; // 依赖 current_frame()
   virtual bool is_ghosted() const { return false; }
   virtual bool is_mounted() const { return false; }
 
   // === 朝向 ===
-  virtual int facing() const = 0;
+  int facing() const { return _facing; }
+  void set_facing(int v) { _facing = v; }
 
   // === 帧 ===
   virtual const IFrameInfo &current_frame() const = 0;
@@ -308,18 +413,28 @@ protected:
   std::optional<StatBarType> _stat_bar_type;
   double _resting = 0;
   double _resting_max = 0;
+  double _toughness = 0;
+  double _toughness_max = 0;
   double _toughness_resting = 0;
   double _toughness_resting_max = 0;
   Times _toughness_r_tick;
   double _catch_time = 0;
   double _catch_time_max = 0;
+  double _fall_value = 0;
   double _fall_value_max = 0;
   Times _fall_r_tick;
   double _fall_r_value = 0;
+  double _defend_value = 0;
   double _defend_value_max = 0;
   Times _defend_r_tick;
   double _defend_r_value = 0;
   double _defend_ratio = 0;
+  double _healing = 0;
+  double _hp = 0, _hp_r = 0, _hp_max = 0;
+  double _mp = 0, _mp_max = 0;
+  TeamEnum _team = TeamEnum::Independent;
+  double _lifetime = 0;
+  int _facing = 1;
 
   int _blinking_duration = 0;
   int _invisible_duration = 0;
