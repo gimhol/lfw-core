@@ -6,14 +6,13 @@
 #include <variant>
 #include <vector>
 
-#include "IFrameInfo.hpp"
 #include "IVelocityInfo.hpp"
 #include "lfw-core/base/Fields.h"
 
 /// StrOrNum — 字符串或数字
 using StrOrNum = std::variant<std::string, double>;
 
-// 前向声明（TNextFrame 在 struct 定义之前需要）
+// 前向声明
 struct INextFrame;
 
 /// TNextFrame — 帧过渡数组
@@ -60,12 +59,7 @@ struct INextFrame : IVelocityInfo
   std::optional<double> blink_time;
 };
 
-/// INextFrameResult — 下一帧判定结果
-struct INextFrameResult
-{
-  std::optional<IFrameInfo> frame;
-  INextFrame which;
-};
+/// INextFrameResult — 下一帧判定结果（定义于 INextFrameResult.hpp）
 
 inline const auto &next_frame_fields()
 {
