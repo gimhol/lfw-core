@@ -4,15 +4,18 @@
 #include <map>
 #include <optional>
 #include <string>
+#include <vector>
 
 #include "EntityType.hpp"
-#include "IBaseData.hpp"
 #include "IBdyInfo.hpp"
 #include "IEntityInfo.hpp"
 #include "IFrameIndexes.hpp"
 #include "IFrameInfo.hpp"
 #include "IItrInfo.hpp"
 #include "INextFrame.hpp"
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
 
 /// TItrPrefabs — ITR 预制件表
 using TItrPrefabs = std::map<std::string, IItrInfo>;
@@ -21,17 +24,22 @@ using TItrPrefabs = std::map<std::string, IItrInfo>;
 using TBdyPrefabs = std::map<std::string, IBdyInfo>;
 
 /// IEntityData — 核心实体数据
-/// 对应 TS 的 IEntityData extends IBaseData<IEntityInfo>
-struct IEntityData : IBaseData
+/// 对应 TS IEntityData extends IBaseData<IEntityInfo>
+/// C++ IBaseData 的 id/type/alias_id 直接扁平化
+struct IEntityData
 {
+  std::string id;
+  EntityType type = EntityType::Entity;
+  std::optional<std::string> alias_id;
+
   /// 角色基础信息
   IEntityInfo base;
 
-  /// 角色死亡时的帧过渡
-  std::optional<INextFrame> on_dead;
+  /// 角色死亡时的帧过渡（TS: TNextFrame = INextFrame[]）
+  std::optional<std::vector<INextFrame>> on_dead;
 
   /// MP 耗尽时的帧过渡
-  std::optional<INextFrame> on_exhaustion;
+  std::optional<std::vector<INextFrame>> on_exhaustion;
 
   /// 帧索引表
   std::optional<IFrameIndexes> indexes;
@@ -48,5 +56,7 @@ struct IEntityData : IBaseData
   /// 数据是否已处理（加载后预处理标记）
   std::optional<bool> processed;
 };
+
+LFW_NS_END
 
 #endif

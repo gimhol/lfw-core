@@ -1,6 +1,7 @@
 #ifndef LFW_CORE_ENTITY_ENTITY_H
 #define LFW_CORE_ENTITY_ENTITY_H
 
+#include <algorithm>
 #include <cstdint>
 #include <map>
 #include <optional>
@@ -10,6 +11,7 @@
 #include "lfw-core/base/Signal.h"
 #include "lfw-core/core.hpp"
 #include "lfw-core/defines/EntityType.hpp"
+#include "lfw-core/defines/IEntityData.hpp"
 #include "lfw-core/defines/IFrameInfo.hpp"
 #include "lfw-core/defines/INextFrame.hpp"
 #include "lfw-core/defines/StateType.hpp"
@@ -180,11 +182,76 @@ public:
   // === 实体类型 ===
   virtual EntityType entity_type() const { return EntityType::Entity; }
 
+  // === 杂项 getter/setter ===
+  StatBarType stat_bar_type() const { return _stat_bar_type.value_or(StatBarType::None); }
+  void set_stat_bar_type(StatBarType v) { _stat_bar_type = v; }
+
+  double resting() const { return _resting; }
+  void set_resting(double v) { _resting = v; }
+  double resting_max() const { return _resting_max; }
+  void set_resting_max(double v) { _resting_max = v; }
+
+  double toughness_resting() const { return _toughness_resting; }
+  void set_toughness_resting(double v) { _toughness_resting = v; }
+  double toughness_resting_max() const { return _toughness_resting_max; }
+  void set_toughness_resting_max(double v) { _toughness_resting_max = v; }
+
+  double catch_time_max() const { return _catch_time_max; }
+  void set_catch_time_max(double v) { _catch_time_max = v; }
+  double fall_value_max() const { return _fall_value_max; }
+  void set_fall_value_max(double v) { _fall_value_max = v; }
+  double defend_value_max() const { return _defend_value_max; }
+  void set_defend_value_max(double v) { _defend_value_max = v; }
+  double defend_ratio() const { return _defend_ratio; }
+  void set_defend_ratio(double v) { _defend_ratio = v; }
+
+  int blinking() const { return _blinking_duration; }
+  void set_blinking(int v) { _blinking_duration = std::max(0, v); }
+  int invisible() const { return _invisible_duration; }
+  void set_invisible(int v) { _invisible_duration = std::max(0, v); }
+  int invulnerable() const { return _invulnerable_duration; }
+  void set_invulnerable(int v) { _invulnerable_duration = std::max(0, v); }
+
+  const std::string &name() const { return _name; }
+  void set_name(const std::string &v) { _name = v; }
+
+  double reserve() const { return _reserve; }
+  void set_reserve(double v) { _reserve = v; }
+
+  int mounted() const { return _mounted; }
+  void set_mounted(int v) { _mounted = v; }
+  int ghosted() const { return _ghosted; }
+  void set_ghosted(int v) { _ghosted = v; }
+
+  double arest() const { return _arest; }
+  void set_arest(double v) { _arest = v; }
+  int strength() const { return data().base.strength.value_or(1); }
+  int weight() const { return data().base.weight.value_or(1); }
+  int base_type() const { return data().base.type.value_or(0); }
+  double gravity() const { return data().base.gravity.value_or(0); }
+  double itr_motionless() const { return data().base.itr_motionless.value_or(0); }
+
+  bool key_role() const { return _key_role; }
+  void set_key_role(bool v) { _key_role = v; }
+  bool name_visible() const { return _name_visible; }
+  void set_name_visible(bool v) { _name_visible = v; }
+  bool wakeup_invuln() const { return _wakeup_invuln; }
+  void set_wakeup_invuln(bool v) { _wakeup_invuln = v; }
+  bool dead_gone() const { return _dead_gone; }
+  void set_dead_gone(bool v) { _dead_gone = v; }
+
+  bool ctrl_visible() const { return _ctrl_visible; }
+  void set_ctrl_visible(bool v) { _ctrl_visible = v; }
+
+  double spawn_time() const { return _spawn_time; }
+  const std::vector<std::string> &emitters() const { return _emitters; }
+
   virtual ~Entity() = default;
 
 protected:
   LFW *_lfw = nullptr;
 
+  // 渲染
   int _render_effect_time = 0;
   std::string _outline_color;
   double _outline_alpha = 0.8;
@@ -193,6 +260,45 @@ protected:
   std::string _mix_color;
   double _mix_strength = 0;
   double _greyscale = 0;
+
+  // 杂项
+  std::optional<StatBarType> _stat_bar_type;
+  double _resting = 0;
+  double _resting_max = 0;
+  double _toughness_resting = 0;
+  double _toughness_resting_max = 0;
+  Times _toughness_r_tick;
+  double _catch_time = 0;
+  double _catch_time_max = 0;
+  double _fall_value_max = 0;
+  Times _fall_r_tick;
+  double _fall_r_value = 0;
+  double _defend_value_max = 0;
+  Times _defend_r_tick;
+  double _defend_r_value = 0;
+  double _defend_ratio = 0;
+
+  int _blinking_duration = 0;
+  int _invisible_duration = 0;
+  int _invulnerable_duration = 0;
+
+  std::string _name;
+
+  double _reserve = 0;
+  int _mounted = 0;
+  int _ghosted = 0;
+  double _arest = 0;
+
+  bool _key_role = false;
+  bool _name_visible = false;
+  bool _wakeup_invuln = false;
+  bool _dead_gone = false;
+  bool _ctrl_visible = false;
+
+  double _spawn_time = 0;
+  std::vector<std::string> _emitters;
+  Times _hp_r_tick;
+  Times _mp_r_tick;
 };
 
 // ---- 辅助函数 ----
