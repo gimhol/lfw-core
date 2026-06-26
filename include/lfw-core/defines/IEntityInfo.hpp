@@ -3,7 +3,6 @@
 
 #include "lfw-core/core.hpp"
 
-
 #include <optional>
 #include <string>
 #include <vector>
@@ -52,7 +51,6 @@ struct IEntityInfo
   std::optional<double> bounce_min_x, bounce_min_y, bounce_min_z;
 
   // === 数组 ===
-  std::optional<std::string> state;
   std::optional<std::vector<std::string>> weapons;
   std::optional<std::vector<std::string>> group;
   std::optional<std::vector<std::string>> hit_sounds;
@@ -67,7 +65,6 @@ struct IEntityInfo
   std::optional<double> lying_blink_time;
   std::optional<double> gone_blink_time;
 };
-
 
 LFW_NS_END
 

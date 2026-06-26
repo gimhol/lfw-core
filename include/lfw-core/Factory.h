@@ -24,9 +24,8 @@ using EntityCreator = std::function<Entity *(World *, const IEntityData &)>;
 /// TODO: BaseController 待转换后启用
 using CtrlCreator = std::function<void *(const std::string &, Entity *)>;
 
-/// Buff 创建器签名
-/// TODO: Buff 创建器签名待完善
-using BuffCreator = void *; ///< 占位，待 Buff 注册机制完善
+/// Buff 创建器签名: (LFW*, id, kind) → Buff*
+using BuffCreator = std::function<Buff *(LFW *, const std::string &id, const std::string &kind)>;
 
 /// Factory — 实体/控制器/Buff 工厂与对象池
 /// 对应 TS Factory
@@ -45,7 +44,7 @@ public:
   // === 静态注册 ===
   static void register_entity(int type, EntityCreator creator);
   static void register_ctrl(const std::string &oid, CtrlCreator creator);
-  static void register_buff(const std::string &kind);
+  static void register_buff(const std::string &kind, BuffCreator creator);
 
   // === 创建 ===
   Entity *create_entity(World *world, const IEntityData &data);

@@ -1,5 +1,11 @@
 #include "lfw-core/entity/Entity.h"
 #include "lfw-core/World.h"
+#include "lfw-core/defines/EntityGroup.hpp"
+#include "lfw-core/defines/IEntityData.hpp"
+#include "lfw-core/defines/IFrameInfo.hpp"
+#include "lfw-core/defines/INextFrame.hpp"
+#include "lfw-core/defines/IOpointInfo.hpp"
+#include "lfw-core/ditto/Ditto.h"
 #include <algorithm>
 #include <cmath>
 #include <lfw-core/utils/math/Math.hpp>
@@ -67,6 +73,7 @@ struct Entity::Private
   double _arest = 0;
   bool _key_role = false, _name_visible = false, _wakeup_invuln = false;
   bool _dead_gone = false, _ctrl_visible = false;
+  const IDeadJoin *_dead_join = nullptr;
   std::optional<bool> _key_role_cache;
   double _spawn_time = 0;
   std::vector<std::string> _emitters;
@@ -82,7 +89,110 @@ struct Entity::Private
 
 const char *Entity::TAG = "Entity";
 
-Entity::Entity() : _(std::make_unique<Private>()) {}
+Entity::Entity(World *w, const IEntityData &data) : _(std::make_unique<Private>())
+{
+  _->_world = w;
+  _->_lfw = w ? w->lfw : nullptr;
+  _->_data = data;
+  if (w)
+    _->_atom_time = w->atom_time;
+  reset(data);
+}
+
+void Entity::reset(const IEntityData &data)
+{
+  // 清理 buffs
+  for (auto &[k, buf] : _->_buffs)
+  {
+    if (buf)
+      buf->del_victims({_->_id});
+  }
+  _->_buffs.clear();
+
+  _->_data = data;
+  _->_id.clear();
+  set_wait(0);
+  _->_lifetime = 0;
+  _->_prev_ground_y = 0;
+  set_fallinjury(0);
+  _->_ground_y = 0;
+  set_variant(0);
+  _->transforms.reset();
+  _->_reserve = 0;
+  _->_mounted = 0;
+  _->_ghosted = 0;
+  _->_position = Ditto::vec3();
+  _->_prev_position = Ditto::vec3();
+  _->_stat_bar_type.reset();
+  _->_toughness_resting_max = 0; // TODO: Defines::DEFAULT_TOUGHNESS_RESTING_MAX
+  _->_resting_max = data.base.resting_max.value_or(0);
+  _->_resting = 0;
+  _->_toughness = 0;
+  _->_toughness_max = 0;
+  _->_toughness_resting = 0;
+  _->_fall_value_max = data.base.fall_value_max.value_or(0);
+  _->_defend_value_max = data.base.defend_value_max.value_or(0);
+  _->_defend_ratio = data.base.defend_ratio.value_or(0);
+  _->_healing = 0;
+  _->_catch_time_max = data.base.catch_time_max.value_or(0);
+  set_throwinjury(0);
+  _->_facing = 1;
+  _->_frame = {};
+  _->_prev_frame = {};
+  _->_catching = nullptr;
+  _->_catcher = nullptr;
+  _->_wakeup_invuln = false;
+  _->_name_visible = false;
+  _->_outline_alpha = 0.8;
+  _->_velocity = Ditto::vec3();
+  callbacks.clear();
+  _->_name.clear();
+  if (_->_world)
+    _->_lfw = _->_world->lfw;
+  _->_landing_frame = nullptr;
+  _->_bearer = nullptr;
+  _->_holding = nullptr;
+  _->_emitters.clear();
+  _->_arest = 0;
+  _->motionless = 0;
+  _->shaking = 0;
+  _->_hp_r_tick.set_max(dataset("hp_r_ticks"));
+  _->_hp_r_tick.set_value(0);
+  _->_mp_r_tick.set_max(dataset("mp_r_ticks"));
+  _->_mp_r_tick.set_value(0);
+  _->_fall_r_tick.set_max(dataset("fall_r_ticks"));
+  _->_fall_r_tick.set_value(0);
+  _->_defend_r_tick.set_max(dataset("defend_r_ticks"));
+  _->_defend_r_tick.set_value(0);
+  _->_defend_r_value = dataset("defend_r_value");
+  _->_fall_r_value = dataset("fall_r_value");
+  _->_hp_max = dataset("hp_max");
+  _->_mp_max = dataset("mp_max");
+  _->_defend_ratio = data.base.defend_ratio.value_or(0);
+  // TODO: ctrl = InvalidController placeholder
+  set_fall_value(fall_value_max());
+  set_defend_value(defend_value_max());
+  _->_hp = _->_hp_r = hp_max();
+  _->_mp = mp_max();
+  _->_catch_time = catch_time_max();
+  _->_invisible_duration = 0;
+  _->_invulnerable_duration = 0;
+  _->_blinking_duration = 0;
+  _->_key_role_cache.reset();
+  _->_dead_gone = false;
+  _->_dead_join = nullptr;
+  _->_ctrl_visible = false;
+  // TODO: drink, armor, collision_list, collided_list, opoints
+  _->_outline_color.clear();
+  _->_outline_alpha = 0.8;
+  _->_outline_width = 1;
+  _->_outline_enabled.reset();
+  _->_mix_color.clear();
+  _->_mix_strength = 0;
+  _->_greyscale = 0;
+  _->_render_effect_time = 0;
+}
+
 Entity::~Entity() = default;
 
 // === 游戏上下文 ===
@@ -369,7 +479,7 @@ void Entity::set_team(const std::string &v)
 }
 
 // === 状态 / 朝向 ===
-StateType Entity::state() const { return StateType::Standing; }
+StateType Entity::state() const { return static_cast<StateType>(_->_frame.state); }
 double Entity::lifetime() const { return _->_lifetime; }
 void Entity::set_lifetime(double v) { _->_lifetime = v; }
 bool Entity::is_ghosted() const { return _->_ghosted > 0; }
@@ -453,6 +563,15 @@ void Entity::set_holding(Entity *e)
     return;
   _->_holding = e;
   callbacks.signals.on_holding_changed.emit(this, e, o);
+}
+void Entity::drop_holding()
+{
+  if (_->_holding)
+  {
+    _->_holding->set_bearer(nullptr);
+    // TODO: enter weapon in_the_skys frame
+    _->_holding = nullptr;
+  }
 }
 
 // === Buff ===
@@ -606,9 +725,15 @@ bool Entity::dead_gone() const
   return !key_role();
 }
 void Entity::set_dead_gone(bool v) { _->_dead_gone = v; }
+const IDeadJoin *Entity::dead_join() const { return _->_dead_join; }
+void Entity::set_dead_join(const IDeadJoin *v) { _->_dead_join = v; }
 bool Entity::ctrl_visible() const { return _->_ctrl_visible; }
 void Entity::set_ctrl_visible(bool v) { _->_ctrl_visible = v; }
 double Entity::spawn_time() const { return _->_spawn_time; }
+int Entity::motionless() const { return _->motionless; }
+void Entity::set_motionless(int v) { _->motionless = v; }
+int Entity::shaking() const { return _->shaking; }
+void Entity::set_shaking(int v) { _->shaking = v; }
 const std::vector<std::string> &Entity::emitters() const { return _->_emitters; }
 
 LFW_NS_END

@@ -147,6 +147,29 @@ DEFINE_ENUM_STR_CONVERTERS(my_to_string, my_from_string, MyEnum, MyStrMap)
 
 命名规则: `LFW_CORE_<目录大写>_<文件名大写>_H`
 
+**头文件依赖最小化**：`.h` 中能用前向声明满足的，绝不 `#include`。
+
+- 若 `.h` 仅通过**指针/引用**使用某类型（如 `Entity*`、`const World&`），用前向声明替代 `#include`
+- 完整的 `#include` 放到 `.cpp` 中
+
+```cpp
+// ===== Foo.h（仅声明 + 前向声明）=====
+class Entity;    // 前向声明，因为只用到 Entity*
+class World;     // 前向声明，因为只用到 World&
+
+class Foo {
+  Entity *get_entity();
+  void set_world(const World &w);  // 声明层面不需要完整类型
+};
+
+// ===== Foo.cpp（完整 include）=====
+#include "Foo.h"
+#include "lfw-core/entity/Entity.h"  // 实现层面需要完整定义
+#include "lfw-core/World.h"
+```
+
+> 判断标准：只要能编译通过 `.h`，就不要在 `.h` 中 `#include`。
+
 ### 6. Class 转换：Pimpl 模式
 
 TS 中以 `class` 声明的核心容器（如 `LFW`），其私有成员数量多且会持续扩展，

@@ -10,20 +10,23 @@
 
 #include "lfw-core/base/Signal.h"
 #include "lfw-core/core.hpp"
-#include "lfw-core/defines/EntityGroup.hpp"
 #include "lfw-core/defines/EntityType.hpp"
-#include "lfw-core/defines/IEntityData.hpp"
-#include "lfw-core/defines/IFrameInfo.hpp"
-#include "lfw-core/defines/INextFrame.hpp"
 #include "lfw-core/defines/StateType.hpp"
-#include "lfw-core/ditto/Ditto.h"
 #include "lfw-core/entity/EnterFrameResult.h"
 #include "lfw-core/entity/EntityCallbacks.h"
 #include "lfw-core/entity/StatBarType.h"
 
 LFW_NS_BEGIN
 
+struct IBdyInfo;
+struct IDeadJoin;
+struct IEntityData;
+struct IFrameInfo;
+struct INextFrame;
+struct IItrInfo;
 struct IOpointInfo;
+struct IVector3;
+class Buff;
 class LFW;
 class World;
 
@@ -33,8 +36,9 @@ public:
   static const char *TAG;
 
   // === 构造/析构 ===
-  Entity();
+  Entity(World *w, const IEntityData &data);
   ~Entity();
+  void reset(const IEntityData &data);
 
   // === 游戏上下文 ===
   LFW *lfw() const;
@@ -169,6 +173,7 @@ public:
   Entity *holding() const;
   void set_bearer(Entity *e);
   void set_holding(Entity *e);
+  void drop_holding();
 
   // === Buff ===
   const std::map<std::string, class Buff *> &buffs() const;
@@ -229,9 +234,15 @@ public:
   void set_wakeup_invuln(bool v);
   bool dead_gone() const;
   void set_dead_gone(bool v);
+  const struct IDeadJoin *dead_join() const;
+  void set_dead_join(const struct IDeadJoin *v);
   bool ctrl_visible() const;
   void set_ctrl_visible(bool v);
   double spawn_time() const;
+  int motionless() const;
+  void set_motionless(int v);
+  int shaking() const;
+  void set_shaking(int v);
   const std::vector<std::string> &emitters() const;
   Entity *get_emitter(int idx) const;
   Entity *src_emitter() const;

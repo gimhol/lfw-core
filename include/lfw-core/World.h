@@ -11,12 +11,15 @@
 LFW_NS_BEGIN
 
 class Buff;
+class LFW;
 
 /// World — 游戏世界（最小化实现，为 Buff 系统提供依赖）
 /// TODO: 完整转换 pending
 class World
 {
 public:
+  LFW *lfw = nullptr;
+  double atom_time = 1.0;
   /// 按 ID 查找实体
   Entity *find_entity(const std::string &eid)
   {

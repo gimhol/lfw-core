@@ -1,5 +1,6 @@
 #include "lfw-core/Factory.h"
 #include "lfw-core/World.h"
+#include "lfw-core/buff/Buff.h"
 #include "lfw-core/ditto/Ditto.h"
 #include "lfw-core/defines/IEntityData.hpp"
 #include "lfw-core/entity/Entity.h"
@@ -23,9 +24,9 @@ static std::map<std::string, CtrlCreator> &ctrl_creators()
   return m;
 }
 
-static std::map<std::string, int> &buff_creators()
+static std::map<std::string, BuffCreator> &buff_creators()
 {
-  static std::map<std::string, int> m; // TODO: 完整 Buff 注册机制待完善
+  static std::map<std::string, BuffCreator> m;
   return m;
 }
 
@@ -67,12 +68,12 @@ void Factory::register_ctrl(const std::string &oid, CtrlCreator creator)
   m[oid] = std::move(creator);
 }
 
-void Factory::register_buff(const std::string &kind)
+void Factory::register_buff(const std::string &kind, BuffCreator creator)
 {
   auto &m = buff_creators();
   if (m.find(kind) != m.end())
     Ditto::warn(std::string("[") + TAG + "::register_buff] kind already exists");
-  m[kind] = 1; // TODO: 存储 BuffCreator
+  m[kind] = std::move(creator);
 }
 
 // ============================================================
@@ -103,8 +104,10 @@ Buff *Factory::create_buff(const std::string &kind, LFW *lfw, const std::string 
   auto it = m.find(kind);
   if (it == m.end())
     return nullptr;
-  // TODO: 使用 BuffCreator 创建 Buff 实例
-  return nullptr;
+  auto *ret = it->second(lfw, id, kind);
+  if (ret)
+    ret->init();
+  return ret;
 }
 
 LFW_NS_END
