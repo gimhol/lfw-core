@@ -34,6 +34,8 @@ struct EntityCallbacks
   Signal<Entity *, double, double> on_catch_time_max_changed;
   Signal<Entity *, double, double> on_fall_value_max_changed;
   Signal<Entity *, double, double> on_reserve_changed;
+  Signal<Entity *, Entity *, Entity *> on_holder_changed;
+  Signal<Entity *, Entity *, Entity *> on_holding_changed;
 };
 
 LFW_NS_END

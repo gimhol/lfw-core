@@ -1,4 +1,5 @@
 #include "lfw-core/entity/Entity.h"
+#include "lfw-core/World.h"
 #include <algorithm>
 #include <cmath>
 #include <lfw-core/utils/math/Math.hpp>
@@ -24,6 +25,8 @@ struct Entity::Private
   IVector3 _velocity = Ditto::vec3();
   IVector3 _temp_v = Ditto::vec3();
   double _ground_y = 0;
+  double _prev_ground_y = 0;
+  double _atom_time = 0;
 
   IEntityData _data{};
   IFrameInfo _frame{};
@@ -57,6 +60,7 @@ struct Entity::Private
   double _arest = 0;
   bool _key_role = false, _name_visible = false, _wakeup_invuln = false;
   bool _dead_gone = false, _ctrl_visible = false;
+  std::optional<bool> _key_role_cache;
   double _spawn_time = 0;
   std::vector<std::string> _emitters;
 
@@ -127,20 +131,80 @@ const IVector3 &Entity::position() const { return _->_position; }
 const IVector3 &Entity::prev_position() const { return _->_prev_position; }
 const IVector3 &Entity::velocity() const { return _->_velocity; }
 double Entity::ground_y() const { return _->_ground_y; }
+double Entity::prev_ground_y() const { return _->_prev_ground_y; }
 double Entity::velocity_x() const { return _->_velocity.x; }
 double Entity::velocity_y() const { return _->_velocity.y; }
 double Entity::velocity_z() const { return _->_velocity.z; }
 void Entity::set_velocity_x(double v) { _->_velocity.x = v; }
 void Entity::set_velocity_y(double v) { _->_velocity.y = v; }
 void Entity::set_velocity_z(double v) { _->_velocity.z = v; }
+void Entity::set_velocity(double x, double y, double z)
+{
+  _->_velocity.x = x;
+  _->_velocity.y = y;
+  _->_velocity.z = z;
+}
 void Entity::set_position_x(double v) { _->_position.x = v; }
 void Entity::set_position_y(double v) { _->_position.y = v; }
 void Entity::set_position_z(double v) { _->_position.z = v; }
+void Entity::set_position(double x, double y, double z)
+{
+  _->_position.x = x;
+  _->_position.y = y;
+  _->_position.z = z;
+}
 void Entity::handle_velocity_decay(double) { /* stub */ }
 
 // === 数据 ===
 const IEntityData &Entity::data() const { return _->_data; }
 EntityType Entity::type() const { return _->_data.type; }
+const std::vector<std::string> *Entity::group() const
+{
+  if (_->_data.base.group.has_value())
+    return &_->_data.base.group.value();
+  return nullptr;
+}
+const std::vector<IItrInfo> *Entity::itr() const
+{
+  if (_->_frame.itr.has_value())
+    return &_->_frame.itr.value();
+  return nullptr;
+}
+const std::vector<IBdyInfo> *Entity::bdy() const
+{
+  if (_->_frame.bdy.has_value())
+    return &_->_frame.bdy.value();
+  return nullptr;
+}
+
+double Entity::dataset(const std::string &name) const
+{
+  // TODO: frame.data check pending IFrameInfo.data field
+  // Check data.base for matching field
+  // Simplified: return 0 until IWorldDataset is fully integrated
+  if (world)
+  {
+    // TODO: world->dataset[name] lookup
+  }
+  return 0;
+}
+
+Entity *Entity::get_emitter(int idx) const
+{
+  if (idx < 0 || static_cast<size_t>(idx) >= _->_emitters.size())
+    return nullptr;
+  if (!world)
+    return nullptr;
+  auto it = world->entity_map.find(_->_emitters[idx]);
+  return it != world->entity_map.end() ? it->second : nullptr;
+}
+Entity *Entity::src_emitter() const { return get_emitter(0); }
+Entity *Entity::pre_emitter() const
+{
+  if (_->_emitters.empty())
+    return nullptr;
+  return get_emitter(static_cast<int>(_->_emitters.size()) - 1);
+}
 
 // === HP / MP ===
 double Entity::hp() const { return _->_hp; }
@@ -289,13 +353,29 @@ void Entity::set_team(const std::string &v)
 StateType Entity::state() const { return StateType::Standing; }
 double Entity::lifetime() const { return _->_lifetime; }
 void Entity::set_lifetime(double v) { _->_lifetime = v; }
-bool Entity::is_ghosted() const { return false; }
-bool Entity::is_mounted() const { return false; }
+bool Entity::is_ghosted() const { return _->_ghosted > 0; }
+bool Entity::is_mounted() const { return _->_mounted > 0; }
 int Entity::facing() const { return _->_facing; }
 void Entity::set_facing(int v) { _->_facing = v; }
 
 // === 帧 ===
 const IFrameInfo &Entity::current_frame() const { return _->_frame; }
+const IFrameInfo &Entity::prev_frame() const { return _->_prev_frame; }
+double Entity::dvx() const
+{
+  auto v = _->_frame.dvx.value_or(0);
+  return v * dataset("fvx_f");
+}
+double Entity::dvy() const
+{
+  auto v = _->_frame.dvy.value_or(0);
+  return v * dataset("fvy_f");
+}
+double Entity::dvz() const
+{
+  auto v = _->_frame.dvz.value_or(0);
+  return v * dataset("fvz_f");
+}
 const IFrameInfo *Entity::get_sudden_death_frame() { return nullptr; }
 const IFrameInfo *Entity::get_caught_end_frame() { return nullptr; }
 const IFrameInfo *Entity::get_auto_frame() { return nullptr; }
@@ -303,14 +383,58 @@ const IFrameInfo *Entity::find_frame_by_id(const std::string *) { return nullptr
 void Entity::apply_opoints(const std::vector<IOpointInfo> &) {}
 void Entity::enter_frame_by_id(const std::string &) {}
 EnterFrameResult Entity::enter_frame(const INextFrame &, bool) { return EnterFrameResult::NotFound; }
+void Entity::set_frame(const INextFrame &) { /* TODO: 完整实现 pending State_Base */ }
+void Entity::set_state(StateType) { /* TODO: 完整实现 pending _states */ }
+
+// === 物理 ===
+double Entity::itr_fall(const IItrInfo *itr) const
+{
+  if (!itr)
+    return dataset("itr_fall");
+  return itr->fall.value_or(dataset("itr_fall"));
+}
+void Entity::handle_gravity()
+{
+  if (bearer() || catcher())
+    return;
+  double g = gravity() * _->_atom_time;
+  set_velocity_y(velocity_y() + g);
+}
+void Entity::handle_ground_velocity_decay()
+{
+  /* TODO: 完整实现 pending landing_frame + dataset */
+  handle_velocity_decay(0);
+}
+
+// === 阵营判定 ===
+bool Entity::is_ally(const Entity *other) const
+{
+  if (!other)
+    return false;
+  return team() == other->team();
+}
 
 // === 抓取 ===
 Entity *Entity::catching() const { return _->_catching; }
 Entity *Entity::catcher() const { return _->_catcher; }
 Entity *Entity::bearer() const { return _->_bearer; }
 Entity *Entity::holding() const { return _->_holding; }
-void Entity::set_bearer(Entity *e) { _->_bearer = e; }
-void Entity::set_holding(Entity *e) { _->_holding = e; }
+void Entity::set_bearer(Entity *e)
+{
+  auto o = _->_bearer;
+  if (o == e)
+    return;
+  _->_bearer = e;
+  callbacks.signals.on_holder_changed.emit(this, e, o);
+}
+void Entity::set_holding(Entity *e)
+{
+  auto o = _->_holding;
+  if (o == e)
+    return;
+  _->_holding = e;
+  callbacks.signals.on_holding_changed.emit(this, e, o);
+}
 
 // === 实体类型 ===
 EntityType Entity::entity_type() const { return EntityType::Entity; }
@@ -393,7 +517,12 @@ void Entity::set_invisible(int v) { _->_invisible_duration = std::max(0, v); }
 int Entity::invulnerable() const { return _->_invulnerable_duration; }
 void Entity::set_invulnerable(int v) { _->_invulnerable_duration = std::max(0, v); }
 const std::string &Entity::name() const { return _->_name; }
-void Entity::set_name(const std::string &v) { _->_name = v; }
+void Entity::set_name(const std::string &v)
+{
+  auto o = _->_name;
+  _->_name = v;
+  callbacks.signals.on_name_changed.emit(this, v, o);
+}
 double Entity::reserve() const { return _->_reserve; }
 void Entity::set_reserve(double v)
 {
@@ -415,13 +544,43 @@ int Entity::weight() const { return _->_data.base.weight.value_or(1); }
 int Entity::base_type() const { return _->_data.base.type.value_or(0); }
 double Entity::gravity() const { return _->_data.base.gravity.value_or(0); }
 double Entity::itr_motionless() const { return _->_data.base.itr_motionless.value_or(0); }
-bool Entity::key_role() const { return _->_key_role; }
-void Entity::set_key_role(bool v) { _->_key_role = v; }
-bool Entity::name_visible() const { return _->_name_visible; }
+bool Entity::key_role() const
+{
+  if (_->_key_role_cache.has_value())
+    return _->_key_role_cache.value();
+  // TODO: check ctrl.player → true once BaseController is converted
+  const auto &group = _->_data.base.group;
+  if (!group.has_value() || group->empty())
+  {
+    _->_key_role_cache = false;
+    return false;
+  }
+  for (const auto &g : *group)
+  {
+    if (g == "Regular" || g == "Boss")
+    {
+      _->_key_role_cache = true;
+      return true;
+    }
+  }
+  _->_key_role_cache = false;
+  return false;
+}
+void Entity::set_key_role(bool v)
+{
+  _->_key_role = v;
+  _->_key_role_cache = v;
+}
+bool Entity::name_visible() const { return _->_name_visible ? true : key_role(); }
 void Entity::set_name_visible(bool v) { _->_name_visible = v; }
-bool Entity::wakeup_invuln() const { return _->_wakeup_invuln; }
+bool Entity::wakeup_invuln() const { return _->_wakeup_invuln ? true : key_role(); }
 void Entity::set_wakeup_invuln(bool v) { _->_wakeup_invuln = v; }
-bool Entity::dead_gone() const { return _->_dead_gone; }
+bool Entity::dead_gone() const
+{
+  if (_->_dead_gone)
+    return true;
+  return !key_role();
+}
 void Entity::set_dead_gone(bool v) { _->_dead_gone = v; }
 bool Entity::ctrl_visible() const { return _->_ctrl_visible; }
 void Entity::set_ctrl_visible(bool v) { _->_ctrl_visible = v; }

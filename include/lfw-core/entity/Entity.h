@@ -65,20 +65,29 @@ public:
   const IVector3 &prev_position() const;
   const IVector3 &velocity() const;
   double ground_y() const;
+  double prev_ground_y() const;
   double velocity_x() const;
   double velocity_y() const;
   double velocity_z() const;
   void set_velocity_x(double v);
   void set_velocity_y(double v);
   void set_velocity_z(double v);
+  void set_velocity(double x, double y, double z);
   void set_position_x(double v);
   void set_position_y(double v);
   void set_position_z(double v);
+  void set_position(double x, double y, double z);
   void handle_velocity_decay(double factor);
 
   // === 数据 ===
   const IEntityData &data() const;
   EntityType type() const;
+  const std::vector<std::string> *group() const;
+  const std::vector<struct IItrInfo> *itr() const;
+  const std::vector<struct IBdyInfo> *bdy() const;
+
+  /// 属性查找链: frame.data → data.base → world.dataset → 0
+  double dataset(const std::string &name) const;
 
   // === HP / MP ===
   double hp() const;
@@ -123,6 +132,10 @@ public:
 
   // === 帧 ===
   const IFrameInfo &current_frame() const;
+  const IFrameInfo &prev_frame() const;
+  double dvx() const;
+  double dvy() const;
+  double dvz() const;
   const IFrameInfo *get_sudden_death_frame();
   const IFrameInfo *get_caught_end_frame();
   const IFrameInfo *get_auto_frame();
@@ -132,6 +145,16 @@ public:
   void apply_opoints(const std::vector<IOpointInfo> &opoints);
   void enter_frame_by_id(const std::string &frame_id);
   EnterFrameResult enter_frame(const INextFrame &which, bool fallback = false);
+  void set_frame(const INextFrame &nf);
+  void set_state(StateType s);
+
+  // === 物理 ===
+  double itr_fall(const struct IItrInfo *itr) const;
+  void handle_gravity();
+  void handle_ground_velocity_decay();
+
+  // === 阵营判定 ===
+  bool is_ally(const Entity *other) const;
 
   // === 抓取 ===
   Entity *catching() const;
@@ -202,6 +225,9 @@ public:
   void set_ctrl_visible(bool v);
   double spawn_time() const;
   const std::vector<std::string> &emitters() const;
+  Entity *get_emitter(int idx) const;
+  Entity *src_emitter() const;
+  Entity *pre_emitter() const;
 
 private:
   struct Private;
