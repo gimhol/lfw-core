@@ -1,6 +1,10 @@
 #ifndef LFW_CORE_DEFINES_IENTITY_INFO_HPP
 #define LFW_CORE_DEFINES_IENTITY_INFO_HPP
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 #include <optional>
 #include <string>
 #include <vector>
@@ -62,5 +66,8 @@ struct IEntityInfo
   std::optional<double> lying_blink_time;
   std::optional<double> gone_blink_time;
 };
+
+
+LFW_NS_END
 
 #endif

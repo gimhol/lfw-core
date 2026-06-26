@@ -10,6 +10,10 @@
 #include "IBotDataSet.hpp"
 #include "lfw-core/base/Fields.h"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 /// IBotData — Bot 数据
 struct IBotData
 {
@@ -51,5 +55,7 @@ inline const auto &bot_data_fields()
             { b.dataset = std::any_cast<std::optional<IBotDataSet>>(val); }, "Bot数据集"));
   return fs;
 }
+
+LFW_NS_END
 
 #endif

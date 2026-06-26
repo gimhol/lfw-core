@@ -9,6 +9,10 @@
 
 #include "EnumHelper.hpp"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 #define ENUM_ITEMS(X)                           \
   X(SpeedCtrl, None, "none", "无", = 0)         \
   X(SpeedCtrl, Control, "control", "控制", = 1) \
@@ -28,4 +32,6 @@ GEN_ENUM_DESC_MAP(SpeedCtrlDescMap, ENUM_ITEMS, SpeedCtrl)
 DEFINE_ENUM_STR_CONVERTERS(speed_ctrl_to_string, speed_ctrl_from_string, SpeedCtrl, SpeedCtrlStringMap)
 DEFINE_ENUM_STR_CONVERTERS(speed_ctrl_to_name, speed_ctrl_from_name, SpeedCtrl, SpeedCtrlNameMap)
 DEFINE_ENUM_TO_STR(speed_ctrl_to_desc, SpeedCtrl, SpeedCtrlDescMap)
+LFW_NS_END
+
 #endif // LFW_CORE_DEFINES_SPEEDCTRL_HPP

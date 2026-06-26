@@ -9,6 +9,10 @@
 
 #include "EnumHelper.hpp"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 #define ENUM_ITEMS(X)                       \
   X(TeamEnum, Independent, "", "独立", = 0) \
   X(TeamEnum, Team_1, "1", "队伍1", = 1)    \
@@ -33,4 +37,6 @@ GEN_ENUM_DESC_MAP(TeamEnumDescMap, ENUM_ITEMS, TeamEnum)
 DEFINE_ENUM_STR_CONVERTERS(team_enum_to_string, team_enum_from_string, TeamEnum, TeamEnumStringMap)
 DEFINE_ENUM_STR_CONVERTERS(team_enum_to_name, team_enum_from_name, TeamEnum, TeamEnumNameMap)
 DEFINE_ENUM_TO_STR(team_enum_to_desc, TeamEnum, TeamEnumDescMap)
+LFW_NS_END
+
 #endif // LFW_CORE_DEFINES_TEAMENUM_HPP

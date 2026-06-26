@@ -7,6 +7,10 @@
 
 #include "lfw-core/base/Fields.h"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 /// IBgInfo — 背景信息
 struct IBgInfo
 {
@@ -43,5 +47,7 @@ inline const auto &bg_info_fields()
       field("zoom_z", FieldKind::Flt, &IBgInfo::zoom_z, "缩放Z"));
   return fs;
 }
+
+LFW_NS_END
 
 #endif

@@ -7,6 +7,10 @@
 
 #include "lfw-core/base/Fields.h"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 /// IDatIndex — 数据索引
 struct IDatIndex
 {
@@ -39,5 +43,7 @@ struct ITempDatIndex : IDatIndex
 {
   std::string src;
 };
+
+LFW_NS_END
 
 #endif // LFW_CORE_DEFINES_IDAT_INDEX_HPP

@@ -9,6 +9,10 @@
 
 #include "EnumHelper.hpp"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 #define ENUM_ITEMS(X)                                      \
   X(SyncRenderEnum, Unlimited, "unlimited", "无限制", = 0) \
   X(SyncRenderEnum, Half, "half", "半速", = 1)             \
@@ -29,4 +33,6 @@ GEN_ENUM_DESC_MAP(SyncRenderEnumDescMap, ENUM_ITEMS, SyncRenderEnum)
 DEFINE_ENUM_STR_CONVERTERS(sync_render_enum_to_string, sync_render_enum_from_string, SyncRenderEnum, SyncRenderEnumStringMap)
 DEFINE_ENUM_STR_CONVERTERS(sync_render_enum_to_name, sync_render_enum_from_name, SyncRenderEnum, SyncRenderEnumNameMap)
 DEFINE_ENUM_TO_STR(sync_render_enum_to_desc, SyncRenderEnum, SyncRenderEnumDescMap)
+LFW_NS_END
+
 #endif // LFW_CORE_DEFINES_SYNC_RENDER_ENUM_HPP

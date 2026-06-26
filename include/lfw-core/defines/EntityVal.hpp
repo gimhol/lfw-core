@@ -9,6 +9,10 @@
 
 #include "EnumHelper.hpp"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 /// EntityVal.ts
 #define ENUM_ITEMS(X)                                        \
   X(EntityVal, TrendX, "trend_x", "", )                      \
@@ -59,4 +63,6 @@ GEN_ENUM_DESC_MAP(EntityValDescMap, ENUM_ITEMS, EntityVal)
 DEFINE_ENUM_STR_CONVERTERS(entity_val_to_string, entity_val_from_string, EntityVal, EntityValStringMap)
 DEFINE_ENUM_STR_CONVERTERS(entity_val_to_name, entity_val_from_name, EntityVal, EntityValNameMap)
 DEFINE_ENUM_TO_STR(entity_val_to_desc, EntityVal, EntityValDescMap)
+LFW_NS_END
+
 #endif // LFW_CORE_DEFINES_ENTITYVAL_HPP

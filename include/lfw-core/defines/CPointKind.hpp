@@ -9,6 +9,10 @@
 
 #include "EnumHelper.hpp"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 #define ENUM_ITEMS(X)                          \
   X(CPointKind, Attacker, "attacker", "", = 1) \
   X(CPointKind, Victim, "victim", "", = 2)
@@ -24,4 +28,6 @@ GEN_ENUM_DESC_MAP(CPointKindDescMap, ENUM_ITEMS, CPointKind)
 DEFINE_ENUM_STR_CONVERTERS(cpoint_kind_to_string, cpoint_kind_from_string, CPointKind, CPointKindStringMap)
 DEFINE_ENUM_STR_CONVERTERS(cpoint_kind_to_name, cpoint_kind_from_name, CPointKind, CPointKindNameMap)
 DEFINE_ENUM_TO_STR(cpoint_kind_to_desc, CPointKind, CPointKindDescMap)
+LFW_NS_END
+
 #endif // LFW_CORE_DEFINES_CPOINTKIND_HPP

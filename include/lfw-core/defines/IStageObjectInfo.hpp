@@ -1,6 +1,10 @@
 #ifndef LFW_CORE_DEFINES_ISTAGE_OBJECT_INFO_HPP
 #define LFW_CORE_DEFINES_ISTAGE_OBJECT_INFO_HPP
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 #include <optional>
 #include <string>
 #include <vector>
@@ -16,5 +20,8 @@ struct IStageObjectInfo
   std::optional<int> facing;
   std::optional<double> hp, mp;
 };
+
+
+LFW_NS_END
 
 #endif

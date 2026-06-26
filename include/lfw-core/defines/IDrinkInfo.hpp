@@ -6,6 +6,10 @@
 
 #include "lfw-core/base/Fields.h"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 /// IDrinkInfo — 饮料数据
 struct IDrinkInfo
 {
@@ -44,5 +48,7 @@ inline const auto &drink_info_fields()
       field("mp_h_ticks", FieldKind::Flt, &IDrinkInfo::mp_h_ticks, "MP恢复间隔"));
   return fs;
 }
+
+LFW_NS_END
 
 #endif

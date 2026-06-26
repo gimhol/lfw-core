@@ -12,6 +12,10 @@
 #include "lfw-core/defines/IDialogInfo.hpp"
 #include "lfw-core/defines/IStageObjectInfo.hpp"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 /// StageSoundInfo — 关卡音效信息
 struct StageSoundInfo
 {
@@ -63,5 +67,7 @@ struct IStagePhaseInfo
   std::optional<int> control_disabled;     ///< 禁用控制
   std::optional<int> weapon_rain_disabled; ///< 禁用武器雨
 };
+
+LFW_NS_END
 
 #endif

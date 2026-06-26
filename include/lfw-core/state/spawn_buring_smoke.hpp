@@ -1,6 +1,7 @@
 #ifndef LFW_CORE_STATE_SPAWN_BURING_SMOKE_HPP
 #define LFW_CORE_STATE_SPAWN_BURING_SMOKE_HPP
 
+#include "lfw-core/defines/INextFrame.hpp"
 #include "lfw-core/defines/IOpointInfo.hpp"
 #include "lfw-core/defines/OID.hpp"
 #include "lfw-core/entity/Entity.h"
@@ -24,22 +25,22 @@ inline IOpointInfo spawn_buring_smoke(const Entity &e, int foo)
   ret.kind = 0;
   ret.x = 0;
   ret.y = 0;
-  ret.oid = ::oid_to_string(::OID::BrokenWeapon);
+  ret.oid = {::oid_to_string(::OID::BrokenWeapon)};
+  ret.action = {INextFrame{}}; // TNextFrame 至少一项
 
   // 随机朝向：对应 TS mt.pick([-1, 1])
   if (auto *l = e.lfw())
-    ret.facing = static_cast<int>(l->mt().range(0, 2)) * 2 - 1; // -1 or 1
+    ret.action[0].facing = static_cast<int>(l->mt().range(0, 2)) * 2 - 1; // -1 or 1
   else
-    ret.facing = 1;
+    ret.action[0].facing = 1;
 
   ret.dvz = 0;
-  ret.count = 1;
+  ret.multi = 1;
 
   switch (foo)
   {
   case 1:
     // TS: x = mt.range(w/4, 3w/4), y = centery + mt.range(-h/2, 0)
-    // TODO: 用 e.current_frame().width/height/centerx/centery 替代硬编码
     ret.x = 20;
     ret.y = -30;
     break;

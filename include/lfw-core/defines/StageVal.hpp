@@ -9,6 +9,10 @@
 
 #include "EnumHelper.hpp"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 #define ENUM_ITEMS(X)                                                \
   X(StageVal, EnemiesCleared, "enemies_cleared", "敌人已清除", = 0)  \
   X(StageVal, DialogCleared, "dialog_cleared", "对话已清除", = 1)    \
@@ -36,4 +40,6 @@ GEN_ENUM_DESC_MAP(StageValDescMap, ENUM_ITEMS, StageVal)
 DEFINE_ENUM_STR_CONVERTERS(stage_val_to_string, stage_val_from_string, StageVal, StageValStringMap)
 DEFINE_ENUM_STR_CONVERTERS(stage_val_to_name, stage_val_from_name, StageVal, StageValNameMap)
 DEFINE_ENUM_TO_STR(stage_val_to_desc, StageVal, StageValDescMap)
+LFW_NS_END
+
 #endif // LFW_CORE_DEFINES_STAGEVAL_HPP

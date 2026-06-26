@@ -7,6 +7,10 @@
 #include "IRect.hpp"
 #include "lfw-core/base/Fields.h"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 /// IItrInfo — 碰撞体信息（攻击）
 struct IItrInfo : IQube
 {
@@ -43,5 +47,7 @@ inline const auto &itr_info_fields()
       field("z", FieldKind::Flt, &IItrInfo::z, "Z"));
   return fs;
 }
+
+LFW_NS_END
 
 #endif

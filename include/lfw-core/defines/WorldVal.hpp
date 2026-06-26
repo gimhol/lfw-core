@@ -1,6 +1,10 @@
 #ifndef LFW_CORE_DEFINES_WORLDVAL_HPP
 #define LFW_CORE_DEFINES_WORLDVAL_HPP
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 #include <cstdint>
 #include <optional>
 #include <string_view>
@@ -26,5 +30,8 @@ inline std::optional<WorldVal> world_val_from_string(std::string_view s)
     return WorldVal::test;
   return std::nullopt;
 }
+
+
+LFW_NS_END
 
 #endif // LFW_CORE_DEFINES_WORLDVAL_HPP

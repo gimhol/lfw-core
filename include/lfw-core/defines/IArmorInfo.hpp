@@ -8,6 +8,10 @@
 #include "ArmorEnum.hpp"
 #include "lfw-core/base/Fields.h"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 /// IArmorInfo — 护甲信息
 struct IArmorInfo
 {
@@ -42,5 +46,7 @@ inline const auto &armor_info_fields()
       field("dead_sounds", FieldKind::Strs, &IArmorInfo::dead_sounds, "击破音效"));
   return fs;
 }
+
+LFW_NS_END
 
 #endif

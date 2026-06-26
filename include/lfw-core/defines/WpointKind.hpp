@@ -9,6 +9,10 @@
 
 #include "EnumHelper.hpp"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 #define ENUM_ITEMS(X)                            \
   X(WpointKind, None, "none", "无", = 0)         \
   X(WpointKind, Bearer, "bearer", "持握者", = 1) \
@@ -28,4 +32,6 @@ GEN_ENUM_DESC_MAP(WpointKindDescMap, ENUM_ITEMS, WpointKind)
 DEFINE_ENUM_STR_CONVERTERS(wpoint_kind_to_string, wpoint_kind_from_string, WpointKind, WpointKindStringMap)
 DEFINE_ENUM_STR_CONVERTERS(wpoint_kind_to_name, wpoint_kind_from_name, WpointKind, WpointKindNameMap)
 DEFINE_ENUM_TO_STR(wpoint_kind_to_desc, WpointKind, WpointKindDescMap)
+LFW_NS_END
+
 #endif // LFW_CORE_DEFINES_WPOINTKIND_HPP

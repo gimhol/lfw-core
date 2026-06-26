@@ -9,6 +9,10 @@
 
 #include "EnumHelper.hpp"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 /// 碰撞判定值 — CollisionVal.ts
 #define ENUM_ITEMS(X)                                                       \
   X(CollisionVal, AttackerType, "attacker_type", "", )                      \
@@ -58,4 +62,6 @@ GEN_ENUM_DESC_MAP(CollisionValDescMap, ENUM_ITEMS, CollisionVal)
 DEFINE_ENUM_STR_CONVERTERS(collision_val_to_string, collision_val_from_string, CollisionVal, CollisionValStringMap)
 DEFINE_ENUM_STR_CONVERTERS(collision_val_to_name, collision_val_from_name, CollisionVal, CollisionValNameMap)
 DEFINE_ENUM_TO_STR(collision_val_to_desc, CollisionVal, CollisionValDescMap)
+LFW_NS_END
+
 #endif // LFW_CORE_DEFINES_COLLISIONVAL_HPP

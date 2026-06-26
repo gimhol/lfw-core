@@ -4,6 +4,10 @@
 #include "Builtin_FrameId.hpp"
 #include "IFrameInfo.hpp"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 /// GONE_FRAME_INFO — 消失帧常量
 /// 对应 TS 的 GONE_FRAME_INFO，用于标记实体已消失
 /// 注意：C++ IFrameInfo 为简化版本，部分 TS 字段（name, pic, width, height, centerx/y, no_shadow 等）暂缺
@@ -17,5 +21,7 @@ inline const IFrameInfo GONE_FRAME_INFO = []
   f.facing.reset();
   return f;
 }();
+
+LFW_NS_END
 
 #endif

@@ -7,6 +7,10 @@
 
 #include "lfw-core/base/Fields.h"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 /// IPictureInfo — 图片信息
 struct IPictureInfo
 {
@@ -26,5 +30,7 @@ inline const auto &picture_info_fields()
       field("cell_w", FieldKind::Int, &IPictureInfo::cell_w, "格宽"));
   return fs;
 }
+
+LFW_NS_END
 
 #endif

@@ -6,11 +6,13 @@
 
 #include "INextFrame.hpp"
 #include "IPairByFace.hpp"
+#include "IQubePair.hpp"
 #include "IRect.hpp"
 #include "lfw-core/base/Fields.h"
 
-/// IQubePair — Qube 对（按朝向区分）
-using IQubePair = IPairByFace<IQube>;
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
 
 /// ICpointInfo — 抓取点信息
 struct ICpointInfo
@@ -48,5 +50,7 @@ inline const auto &cpoint_info_fields()
       field("indicator_info", FieldKind::Obj, &ICpointInfo::indicator_info, "指示器"));
   return fs;
 }
+
+LFW_NS_END
 
 #endif

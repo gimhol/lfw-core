@@ -7,6 +7,10 @@
 
 #include "IPairByFace.hpp"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 /// TFrameIdPair — 按朝向区分的帧 ID 对
 using TFrameIdPair = IPairByFace<std::string>;
 
@@ -58,5 +62,7 @@ struct IFrameIndexes
   /// 武器丢到地上的帧
   std::optional<std::string> throw_on_ground;
 };
+
+LFW_NS_END
 
 #endif

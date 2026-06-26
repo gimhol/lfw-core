@@ -9,6 +9,10 @@
 
 #include "EnumHelper.hpp"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 #define ENUM_ITEMS(X)                       \
   X(BdyKind, Normal, "normal", "", = 0)     \
   X(BdyKind, Criminal, "criminal", "", = 1) \
@@ -26,4 +30,6 @@ GEN_ENUM_DESC_MAP(BdyKindDescMap, ENUM_ITEMS, BdyKind)
 DEFINE_ENUM_STR_CONVERTERS(bdy_kind_to_string, bdy_kind_from_string, BdyKind, BdyKindStringMap)
 DEFINE_ENUM_STR_CONVERTERS(bdy_kind_to_name, bdy_kind_from_name, BdyKind, BdyKindNameMap)
 DEFINE_ENUM_TO_STR(bdy_kind_to_desc, BdyKind, BdyKindDescMap)
+LFW_NS_END
+
 #endif // LFW_CORE_DEFINES_BDYKIND_HPP

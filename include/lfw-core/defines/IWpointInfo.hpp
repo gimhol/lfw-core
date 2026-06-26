@@ -4,7 +4,12 @@
 #include <optional>
 #include <string>
 
+#include "IQubePair.hpp"
 #include "lfw-core/base/Fields.h"
+
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
 
 /// IWpointInfo — 武器挂载点信息
 struct IWpointInfo
@@ -18,6 +23,7 @@ struct IWpointInfo
   std::optional<double> dvx;
   std::optional<double> dvy;
   std::optional<double> dvz;
+  std::optional<IQubePair> indicator_info;
 };
 
 inline const auto &wpoint_info_fields()
@@ -34,5 +40,7 @@ inline const auto &wpoint_info_fields()
       field("dvz", FieldKind::Flt, &IWpointInfo::dvz, "初速度Z"));
   return fs;
 }
+
+LFW_NS_END
 
 #endif

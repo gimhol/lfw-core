@@ -1,6 +1,10 @@
 #ifndef LFW_CORE_DEFINES_ITREFFECT_HPP
 #define LFW_CORE_DEFINES_ITREFFECT_HPP
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 #include <cstdint>
 
 enum class ItrEffect : int32_t
@@ -18,5 +22,8 @@ enum class ItrEffect : int32_t
   Ice2 = 30,
   Ignore = 10000,
 };
+
+
+LFW_NS_END
 
 #endif // LFW_CORE_DEFINES_ITREFFECT_HPP

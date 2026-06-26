@@ -9,6 +9,10 @@
 
 #include "EnumHelper.hpp"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 /// OID.ts — 内置对象 ID（枚举值 = LF2 内部编号）
 #define ENUM_ITEMS(X)                                       \
   X(OID, Template, "0", "模板", = 0)                        \
@@ -90,4 +94,6 @@ GEN_ENUM_DESC_MAP(OIDDescMap, ENUM_ITEMS, OID)
 DEFINE_ENUM_STR_CONVERTERS(oid_to_string, oid_from_string, OID, OIDStringMap)
 DEFINE_ENUM_STR_CONVERTERS(oid_to_name, oid_from_name, OID, OIDNameMap)
 DEFINE_ENUM_TO_STR(oid_to_desc, OID, OIDDescMap)
+LFW_NS_END
+
 #endif // LFW_CORE_DEFINES_OID_HPP

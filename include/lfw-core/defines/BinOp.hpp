@@ -9,6 +9,10 @@
 
 #include "EnumHelper.hpp"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 #define ENUM_ITEMS(X)                    \
   X(BinOp, LESS, "<", "", )              \
   X(BinOp, LESS_OR_EQUAL, "<=", "", )    \
@@ -32,4 +36,6 @@ GEN_ENUM_DESC_MAP(BinOpDescMap, ENUM_ITEMS, BinOp)
 DEFINE_ENUM_STR_CONVERTERS(bin_op_to_string, bin_op_from_string, BinOp, BinOpStringMap)
 DEFINE_ENUM_STR_CONVERTERS(bin_op_to_name, bin_op_from_name, BinOp, BinOpNameMap)
 DEFINE_ENUM_TO_STR(bin_op_to_desc, BinOp, BinOpDescMap)
+LFW_NS_END
+
 #endif // LFW_CORE_DEFINES_BINOP_HPP

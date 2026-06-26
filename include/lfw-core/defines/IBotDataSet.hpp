@@ -5,6 +5,10 @@
 
 #include "lfw-core/base/Fields.h"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 /// IBotDataSet — Bot 数据集（AI 参数配置，默认值来自 BotDataSet.Default）
 struct IBotDataSet
 {
@@ -104,5 +108,7 @@ inline const auto &bot_data_set_fields()
       field("pick_weapon_z", FieldKind::Flt, &IBotDataSet::pick_weapon_z, "拾武Z"));
   return fs;
 }
+
+LFW_NS_END
 
 #endif

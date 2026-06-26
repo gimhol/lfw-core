@@ -10,6 +10,10 @@
 
 #include "EnumHelper.hpp"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 /// StateEnum.ts
 #define ENUM_ITEMS(X)                                                                            \
   X(StateType, EntityBase, "entity_base", "实体基类", = -1)                                      \
@@ -98,5 +102,7 @@ inline const std::vector<StateType> &attacking_states()
   };
   return v;
 }
+
+LFW_NS_END
 
 #endif // LFW_CORE_DEFINES_STATETYPE_HPP

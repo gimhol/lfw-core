@@ -9,6 +9,10 @@
 
 #include "EnumHelper.hpp"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 /// FacingFlag.ts
 #define ENUM_ITEMS(X)                                         \
   X(FacingFlag, None, "none", "", = 0)                        \
@@ -39,4 +43,6 @@ GEN_ENUM_DESC_MAP(FacingFlagDescMap, ENUM_ITEMS, FacingFlag)
 DEFINE_ENUM_STR_CONVERTERS(facing_flag_to_string, facing_flag_from_string, FacingFlag, FacingFlagStringMap)
 DEFINE_ENUM_STR_CONVERTERS(facing_flag_to_name, facing_flag_from_name, FacingFlag, FacingFlagNameMap)
 DEFINE_ENUM_TO_STR(facing_flag_to_desc, FacingFlag, FacingFlagDescMap)
+LFW_NS_END
+
 #endif // LFW_CORE_DEFINES_FACINGFLAG_HPP

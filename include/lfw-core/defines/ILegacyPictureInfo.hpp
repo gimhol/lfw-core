@@ -4,6 +4,10 @@
 #include "IPictureInfo.hpp"
 #include "lfw-core/base/Fields.h"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 /// ILegacyPictureInfo — 旧版实体图片信息（继承 IPictureInfo）
 struct ILegacyPictureInfo : IPictureInfo
 {
@@ -32,5 +36,7 @@ inline const auto &legacy_picture_info_fields()
       field("cell_h", FieldKind::Int, &ILegacyPictureInfo::cell_h, "格高"));
   return fs;
 }
+
+LFW_NS_END
 
 #endif

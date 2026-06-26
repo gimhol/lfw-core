@@ -9,6 +9,10 @@
 
 #include "EnumHelper.hpp"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 #define ENUM_ITEMS(X)      \
   X(GameKey, L, "L", "", ) \
   X(GameKey, R, "R", "", ) \
@@ -62,5 +66,7 @@ inline std::optional<GameKey> conflict_key(GameKey k)
     return std::nullopt;
   return iter->second;
 }
+
+LFW_NS_END
 
 #endif // LFW_CORE_DEFINES_GAMEKEY_HPP

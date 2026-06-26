@@ -9,6 +9,10 @@
 
 #include "EnumHelper.hpp"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 /// Builtin_FrameId — 内置帧 ID（字符串枚举）
 #define ENUM_ITEMS(X)                             \
   X(Builtin_FrameId, None, "", "", = 0)           \
@@ -33,5 +37,7 @@ DEFINE_ENUM_TO_STR(builtin_frame_id_to_desc, Builtin_FrameId, Builtin_FrameIdDes
 
 /// 别名
 using BFID = Builtin_FrameId;
+
+LFW_NS_END
 
 #endif

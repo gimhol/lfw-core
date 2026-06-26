@@ -5,6 +5,10 @@
 
 #include "lfw-core/base/Fields.h"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 /// IBotRay — XZ 射线检测
 struct IBotRay
 {
@@ -33,5 +37,7 @@ inline const auto &bot_ray_fields()
       field("reverse", FieldKind::Bool, &IBotRay::reverse, "反转判定"));
   return fs;
 }
+
+LFW_NS_END
 
 #endif

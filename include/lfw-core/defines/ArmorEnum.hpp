@@ -9,6 +9,10 @@
 
 #include "EnumHelper.hpp"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 /* 格式: X(枚举类型, 枚举名, "字符串值", "描述", 值) */
 #define ENUM_ITEMS(X)                     \
   X(ArmorEnum, Defend, "defend", "", = 1) \
@@ -27,4 +31,6 @@ GEN_ENUM_DESC_MAP(ArmorTypeDescMap, ENUM_ITEMS, ArmorEnum)
 DEFINE_ENUM_STR_CONVERTERS(armor_type_to_string, armor_type_from_string, ArmorEnum, ArmorTypeStringMap)
 DEFINE_ENUM_STR_CONVERTERS(armor_type_to_name, armor_type_from_name, ArmorEnum, ArmorTypeNameMap)
 DEFINE_ENUM_TO_STR(armor_type_to_desc, ArmorEnum, ArmorTypeDescMap)
+LFW_NS_END
+
 #endif // LFW_CORE_DEFINES_ARMORENUM_HPP

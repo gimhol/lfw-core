@@ -9,6 +9,10 @@
 
 #include "EnumHelper.hpp"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 #define ENUM_ITEMS(X)                                \
   X(WeaponType, None, "none", "无", = 0)             \
   X(WeaponType, Stick, "stick", "棍", = 1)           \
@@ -30,4 +34,6 @@ GEN_ENUM_DESC_MAP(WeaponTypeDescMap, ENUM_ITEMS, WeaponType)
 DEFINE_ENUM_STR_CONVERTERS(weapon_type_to_string, weapon_type_from_string, WeaponType, WeaponTypeStringMap)
 DEFINE_ENUM_STR_CONVERTERS(weapon_type_to_name, weapon_type_from_name, WeaponType, WeaponTypeNameMap)
 DEFINE_ENUM_TO_STR(weapon_type_to_desc, WeaponType, WeaponTypeDescMap)
+LFW_NS_END
+
 #endif // LFW_CORE_DEFINES_WEAPONTYPE_HPP

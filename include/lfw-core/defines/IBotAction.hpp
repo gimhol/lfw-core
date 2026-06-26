@@ -9,6 +9,10 @@
 #include "IBotRay.hpp"
 #include "lfw-core/base/Fields.h"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 /// IBotAction — Bot 动作
 struct IBotAction
 {
@@ -47,5 +51,7 @@ inline const auto &bot_action_fields()
       field("keys", FieldKind::Strs, &IBotAction::keys, "按键"));
   return fs;
 }
+
+LFW_NS_END
 
 #endif

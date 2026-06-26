@@ -9,6 +9,10 @@
 
 #include "EnumHelper.hpp"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 #define ENUM_ITEMS(X)                          \
   X(CtrlDevice, Keyboard, "keyboard", "", = 0) \
   X(CtrlDevice, Gamepad1, "gamepad1", "", = 1) \
@@ -28,4 +32,6 @@ GEN_ENUM_DESC_MAP(CtrlDeviceDescMap, ENUM_ITEMS, CtrlDevice)
 DEFINE_ENUM_STR_CONVERTERS(ctrl_device_to_string, ctrl_device_from_string, CtrlDevice, CtrlDeviceStringMap)
 DEFINE_ENUM_STR_CONVERTERS(ctrl_device_to_name, ctrl_device_from_name, CtrlDevice, CtrlDeviceNameMap)
 DEFINE_ENUM_TO_STR(ctrl_device_to_desc, CtrlDevice, CtrlDeviceDescMap)
+LFW_NS_END
+
 #endif // LFW_CORE_DEFINES_CTRLDEVICE_HPP

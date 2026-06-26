@@ -6,6 +6,10 @@
 
 #include "lfw-core/base/Fields.h"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 /// IBgLayerInfo — 背景层信息
 struct IBgLayerInfo
 {
@@ -34,5 +38,7 @@ inline const auto &bg_layer_info_fields()
       field("loop", FieldKind::Flt, &IBgLayerInfo::loop, "循环间隔"));
   return fs;
 }
+
+LFW_NS_END
 
 #endif

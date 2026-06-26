@@ -1,6 +1,10 @@
 #ifndef LFW_CORE_DEFINES_IFULL_GAME_ZIP_INFO_HPP
 #define LFW_CORE_DEFINES_IFULL_GAME_ZIP_INFO_HPP
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 #include <string>
 #include <vector>
 
@@ -31,5 +35,8 @@ struct IDataZipInfo : IBaseZipInfo
 {
   std::string type = "DATA";
 };
+
+
+LFW_NS_END
 
 #endif

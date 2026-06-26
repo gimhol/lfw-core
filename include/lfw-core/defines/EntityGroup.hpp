@@ -9,6 +9,10 @@
 
 #include "EnumHelper.hpp"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 /// EntityGroup.ts
 #define ENUM_ITEMS(X)                                  \
   X(EntityGroup, Hidden, "hidden", "", )               \
@@ -33,4 +37,6 @@ GEN_ENUM_DESC_MAP(EntityGroupDescMap, ENUM_ITEMS, EntityGroup)
 DEFINE_ENUM_STR_CONVERTERS(entity_group_to_string, entity_group_from_string, EntityGroup, EntityGroupStringMap)
 DEFINE_ENUM_STR_CONVERTERS(entity_group_to_name, entity_group_from_name, EntityGroup, EntityGroupNameMap)
 DEFINE_ENUM_TO_STR(entity_group_to_desc, EntityGroup, EntityGroupDescMap)
+LFW_NS_END
+
 #endif // LFW_CORE_DEFINES_ENTITYGROUP_HPP

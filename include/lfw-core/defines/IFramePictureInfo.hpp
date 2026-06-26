@@ -5,6 +5,10 @@
 
 #include "lfw-core/base/Fields.h"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 /// IFramePictureInfo — 帧图片裁剪信息
 struct IFramePictureInfo
 {
@@ -25,5 +29,7 @@ inline const auto &frame_picture_info_fields()
       field("h", FieldKind::Flt, &IFramePictureInfo::h, "高"));
   return fs;
 }
+
+LFW_NS_END
 
 #endif

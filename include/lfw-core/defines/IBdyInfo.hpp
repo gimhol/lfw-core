@@ -8,6 +8,10 @@
 #include "IRect.hpp"
 #include "lfw-core/base/Fields.h"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 /// IBdyInfo — 碰撞体信息（身体）
 struct IBdyInfo : IQube
 {
@@ -36,5 +40,7 @@ inline const auto &bdy_info_fields()
       field("l", FieldKind::Flt, &IBdyInfo::l, "长"));
   return fs;
 }
+
+LFW_NS_END
 
 #endif

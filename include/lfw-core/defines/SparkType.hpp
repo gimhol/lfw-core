@@ -1,6 +1,10 @@
 #ifndef LFW_CORE_DEFINES_SPARKTYPE_HPP
 #define LFW_CORE_DEFINES_SPARKTYPE_HPP
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 #include <cstdint>
 #include <optional>
 #include <string_view>
@@ -63,5 +67,8 @@ inline std::optional<SparkType> spark_type_from_string(std::string_view s)
   auto it = m.find(s);
   return it != m.end() ? std::optional{it->second} : std::nullopt;
 }
+
+
+LFW_NS_END
 
 #endif // LFW_CORE_DEFINES_SPARKTYPE_HPP

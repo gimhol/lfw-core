@@ -5,6 +5,10 @@
 
 #include "IVector2Like.hpp"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 /// IVector2 — 二维向量（继承 IVector2Like）
 struct IVector2 : IVector2Like
 {
@@ -61,5 +65,7 @@ struct IVector2 : IVector2Like
     return x == o.x && y == o.y;
   }
 };
+
+LFW_NS_END
 
 #endif

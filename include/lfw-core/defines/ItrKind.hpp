@@ -1,6 +1,10 @@
 #ifndef LFW_CORE_DEFINES_ITRKIND_HPP
 #define LFW_CORE_DEFINES_ITRKIND_HPP
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 #include <cstdint>
 
 enum class ItrKind : int32_t
@@ -19,5 +23,8 @@ enum class ItrKind : int32_t
   MagicFlute2 = 11,
   Block = 14,
 };
+
+
+LFW_NS_END
 
 #endif // LFW_CORE_DEFINES_ITRKIND_HPP

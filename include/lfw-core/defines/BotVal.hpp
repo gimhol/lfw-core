@@ -1,6 +1,10 @@
 #ifndef LFW_CORE_DEFINES_BOTVAL_HPP
 #define LFW_CORE_DEFINES_BOTVAL_HPP
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 #include <cstdint>
 #include <optional>
 #include <string>
@@ -29,4 +33,7 @@ GEN_ENUM_DESC_MAP(BotValDescMap, ENUM_ITEMS, BotVal)
 DEFINE_ENUM_STR_CONVERTERS(bot_val_to_string, bot_val_from_string, BotVal, BotValStringMap)
 DEFINE_ENUM_STR_CONVERTERS(bot_val_to_name, bot_val_from_name, BotVal, BotValNameMap)
 DEFINE_ENUM_TO_STR(bot_val_to_desc, BotVal, BotValDescMap)
+
+LFW_NS_END
+
 #endif // LFW_CORE_DEFINES_BOTVAL_HPP

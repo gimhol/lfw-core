@@ -5,6 +5,10 @@
 
 #include "lfw-core/base/Fields.h"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 /// IVelocityInfo — 速度信息
 struct IVelocityInfo
 {
@@ -39,5 +43,7 @@ inline const auto &velocity_info_fields()
       field("ctrl_z", FieldKind::Int, &IVelocityInfo::ctrl_z, "控制Z"));
   return fs;
 }
+
+LFW_NS_END
 
 #endif

@@ -10,6 +10,10 @@
 #include "IEntityInfo.hpp"
 #include "IFrameInfo.hpp"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 /// IDatContext — 数据上下文（加载/处理过程中的完整数据包裹）
 struct IDatContext
 {
@@ -28,5 +32,7 @@ struct IDatContext
   /// 解析后的实体数据（可能为空）
   std::optional<IEntityData> data;
 };
+
+LFW_NS_END
 
 #endif

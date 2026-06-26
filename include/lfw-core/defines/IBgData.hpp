@@ -10,6 +10,10 @@
 #include "IWorldDataset.hpp"
 #include "lfw-core/base/Fields.h"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 /// IBgData — 背景数据
 struct IBgData
 {
@@ -40,5 +44,7 @@ inline const auto &bg_data_fields()
             { b.layers = std::any_cast<std::vector<IBgLayerInfo>>(val); }, "背景层"));
   return fs;
 }
+
+LFW_NS_END
 
 #endif

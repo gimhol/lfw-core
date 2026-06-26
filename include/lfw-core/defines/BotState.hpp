@@ -9,6 +9,10 @@
 
 #include "EnumHelper.hpp"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 #define ENUM_ITEMS(X)                       \
   X(BotState, Idle, "Idle", "", )           \
   X(BotState, Avoiding, "Avoiding", "", )   \
@@ -28,4 +32,6 @@ GEN_ENUM_DESC_MAP(BotStateDescMap, ENUM_ITEMS, BotState)
 DEFINE_ENUM_STR_CONVERTERS(bot_state_to_string, bot_state_from_string, BotState, BotStateStringMap)
 DEFINE_ENUM_STR_CONVERTERS(bot_state_to_name, bot_state_from_name, BotState, BotStateNameMap)
 DEFINE_ENUM_TO_STR(bot_state_to_desc, BotState, BotStateDescMap)
+LFW_NS_END
+
 #endif // LFW_CORE_DEFINES_BOTSTATE_HPP

@@ -9,6 +9,10 @@
 
 #include "EnumHelper.hpp"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 #define ENUM_ITEMS(X)                            \
   X(Difficulty, Easy, "easy", "", = 1)           \
   X(Difficulty, Normal, "normal", "", = 2)       \
@@ -28,4 +32,6 @@ GEN_ENUM_DESC_MAP(DifficultyDescMap, ENUM_ITEMS, Difficulty)
 DEFINE_ENUM_STR_CONVERTERS(difficulty_to_string, difficulty_from_string, Difficulty, DifficultyStringMap)
 DEFINE_ENUM_STR_CONVERTERS(difficulty_to_name, difficulty_from_name, Difficulty, DifficultyNameMap)
 DEFINE_ENUM_TO_STR(difficulty_to_desc, Difficulty, DifficultyDescMap)
+LFW_NS_END
+
 #endif // LFW_CORE_DEFINES_DIFFICULTY_HPP

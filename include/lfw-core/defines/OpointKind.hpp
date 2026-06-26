@@ -9,6 +9,10 @@
 
 #include "EnumHelper.hpp"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 // === OpointKind ===
 #define OPOINT_KIND_ITEMS(X)                   \
   X(OpointKind, Normal, "normal", "普通", = 1) \
@@ -67,4 +71,6 @@ GEN_ENUM_DESC_MAP(OpointMultiDescMap, OPOINT_MULTI_ITEMS, OpointMulti)
 DEFINE_ENUM_STR_CONVERTERS(opoint_multi_to_string, opoint_multi_from_string, OpointMulti, OpointMultiStringMap)
 DEFINE_ENUM_STR_CONVERTERS(opoint_multi_to_name, opoint_multi_from_name, OpointMulti, OpointMultiNameMap)
 DEFINE_ENUM_TO_STR(opoint_multi_to_desc, OpointMulti, OpointMultiDescMap)
+LFW_NS_END
+
 #endif // LFW_CORE_DEFINES_OPOINTKIND_HPP

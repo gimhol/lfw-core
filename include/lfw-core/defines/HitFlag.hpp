@@ -1,6 +1,10 @@
 #ifndef LFW_CORE_DEFINES_HITFLAG_HPP
 #define LFW_CORE_DEFINES_HITFLAG_HPP
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 #include <cstdint>
 #include <unordered_map>
 
@@ -52,5 +56,8 @@ inline const auto &hit_flag_names()
   };
   return m;
 }
+
+
+LFW_NS_END
 
 #endif // LFW_CORE_DEFINES_HITFLAG_HPP

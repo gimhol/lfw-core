@@ -9,6 +9,10 @@
 
 #include "EnumHelper.hpp"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 #define ENUM_ITEMS(X)                                                     \
   X(StageAction, GoGoGoRight, "gogogo_right", "向右", = 0)                \
   X(StageAction, EnterNextPhase, "enter_next_phase", "进入下一阶段", = 1) \
@@ -27,4 +31,6 @@ GEN_ENUM_DESC_MAP(StageActionDescMap, ENUM_ITEMS, StageAction)
 DEFINE_ENUM_STR_CONVERTERS(stage_action_to_string, stage_action_from_string, StageAction, StageActionStringMap)
 DEFINE_ENUM_STR_CONVERTERS(stage_action_to_name, stage_action_from_name, StageAction, StageActionNameMap)
 DEFINE_ENUM_TO_STR(stage_action_to_desc, StageAction, StageActionDescMap)
+LFW_NS_END
+
 #endif // LFW_CORE_DEFINES_STAGEACTION_HPP

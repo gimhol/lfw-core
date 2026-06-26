@@ -8,6 +8,10 @@
 #include "GameKey.hpp"
 #include "lfw-core/base/Fields.h"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 /// IPurePlayerInfo — 纯玩家信息（不含运行时状态）
 struct IPurePlayerInfo
 {
@@ -29,5 +33,7 @@ inline const auto &pure_player_info_fields()
       field("ctrl", FieldKind::Int, &IPurePlayerInfo::ctrl, "控制器"));
   return fs;
 }
+
+LFW_NS_END
 
 #endif

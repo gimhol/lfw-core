@@ -9,6 +9,10 @@
 
 #include "EnumHelper.hpp"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 /* 格式: X(枚举类型, 枚举名, "字符串值", "描述", 值) */
 #define ENUM_ITEMS(X)                          \
   X(BackgroundGroup, Regular, "regular", "", ) \
@@ -25,4 +29,6 @@ GEN_ENUM_DESC_MAP(BackgroundGroupDescMap, ENUM_ITEMS, BackgroundGroup)
 DEFINE_ENUM_STR_CONVERTERS(background_group_to_string, background_group_from_string, BackgroundGroup, BackgroundGroupStringMap)
 DEFINE_ENUM_STR_CONVERTERS(background_group_to_name, background_group_from_name, BackgroundGroup, BackgroundGroupNameMap)
 DEFINE_ENUM_TO_STR(background_group_to_desc, BackgroundGroup, BackgroundGroupDescMap)
+LFW_NS_END
+
 #endif // LFW_CORE_DEFINES_BACKGROUNDGROUP_HPP

@@ -1,6 +1,10 @@
 #ifndef LFW_CORE_DEFINES_IPAIR_BY_FACE_HPP
 #define LFW_CORE_DEFINES_IPAIR_BY_FACE_HPP
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 /// IPairByFace — 按朝向（左/右）区分的泛型对
 ///   left  ← 对应 -1（左）
 ///   right ← 对应  1（右）
@@ -16,5 +20,8 @@ struct IPairByFace
   [[nodiscard]] T &get() { return right; }
   [[nodiscard]] const T &get() const { return right; }
 };
+
+
+LFW_NS_END
 
 #endif

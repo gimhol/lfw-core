@@ -9,6 +9,10 @@
 
 #include "EnumHelper.hpp"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 #define ENUM_ITEMS(X)                          \
   X(StageGroup, Hidden, "hidden", "隐藏", = 0) \
   X(StageGroup, Dev, "Dev", "开发", = 1)
@@ -26,4 +30,6 @@ GEN_ENUM_DESC_MAP(StageGroupDescMap, ENUM_ITEMS, StageGroup)
 DEFINE_ENUM_STR_CONVERTERS(stage_group_to_string, stage_group_from_string, StageGroup, StageGroupStringMap)
 DEFINE_ENUM_STR_CONVERTERS(stage_group_to_name, stage_group_from_name, StageGroup, StageGroupNameMap)
 DEFINE_ENUM_TO_STR(stage_group_to_desc, StageGroup, StageGroupDescMap)
+LFW_NS_END
+
 #endif // LFW_CORE_DEFINES_STAGEGROUP_HPP

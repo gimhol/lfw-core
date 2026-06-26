@@ -9,6 +9,10 @@
 
 #include "EnumHelper.hpp"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 /// EntityEnum.ts — 使用 HitFlag 位值
 #define ENUM_ITEMS(X)                        \
   X(EntityType, Entity, "entity", "", = 4)   \
@@ -27,4 +31,6 @@ GEN_ENUM_DESC_MAP(EntityTypeDescMap, ENUM_ITEMS, EntityType)
 DEFINE_ENUM_STR_CONVERTERS(entity_type_to_string, entity_type_from_string, EntityType, EntityTypeStringMap)
 DEFINE_ENUM_STR_CONVERTERS(entity_type_to_name, entity_type_from_name, EntityType, EntityTypeNameMap)
 DEFINE_ENUM_TO_STR(entity_type_to_desc, EntityType, EntityTypeDescMap)
+LFW_NS_END
+
 #endif // LFW_CORE_DEFINES_ENTITYTYPE_HPP

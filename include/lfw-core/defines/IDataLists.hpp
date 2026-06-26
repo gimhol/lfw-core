@@ -5,6 +5,10 @@
 
 #include "IDatIndex.hpp"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 /// IDataLists — 数据列表（已处理的数据索引）
 struct IDataLists
 {
@@ -22,5 +26,7 @@ struct ITempDataLists
   std::vector<ITempDatIndex> stages;
   std::vector<ITempDatIndex> bots;
 };
+
+LFW_NS_END
 
 #endif

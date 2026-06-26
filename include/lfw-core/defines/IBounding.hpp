@@ -3,6 +3,10 @@
 
 #include "lfw-core/base/Fields.h"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 /// IBounding — 包围盒（6 面）
 struct IBounding
 {
@@ -25,5 +29,7 @@ inline const auto &bounding_fields()
       field("far", FieldKind::Flt, &IBounding::far, "远"));
   return fs;
 }
+
+LFW_NS_END
 
 #endif // LFW_CORE_DEFINES_IBOUNDING_HPP

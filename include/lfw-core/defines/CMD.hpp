@@ -9,6 +9,10 @@
 
 #include "EnumHelper.hpp"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 #define ENUM_ITEMS(X)                            \
   X(CMD, F1, "f1", "", )                         \
   X(CMD, F2, "f2", "", )                         \
@@ -46,4 +50,6 @@ GEN_ENUM_DESC_MAP(CMDDescMap, ENUM_ITEMS, CMD)
 DEFINE_ENUM_STR_CONVERTERS(cmd_to_string, cmd_from_string, CMD, CMDStringMap)
 DEFINE_ENUM_STR_CONVERTERS(cmd_to_name, cmd_from_name, CMD, CMDNameMap)
 DEFINE_ENUM_TO_STR(cmd_to_desc, CMD, CMDDescMap)
+LFW_NS_END
+
 #endif // LFW_CORE_DEFINES_CMD_HPP

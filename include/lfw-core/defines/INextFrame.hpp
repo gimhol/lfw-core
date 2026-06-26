@@ -9,6 +9,10 @@
 #include "IVelocityInfo.hpp"
 #include "lfw-core/base/Fields.h"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 /// StrOrNum — 字符串或数字
 using StrOrNum = std::variant<std::string, double>;
 
@@ -72,5 +76,7 @@ inline const auto &next_frame_fields()
       field("facing", FieldKind::Int, &INextFrame::facing, "转向"), field("expression", FieldKind::Str, &INextFrame::expression, "判定式"), field("mp", FieldKind::Flt, &INextFrame::mp, "消耗MP"), field("mp_mode", FieldKind::Int, &INextFrame::mp_mode, "MP不足模式"), field("hp", FieldKind::Flt, &INextFrame::hp, "消耗HP"), field("sounds", FieldKind::Strs, &INextFrame::sounds, "音效"), field("blink_time", FieldKind::Flt, &INextFrame::blink_time, "闪烁时长"));
   return fs;
 }
+
+LFW_NS_END
 
 #endif

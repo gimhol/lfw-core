@@ -6,6 +6,10 @@
 #include "HitFlag.hpp"
 #include "lfw-core/base/Fields.h"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 /// IChaseInfo — 追踪信息
 struct IChaseInfo
 {
@@ -24,5 +28,7 @@ inline const auto &chase_info_fields()
       field("oy", FieldKind::Flt, &IChaseInfo::oy, "OY偏移"));
   return fs;
 }
+
+LFW_NS_END
 
 #endif

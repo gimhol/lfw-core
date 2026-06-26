@@ -7,6 +7,10 @@
 
 #include "lfw-core/defines/IStagePhaseInfo.hpp"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 /// IStageInfo — 关卡信息，对应 TS IStageInfo
 struct IStageInfo
 {
@@ -24,5 +28,7 @@ struct IStageInfo
   std::optional<std::string> title;            ///< 大标题
   std::optional<std::vector<std::string>> group;
 };
+
+LFW_NS_END
 
 #endif

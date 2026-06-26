@@ -1,6 +1,10 @@
 #ifndef LFW_CORE_DEFINES_ISTYLE_HPP
 #define LFW_CORE_DEFINES_ISTYLE_HPP
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 #include <optional>
 #include <string>
 
@@ -37,5 +41,8 @@ struct IStyle
   std::optional<double> underline_width;
   std::optional<double> scale;
 };
+
+
+LFW_NS_END
 
 #endif

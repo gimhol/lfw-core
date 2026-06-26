@@ -6,6 +6,10 @@
 
 #include "lfw-core/base/Fields.h"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 /// IDialogInfo — 对话框信息
 struct IDialogInfo
 {
@@ -26,5 +30,7 @@ inline const auto &dialog_info_fields()
       field("close_by", FieldKind::Str, &IDialogInfo::close_by, "关闭方式"));
   return fs;
 }
+
+LFW_NS_END
 
 #endif

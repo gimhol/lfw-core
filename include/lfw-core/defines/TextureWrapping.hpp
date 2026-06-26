@@ -1,6 +1,10 @@
 #ifndef LFW_CORE_DEFINES_TEXTUREWRAPPING_HPP
 #define LFW_CORE_DEFINES_TEXTUREWRAPPING_HPP
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 #include <cstdint>
 
 enum class TextureWrapping : uint8_t
@@ -24,5 +28,8 @@ enum class MinFilter : uint8_t
   Linear = 4,
   Nearest = 5
 };
+
+
+LFW_NS_END
 
 #endif // LFW_CORE_DEFINES_TEXTUREWRAPPING_HPP

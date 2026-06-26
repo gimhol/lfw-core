@@ -9,6 +9,10 @@
 
 #include "EnumHelper.hpp"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 #define ENUM_ITEMS(X)                                                     \
   X(FrameBehavior, JohnChase, "john_chase", "", = 1)                      \
   X(FrameBehavior, DennisChase, "dennis_chase", "", = 2)                  \
@@ -31,4 +35,6 @@ GEN_ENUM_DESC_MAP(FrameBehaviorDescMap, ENUM_ITEMS, FrameBehavior)
 DEFINE_ENUM_STR_CONVERTERS(frame_behavior_to_string, frame_behavior_from_string, FrameBehavior, FrameBehaviorStringMap)
 DEFINE_ENUM_STR_CONVERTERS(frame_behavior_to_name, frame_behavior_from_name, FrameBehavior, FrameBehaviorNameMap)
 DEFINE_ENUM_TO_STR(frame_behavior_to_desc, FrameBehavior, FrameBehaviorDescMap)
+LFW_NS_END
+
 #endif // LFW_CORE_DEFINES_FRAMEBEHAVIOR_HPP

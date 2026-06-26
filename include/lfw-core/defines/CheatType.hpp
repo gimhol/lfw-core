@@ -9,6 +9,10 @@
 
 #include "EnumHelper.hpp"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 #define ENUM_ITEMS(X)                    \
   X(CheatType, LF2_NET, "LF2_NET", "", ) \
   X(CheatType, HERO_FT, "HERO_FT", "", ) \
@@ -25,4 +29,6 @@ GEN_ENUM_DESC_MAP(CheatTypeDescMap, ENUM_ITEMS, CheatType)
 DEFINE_ENUM_STR_CONVERTERS(cheat_type_to_string, cheat_type_from_string, CheatType, CheatTypeStringMap)
 DEFINE_ENUM_STR_CONVERTERS(cheat_type_to_name, cheat_type_from_name, CheatType, CheatTypeNameMap)
 DEFINE_ENUM_TO_STR(cheat_type_to_desc, CheatType, CheatTypeDescMap)
+LFW_NS_END
+
 #endif // LFW_CORE_DEFINES_CHEATTYPE_HPP

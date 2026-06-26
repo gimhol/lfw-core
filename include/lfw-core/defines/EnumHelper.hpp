@@ -8,6 +8,10 @@
 #include <unordered_map>
 #include "../core.hpp"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 #define DEFINE_ENUM_TO_STR(TO_STR, ENUM, MAP) \
   inline std::string_view TO_STR(ENUM v)      \
   {                                           \
@@ -103,5 +107,7 @@
       return it->second;                                              \
     return std::nullopt;                                              \
   }
+
+LFW_NS_END
 
 #endif // LFW_CORE_DEFINES_ENUMHELPER_HPP

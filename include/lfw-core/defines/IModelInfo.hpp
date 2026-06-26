@@ -1,6 +1,10 @@
 #ifndef LFW_CORE_DEFINES_IMODEL_INFO_HPP
 #define LFW_CORE_DEFINES_IMODEL_INFO_HPP
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 #include <optional>
 #include <string>
 #include <vector>
@@ -13,5 +17,8 @@ struct IModelInfo
   std::optional<std::vector<std::string>> variants;
   std::optional<double> scale_x, scale_y, scale_z;
 };
+
+
+LFW_NS_END
 
 #endif

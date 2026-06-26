@@ -3,7 +3,12 @@
 
 #include <optional>
 
+#include "IQubePair.hpp"
 #include "lfw-core/base/Fields.h"
+
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
 
 /// IBpointInfo — 出血点信息
 struct IBpointInfo
@@ -12,6 +17,7 @@ struct IBpointInfo
   double y = 0;
   std::optional<double> z;
   std::optional<double> r;
+  std::optional<IQubePair> indicator_info;
 };
 
 inline const auto &bpoint_info_fields()
@@ -23,5 +29,7 @@ inline const auto &bpoint_info_fields()
       field("r", FieldKind::Flt, &IBpointInfo::r, "R"));
   return fs;
 }
+
+LFW_NS_END
 
 #endif

@@ -8,6 +8,10 @@
 #include "SyncRenderEnum.hpp"
 #include "lfw-core/base/Fields.h"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 /// IWorldDataset — 世界数据集（全局物理/战斗参数）
 /// 默认值与 TS WorldDataset 类保持一致
 struct IWorldDataset
@@ -260,5 +264,7 @@ inline const auto &world_dataset_fields()
       field("gim_ink", FieldKind::Flt, &IWorldDataset::gim_ink, "gim_ink"));
   return fs;
 }
+
+LFW_NS_END
 
 #endif // LFW_CORE_DEFINES_IWORLD_DATASET_HPP

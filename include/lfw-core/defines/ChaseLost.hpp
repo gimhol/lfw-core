@@ -9,6 +9,10 @@
 
 #include "EnumHelper.hpp"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 /* ---- ChaseLost ---- */
 #define ENUM_ITEMS(X)                   \
   X(ChaseLost, Hover, "hover", "", = 1) \
@@ -43,5 +47,7 @@ GEN_ENUM_DESC_MAP(ChaseStrategyDescMap, ENUM_ITEMS, ChaseStrategy)
 DEFINE_ENUM_STR_CONVERTERS(chase_strategy_to_string, chase_strategy_from_string, ChaseStrategy, ChaseStrategyStringMap)
 DEFINE_ENUM_STR_CONVERTERS(chase_strategy_to_name, chase_strategy_from_name, ChaseStrategy, ChaseStrategyNameMap)
 DEFINE_ENUM_TO_STR(chase_strategy_to_desc, ChaseStrategy, ChaseStrategyDescMap)
+
+LFW_NS_END
 
 #endif // LFW_CORE_DEFINES_CHASELOST_HPP

@@ -1,6 +1,10 @@
 #ifndef LFW_CORE_DEFINES_SPEEDMODE_HPP
 #define LFW_CORE_DEFINES_SPEEDMODE_HPP
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 #include <cstdint>
 
 enum class SpeedMode : uint8_t
@@ -14,5 +18,8 @@ enum class SpeedMode : uint8_t
   Fixed = 6,
   FixedAccTo = 7
 };
+
+
+LFW_NS_END
 
 #endif // LFW_CORE_DEFINES_SPEEDMODE_HPP

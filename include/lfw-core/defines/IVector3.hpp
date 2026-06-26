@@ -5,6 +5,10 @@
 
 #include "IVector3Like.hpp"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 /// IVector3 — 三维向量（继承 IVector3Like）
 struct IVector3 : IVector3Like
 {
@@ -73,5 +77,7 @@ struct IVector3 : IVector3Like
     return x == o.x && y == o.y && z == o.z;
   }
 };
+
+LFW_NS_END
 
 #endif
