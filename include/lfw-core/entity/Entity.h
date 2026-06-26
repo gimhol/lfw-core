@@ -38,10 +38,14 @@ public:
 
   // === 游戏上下文 ===
   LFW *lfw() const;
-  World *world = nullptr;
-  std::string id;
-  int wait = 0;
-  int variant = 0;
+  World *world() const;
+  void set_world(World *w);
+  const std::string &id() const;
+  void set_id(const std::string &v);
+  int wait() const;
+  void set_wait(int v);
+  int variant() const;
+  void set_variant(int v);
 
   // === 渲染 ===
   int render_effect_time() const;
@@ -83,8 +87,8 @@ public:
   const IEntityData &data() const;
   EntityType type() const;
   const std::vector<std::string> *group() const;
-  const std::vector<struct IItrInfo> *itr() const;
-  const std::vector<struct IBdyInfo> *bdy() const;
+  const std::vector<IItrInfo> *itr() const;
+  const std::vector<IBdyInfo> *bdy() const;
 
   /// 属性查找链: frame.data → data.base → world.dataset → 0
   double dataset(const std::string &name) const;
@@ -112,8 +116,10 @@ public:
   void set_defend_value(double v);
   double healing() const;
   void set_healing(double v);
-  double fallinjury = 0;
-  double throwinjury = 0;
+  double fallinjury() const;
+  void set_fallinjury(double v);
+  double throwinjury() const;
+  void set_throwinjury(double v);
 
   // === 队伍 ===
   const std::string &team() const;
@@ -165,7 +171,9 @@ public:
   void set_holding(Entity *e);
 
   // === Buff ===
-  std::map<std::string, class Buff *> buffs;
+  const std::map<std::string, class Buff *> &buffs() const;
+  std::map<std::string, class Buff *> &buffs();
+  void clear_buffs();
 
   // === 回调 ===
   SignalGroup<EntityCallbacks> callbacks;

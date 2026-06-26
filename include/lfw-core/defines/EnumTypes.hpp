@@ -14,7 +14,6 @@
 
 #include "lfw-core/core.hpp"
 
-LFW_NS_BEGIN
 
 // 队伍/朝向
 #include "TeamEnum.hpp"
@@ -22,7 +21,6 @@ LFW_NS_BEGIN
 
 #include "lfw-core/core.hpp"
 
-LFW_NS_BEGIN
 
 // 碰撞
 #include "BdyKind.hpp"
@@ -33,7 +31,6 @@ LFW_NS_BEGIN
 
 #include "lfw-core/core.hpp"
 
-LFW_NS_BEGIN
 
 // Itr
 #include "ItrKind.hpp"
@@ -41,7 +38,6 @@ LFW_NS_BEGIN
 
 #include "lfw-core/core.hpp"
 
-LFW_NS_BEGIN
 
 // 行为/动作
 #include "FrameBehavior.hpp"
@@ -49,7 +45,6 @@ LFW_NS_BEGIN
 
 #include "lfw-core/core.hpp"
 
-LFW_NS_BEGIN
 
 // 速度/控制
 #include "SpeedMode.hpp"
@@ -58,14 +53,12 @@ LFW_NS_BEGIN
 
 #include "lfw-core/core.hpp"
 
-LFW_NS_BEGIN
 
 // 按键
 #include "GameKey.hpp"
 
 #include "lfw-core/core.hpp"
 
-LFW_NS_BEGIN
 
 // 世界/关卡
 #include "Difficulty.hpp"
@@ -77,14 +70,12 @@ LFW_NS_BEGIN
 
 #include "lfw-core/core.hpp"
 
-LFW_NS_BEGIN
 
 // 武器
 #include "WeaponType.hpp"
 
 #include "lfw-core/core.hpp"
 
-LFW_NS_BEGIN
 
 // 动作/回调
 #include "actions/ActionType.hpp"
@@ -92,7 +83,6 @@ LFW_NS_BEGIN
 
 #include "lfw-core/core.hpp"
 
-LFW_NS_BEGIN
 
 // OID
 #include "OID.hpp"
@@ -100,7 +90,6 @@ LFW_NS_BEGIN
 
 #include "lfw-core/core.hpp"
 
-LFW_NS_BEGIN
 
 // AI
 #include "BotState.hpp"
@@ -109,14 +98,12 @@ LFW_NS_BEGIN
 
 #include "lfw-core/core.hpp"
 
-LFW_NS_BEGIN
 
 // 纹理
 #include "TextureWrapping.hpp"
 
 #include "lfw-core/core.hpp"
 
-LFW_NS_BEGIN
 
 // 火花/关卡动作
 #include "SparkType.hpp"
@@ -124,7 +111,6 @@ LFW_NS_BEGIN
 
 #include "lfw-core/core.hpp"
 
-LFW_NS_BEGIN
 
 // 作弊/指令
 #include "CheatType.hpp"
@@ -132,7 +118,6 @@ LFW_NS_BEGIN
 
 #include "lfw-core/core.hpp"
 
-LFW_NS_BEGIN
 
 // 碰撞判定值
 #include "CollisionVal.hpp"
@@ -140,6 +125,7 @@ LFW_NS_BEGIN
 #include "lfw-core/core.hpp"
 
 LFW_NS_BEGIN
+
 
 LFW_NS_END
 

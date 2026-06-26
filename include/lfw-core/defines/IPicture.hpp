@@ -3,9 +3,10 @@
 
 #include "lfw-core/core.hpp"
 
-LFW_NS_BEGIN
 
 #include <string>
+
+LFW_NS_BEGIN
 
 /// IPicture — 图片信息
 /// tex_id 为资源句柄，由外部 TextureCache 统一管理

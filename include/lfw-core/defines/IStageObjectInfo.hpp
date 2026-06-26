@@ -3,11 +3,12 @@
 
 #include "lfw-core/core.hpp"
 
-LFW_NS_BEGIN
 
 #include <optional>
 #include <string>
 #include <vector>
+
+LFW_NS_BEGIN
 
 /// IStageObjectInfo — 关卡物件信息
 struct IStageObjectInfo

@@ -2,7 +2,6 @@
 #define LFW_CORE_BUFF_BUFF_ELECTROSHOCK_H
 
 #include "lfw-core/buff/Buff.h"
-#include "lfw-core/entity/type_check.h"
 
 LFW_NS_BEGIN
 
@@ -16,20 +15,8 @@ public:
 
   using Buff::Buff;
 
-  void init() override { set_ticks(3); }
-
-  BuffResult on_tick(Entity * /*attacker*/, Entity *victim) override
-  {
-    if (!victim || !is_fighter(victim))
-      return BuffResult::Del;
-
-    auto s = victim->state();
-    if (s == StateType::Falling || s == StateType::Injured || s == StateType::Lying)
-      return BuffResult::Keep;
-
-    victim->wait += 1;
-    return BuffResult::Keep;
-  }
+  void init() override;
+  BuffResult on_tick(Entity *attacker, Entity *victim) override;
 };
 
 LFW_NS_END

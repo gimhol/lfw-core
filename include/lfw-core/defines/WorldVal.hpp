@@ -3,11 +3,12 @@
 
 #include "lfw-core/core.hpp"
 
-LFW_NS_BEGIN
 
 #include <cstdint>
 #include <optional>
 #include <string_view>
+
+LFW_NS_BEGIN
 
 enum class WorldVal : uint8_t
 {

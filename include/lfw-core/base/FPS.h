@@ -1,8 +1,16 @@
 #ifndef LFW_CORE_FPS_H
 #define LFW_CORE_FPS_H
 
+#include "lfw-core/core.hpp"
+
+
 #include <algorithm>
 #include <cstddef>
+
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 
 // ============================================================
 // FPS — 帧率计算（指数移动平均平滑）
@@ -47,5 +55,8 @@ private:
   float _duration = 0;    // 平滑后的帧间隔 (ms)
   float _retention = 0.99f; // 保留率 [0, 0.99]
 };
+
+
+LFW_NS_END
 
 #endif // LFW_CORE_FPS_H

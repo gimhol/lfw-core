@@ -7,6 +7,10 @@
 
 #include "lfw-core/base/Expression.h"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 // ============================================================
 // ConditionChain — 条件链
 //
@@ -78,5 +82,7 @@ private:
   std::vector<ExprPtr> _list;
   std::size_t _index = 0;
 };
+
+LFW_NS_END
 
 #endif

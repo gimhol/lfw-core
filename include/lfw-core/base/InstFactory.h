@@ -1,6 +1,9 @@
 #ifndef LFW_CORE_INSTFACTORY_H
 #define LFW_CORE_INSTFACTORY_H
 
+#include "lfw-core/core.hpp"
+
+
 #include <cstddef>
 #include <cstdio>
 #include <functional>
@@ -12,6 +15,11 @@
 #include <type_traits>
 #include <typeinfo>
 #include <vector>
+
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 
 // ============================================================
 // InstFactory — 实例工厂，带对象池和命名实例管理
@@ -218,5 +226,8 @@ private:
       return std::to_string(static_cast<int>(k));
   }
 };
+
+
+LFW_NS_END
 
 #endif // LFW_CORE_INSTFACTORY_H

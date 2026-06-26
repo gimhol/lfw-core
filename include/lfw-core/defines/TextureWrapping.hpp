@@ -3,9 +3,10 @@
 
 #include "lfw-core/core.hpp"
 
-LFW_NS_BEGIN
 
 #include <cstdint>
+
+LFW_NS_BEGIN
 
 enum class TextureWrapping : uint8_t
 {

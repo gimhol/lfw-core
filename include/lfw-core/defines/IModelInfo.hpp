@@ -3,11 +3,12 @@
 
 #include "lfw-core/core.hpp"
 
-LFW_NS_BEGIN
 
 #include <optional>
 #include <string>
 #include <vector>
+
+LFW_NS_BEGIN
 
 /// IModelInfo — 3D模型信息
 struct IModelInfo

@@ -19,6 +19,10 @@
 
 #include "lfw-core/defines/EnumHelper.hpp"
 
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 #define FIELD_KIND_ITEMS(X)                         \
   X(FieldKind, Int, "int", "整数", = 0)             \
   X(FieldKind, Flt, "float", "浮点", = 1)           \
@@ -484,5 +488,7 @@ void reorder_keys(T & /*obj*/, const Fields<T> & /*fields_map*/)
   // C++ 结构体内存布局由编译器决定，无法真正重排
   // 此函数保留作为 API 占位
 }
+
+LFW_NS_END
 
 #endif // LFW_CORE_FIELDS_H

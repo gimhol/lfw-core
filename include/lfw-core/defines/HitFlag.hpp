@@ -3,10 +3,11 @@
 
 #include "lfw-core/core.hpp"
 
-LFW_NS_BEGIN
 
 #include <cstdint>
 #include <unordered_map>
+
+LFW_NS_BEGIN
 
 /// HitFlag.ts — 位域
 enum class HitFlag : uint8_t

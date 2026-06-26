@@ -3,10 +3,11 @@
 
 #include "lfw-core/core.hpp"
 
-LFW_NS_BEGIN
 
 #include <string>
 #include <vector>
+
+LFW_NS_BEGIN
 
 /// IBaseZipInfo — ZIP 基础信息
 struct IBaseZipInfo

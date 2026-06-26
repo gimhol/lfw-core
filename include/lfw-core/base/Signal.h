@@ -1,6 +1,9 @@
 #ifndef LFW_CORE_SIGNAL_H
 #define LFW_CORE_SIGNAL_H
 
+#include "lfw-core/core.hpp"
+
+
 #include <cstddef>
 #include <deque>
 #include <memory>
@@ -8,6 +11,11 @@
 #include <unordered_map>
 #include <utility>
 #include <vector>
+
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 
 // ============================================================
 // Signal — 单个事件的信号，零类型擦除
@@ -245,5 +253,8 @@ struct SignalOwner : SignalGroup<Signals>
 protected:
   using SignalGroup<Signals>::signals; // 保持 protected 访问
 };
+
+
+LFW_NS_END
 
 #endif // LFW_CORE_SIGNAL_H

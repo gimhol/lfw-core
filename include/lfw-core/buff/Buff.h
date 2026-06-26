@@ -29,23 +29,23 @@ public:
   const std::string kind;
   int level = 0;
 
-  bool dead() const { return _lifetime.remains() == 0; }
-  double lifetime() const { return _lifetime.value(); }
-  void set_lifetime(double v) { _lifetime.set_value(v); }
-  double duration() const { return _lifetime.max(); }
-  void set_duration(double v) { _lifetime.set_max(v); }
+  bool dead() const;
+  double lifetime() const;
+  void set_lifetime(double v);
+  double duration() const;
+  void set_duration(double v);
 
-  int ticks() const { return static_cast<int>(_ticker.max()); }
-  void set_ticks(int v) { _ticker.set_max(v); }
+  int ticks() const;
+  void set_ticks(int v);
 
-  const std::vector<std::string> &victims() const { return _victims; }
-  const std::string &attacker_id() const { return _attacker_id; }
+  const std::vector<std::string> &victims() const;
+  const std::string &attacker_id() const;
   Entity *attacker() const;
 
   Buff(LFW *lfw_ptr, std::string id_val, std::string kind_val);
   virtual ~Buff() = default;
 
-  virtual void init() {}
+  virtual void init();
   virtual BuffResult on_tick(Entity *attacker_ptr, Entity *victim_ptr);
   virtual BuffResult on_update(Entity *attacker_ptr, Entity *victim_ptr);
   virtual BuffResult on_end(Entity *attacker_ptr, Entity *victim_ptr);

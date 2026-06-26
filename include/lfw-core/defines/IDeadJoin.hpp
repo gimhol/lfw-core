@@ -3,10 +3,11 @@
 
 #include "lfw-core/core.hpp"
 
-LFW_NS_BEGIN
 
 #include <optional>
 #include <string>
+
+LFW_NS_BEGIN
 
 /// IDeadJoin — 死亡后加入队伍信息
 struct IDeadJoin

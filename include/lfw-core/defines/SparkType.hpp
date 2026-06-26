@@ -3,12 +3,13 @@
 
 #include "lfw-core/core.hpp"
 
-LFW_NS_BEGIN
 
 #include <cstdint>
 #include <optional>
 #include <string_view>
 #include <unordered_map>
+
+LFW_NS_BEGIN
 
 enum class SparkType : uint8_t
 {

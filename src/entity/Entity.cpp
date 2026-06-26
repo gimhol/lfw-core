@@ -13,6 +13,10 @@ LFW_NS_BEGIN
 struct Entity::Private
 {
   LFW *_lfw = nullptr;
+  World *_world = nullptr;
+  std::string _id;
+  int _wait = 0;
+  int _variant = 0;
   int _render_effect_time = 0;
   std::string _outline_color;
   double _outline_alpha = 0.8, _outline_width = 1;
@@ -42,6 +46,9 @@ struct Entity::Private
   double _defend_value = 0, _defend_value_max = 0;
   double _defend_ratio = 0;
   double _healing = 0;
+  double _fallinjury = 0;
+  double _throwinjury = 0;
+  std::map<std::string, Buff *> _buffs;
   std::string _team;
   double _lifetime = 0;
   int _facing = 1;
@@ -80,6 +87,14 @@ Entity::~Entity() = default;
 
 // === 游戏上下文 ===
 LFW *Entity::lfw() const { return _->_lfw; }
+World *Entity::world() const { return _->_world; }
+void Entity::set_world(World *w) { _->_world = w; }
+const std::string &Entity::id() const { return _->_id; }
+void Entity::set_id(const std::string &v) { _->_id = v; }
+int Entity::wait() const { return _->_wait; }
+void Entity::set_wait(int v) { _->_wait = v; }
+int Entity::variant() const { return _->_variant; }
+void Entity::set_variant(int v) { _->_variant = v; }
 
 // === 渲染 ===
 int Entity::render_effect_time() const { return _->_render_effect_time; }
@@ -193,10 +208,10 @@ Entity *Entity::get_emitter(int idx) const
 {
   if (idx < 0 || static_cast<size_t>(idx) >= _->_emitters.size())
     return nullptr;
-  if (!world)
+  if (!_->_world)
     return nullptr;
-  auto it = world->entity_map.find(_->_emitters[idx]);
-  return it != world->entity_map.end() ? it->second : nullptr;
+  auto it = _->_world->entity_map.find(_->_emitters[idx]);
+  return it != _->_world->entity_map.end() ? it->second : nullptr;
 }
 Entity *Entity::src_emitter() const { return get_emitter(0); }
 Entity *Entity::pre_emitter() const
@@ -330,6 +345,10 @@ void Entity::set_healing(double v)
   _->_healing = v;
   callbacks.signals.on_healing_changed.emit(this, v, o);
 }
+double Entity::fallinjury() const { return _->_fallinjury; }
+void Entity::set_fallinjury(double v) { _->_fallinjury = v; }
+double Entity::throwinjury() const { return _->_throwinjury; }
+void Entity::set_throwinjury(double v) { _->_throwinjury = v; }
 
 // === 队伍 ===
 const std::string &Entity::team() const { return _->_team; }
@@ -339,11 +358,11 @@ void Entity::set_team(const std::string &v)
   _->_team = v;
   try
   {
-    variant = std::stoi(v);
+    _->_variant = std::stoi(v);
   }
   catch (...)
   {
-    variant = 0;
+    _->_variant = 0;
   }
   callbacks.signals.on_team_changed.emit(this, v, o);
   ++_->_render_effect_time;
@@ -435,6 +454,11 @@ void Entity::set_holding(Entity *e)
   _->_holding = e;
   callbacks.signals.on_holding_changed.emit(this, e, o);
 }
+
+// === Buff ===
+const std::map<std::string, Buff *> &Entity::buffs() const { return _->_buffs; }
+std::map<std::string, Buff *> &Entity::buffs() { return _->_buffs; }
+void Entity::clear_buffs() { _->_buffs.clear(); }
 
 // === 实体类型 ===
 EntityType Entity::entity_type() const { return EntityType::Entity; }

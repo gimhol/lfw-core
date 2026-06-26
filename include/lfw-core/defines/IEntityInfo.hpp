@@ -3,11 +3,12 @@
 
 #include "lfw-core/core.hpp"
 
-LFW_NS_BEGIN
 
 #include <optional>
 #include <string>
 #include <vector>
+
+LFW_NS_BEGIN
 
 /// IEntityInfo — 实体配置信息
 /// 对应 TS IEntityInfo extends Partial<IWorldDataset>

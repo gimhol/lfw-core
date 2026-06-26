@@ -1,6 +1,9 @@
 #ifndef LFW_CORE_EXPRESSION_H
 #define LFW_CORE_EXPRESSION_H
 
+#include "lfw-core/core.hpp"
+
+
 #include <algorithm>
 #include <any>
 #include <cstddef>
@@ -13,6 +16,11 @@
 #include <sstream>
 #include <string>
 #include <vector>
+
+#include "lfw-core/core.hpp"
+
+LFW_NS_BEGIN
+
 
 // ============================================================
 // 比较辅助 — 处理 std::any 之间的比较
@@ -737,6 +745,12 @@ int main() {
     bool always_true = expr4.run(ctx); // true, 永远为 true
 }
 
+
+LFW_NS_END
+
 #endif
+
+
+LFW_NS_END
 
 #endif // LFW_CORE_EXPRESSION_H

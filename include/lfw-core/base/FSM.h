@@ -12,6 +12,9 @@
 
 #include "lfw-core/base/Signal.h"
 
+#include "lfw-core/core.hpp"
+
+
 // ============================================================
 // IState — 状态接口
 // ============================================================
@@ -210,6 +213,8 @@ private:
 template <typename K, typename S>
 std::function<void(const std::string &)> FSM<K, S>::default_logger = nullptr;
 
+LFW_NS_END
+
 #endif // LFW_CORE_FSM_H
 
 // ============================================================
@@ -217,6 +222,8 @@ std::function<void(const std::string &)> FSM<K, S>::default_logger = nullptr;
 // ============================================================
 #if 0
 #include <iostream>
+
+LFW_NS_BEGIN
 
 // ① 定义状态枚举
 enum class PlayerState { Idle, Run, Jump, Fall };
@@ -269,4 +276,6 @@ int main() {
         fsm.update(1.0f / 60.0f);
     }
 }
+LFW_NS_END
+
 #endif

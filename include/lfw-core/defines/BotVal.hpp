@@ -3,7 +3,6 @@
 
 #include "lfw-core/core.hpp"
 
-LFW_NS_BEGIN
 
 #include <cstdint>
 #include <optional>
@@ -11,6 +10,8 @@ LFW_NS_BEGIN
 #include <string_view>
 #include <unordered_map>
 #include "EnumHelper.hpp"
+
+LFW_NS_BEGIN
 #define ENUM_ITEMS(X)                         \
   X(BotVal, Desire, "desire", "", = 0)        \
   X(BotVal, BotStatus, "bot_status", "", )    \

@@ -4,12 +4,23 @@ LFW_NS_BEGIN
 
 const char *Buff::KIND = "";
 
-Buff::Buff(LFW *lfw_ptr, std::string id_val, std::string kind_val)
-    : lfw(lfw_ptr), world(lfw_ptr ? &lfw_ptr->world() : nullptr),
-      id(std::move(id_val)), kind(std::move(kind_val))
+Buff::Buff(LFW *lfw, std::string id, std::string kind)
+    : lfw(lfw), world(lfw ? &lfw->world() : nullptr),
+      id(std::move(id)), kind(std::move(kind))
 {
   _lifetime.set_range(0, 1).set_lifes(1);
 }
+
+bool Buff::dead() const { return _lifetime.remains() == 0; }
+double Buff::lifetime() const { return _lifetime.value(); }
+void Buff::set_lifetime(double v) { _lifetime.set_value(v); }
+double Buff::duration() const { return _lifetime.max(); }
+void Buff::set_duration(double v) { _lifetime.set_max(v); }
+int Buff::ticks() const { return static_cast<int>(_ticker.max()); }
+void Buff::set_ticks(int v) { _ticker.set_max(v); }
+const std::vector<std::string> &Buff::victims() const { return _victims; }
+const std::string &Buff::attacker_id() const { return _attacker_id; }
+void Buff::init() {}
 
 Entity *Buff::attacker() const
 {
@@ -18,7 +29,7 @@ Entity *Buff::attacker() const
   return world->find_entity(_attacker_id);
 }
 
-void Buff::set_attacker(const std::string &attacker_id_val) { _attacker_id = attacker_id_val; }
+void Buff::set_attacker(const std::string &attacker_id) { _attacker_id = attacker_id; }
 
 void Buff::set_victims(const std::vector<std::string> &ids)
 {
